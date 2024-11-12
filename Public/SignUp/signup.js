@@ -1,29 +1,28 @@
 document.getElementById("signupForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Forhindr standard formular-indsendelse
 
-    // Get input values
+    // Hent inputværdier
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
-    // Validate passwords
+    // Valider passwords
     if (password !== confirmPassword) {
         document.getElementById("errorMessage").textContent = "Passwords do not match.";
         document.getElementById("errorMessage").style.display = "block";
         return;
     }
 
-    // Create a user object to send to the server
+    // Opret et brugerobjekt til at sende til serveren
     const user = {
-        username: `${firstName} ${lastName}`, // Combine first and last name as username
+        username: `${firstName} ${lastName}`, // Kombiner fornavn og efternavn som brugernavn
         email,
         password
     };
 
-    // Send a POST request to the server
+    // Send en POST-anmodning til serveren
     fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
@@ -35,9 +34,9 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         if (response.ok) {
             document.getElementById("successMessage").style.display = "block";
             document.getElementById("errorMessage").style.display = "none";
-            document.getElementById("signupForm").reset(); // Clear the form fields
+            document.getElementById("signupForm").reset(); // Ryd formularfelterne
 
-            // Redirect to the home page after a delay
+            // Omdiriger til startside efter en forsinkelse
             setTimeout(() => {
                 window.location.href = "../juiceApp.html";
             }, 2000);

@@ -1,8 +1,8 @@
 const express = require("express");
-const router = express.Router();
 const juiceIngredientController = require("../Controllers/juiceIngredientController");
+const router = express.Router();
 
-// Rute for at tilføje en juice-ingrediens
-router.post("/add", juiceIngredientController.addJuiceIngredient);
+// Route til at tilføje en juice-ingrediens
+router.post("/juice/ingredient/add", juiceIngredientController.addJuiceIngredient);
 
 module.exports = router;

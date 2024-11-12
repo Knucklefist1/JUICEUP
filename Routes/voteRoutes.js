@@ -1,8 +1,8 @@
 const express = require("express");
-const router = express.Router();
 const voteController = require("../Controllers/voteController");
+const router = express.Router();
 
-// Rute for at tilføje en stemme
-router.post("/add", voteController.addVote);
+// Route til at tilføje en stemme
+router.post("/vote/add", voteController.addVote);
 
 module.exports = router;
