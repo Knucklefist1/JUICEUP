@@ -1,0 +1,254 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f7b7da, #ff478d);
+    color: #333;
+}
+
+/* Header styling */
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #fff;
+}
+
+header .logo img {
+    height: 40px;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+header ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+header .user-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .user-options button, header .user-options a {
+    border: none;
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Main layout */
+.create-juice-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.image-section img {
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.form-section {
+    flex: 1;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-section h1 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.form-section p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.form-section h2 {
+    font-size: 18px;
+    color: #ff69b4;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Styling for Juice Name label */
+#juiceForm label[for="juiceName"] {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Styling for Juice Name input field */
+#juiceName {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+#juiceName:focus {
+    outline: none;
+    border-color: #ff69b4;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#juiceName::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-weight: bold;
+    color: #333;
+}
+
+form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.create-btn {
+    background-color: #ff69b4;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.create-btn:hover {
+    background-color: #ff478d;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.create-btn:active {
+    transform: translateY(0);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.create-btn:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+/* Ingredient container styling with sliders */
+#ingredientContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.ingredient-slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ingredient-slider label {
+    flex: 1;
+    font-weight: normal;
+}
+
+.ingredient-slider input[type="range"] {
+    flex: 2;
+}
+
+#totalPercentage {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff69b4;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: #ff69b4;
+    margin-top: 0;
+}
+
+.modal-content p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #ff69b4;
+}

@@ -1,0 +1,153 @@
+/* style.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f7b7da, #ff478d);
+    position: relative;
+}
+
+/* HOME-knap styling */
+.home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ff69b4;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.home-btn:hover {
+    background-color: #ff478d;
+    transform: scale(1.05);
+}
+
+/* Modal styling */
+.modal {
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    transition: transform 0.3s;
+    transform: translateY(10px);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Formular styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-group input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.2);
+    outline: none;
+}
+
+/* Fælles knap styling */
+.btn {
+    background-color: #ff69b4;
+    border: none;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.4);
+}
+
+.btn:hover {
+    background-color: #ff478d;
+    transform: translateY(-3px);
+    box-shadow: 0px 8px 16px rgba(255, 71, 141, 0.5);
+}
+
+/* Link styling */
+.link-text {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.link-text a {
+    color: #ff69b4;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.link-text a:hover {
+    color: #ff478d;
+}
+
+/* Fejlmeddelelse */
+#errorMessage, #successMessage {
+    font-size: 14px;
+    color: red;
+    margin-top: 20px;
+}

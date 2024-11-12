@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Own Juice</title>
+    <link rel="stylesheet" href="CreateNow.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="/Public/Images/joeLogo.png" alt="Joe & The Juice Logo">
+            </div>
+            <ul>
+                <li><a href="juiceApp.html">HOME</a></li>
+                <li><a href="CreateNow.html">CREATE NOW</a></li>
+                <li><a href="/Public/Leaderboard/leaderboard.html">LEADERBOARD</a></li>
+            </ul>
+            <div class="user-options">
+                <span id="userNameDisplay"></span> <!-- Placeholder for user's first name -->
+                <li><a href="/Public/SignUp/login.html">LOGOUT</a></li>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="create-juice-container">
+            <div class="image-section">
+                <img src="/Public/Images/JuiceUp.png" alt="Juice Bottle">
+            </div>
+            <div class="form-section">
+                <h1>Build Your Own Juice</h1>
+                <p>Customize your perfect blend</p>
+                <form id="juiceForm">
+                    <label for="juiceName">Juice Name</label>
+                    <input type="text" id="juiceName" name="juiceName" placeholder="Enter a name for your juice" required>
+
+                    <label for="size">Size</label>
+                    <select id="size" name="size">
+                        <option value="16oz">16oz</option>
+                    </select>
+
+                    <div id="ingredientContainer">
+                        <h2>Select Ingredients (adjust percentage)</h2>
+                    </div>
+
+                    <div id="totalPercentage">
+                        Total: <span id="percentageDisplay">0%</span>
+                    </div>
+
+                    <button type="submit" class="create-btn" disabled>Create Now</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Custom Modal for Result -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content" id="modalContent">
+            <span id="closeModal" class="close-button">&times;</span>
+        </div>
+    </div>
+
+    <script src="session.js"></script>
+    <script src="CreateNow.js"></script>
+</body>
+</html>

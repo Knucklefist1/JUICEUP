@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe & The Juice Clone</title>
+    <link rel="stylesheet" href="juiceApp.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="/Public/Images/joeLogo.png" alt="Joe & The Juice Logo">
+            </div>
+            <ul class="nav-center">
+                <li><a href="competition.html">COMPETITION</a></li>
+                <li><a href="CreateNow.html">CREATE NOW</a></li>
+            </ul>
+            <div class="user-options">
+                <span id="userNameDisplay"></span> <!-- Placeholder for user's first name -->
+                <li><a href="/Public/SignUp/login.html">LOGOUT</a></li>
+            </div>
+        </nav>
+        <div class="hero">
+            <h1>CREATE YOUR OWN JUICE</h1>
+            <p>
+                <span>Got a taste for innovation?</span> Now’s your chance to create the next iconic juice for <span>Joe & The Juice</span>! Share your <span>unique juice idea</span>, and it could become a <span>permanent addition to our menu</span>. Bring your creativity to the table and let’s <span>make juice history together</span>!
+            </p>
+            <button class="order-btn" onclick="window.location.href='CreateNow.html'">CREATE NOW</button>
+        </div>
+    </header>
+
+    <!-- Cookie Consent Popup -->
+    <div class="cookie-consent" id="cookieConsent">
+        <p>We use cookies to improve your experience. Do you accept cookies?</p>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" onclick="acceptCookies()">Accept</button>
+            <button class="cookie-btn decline-btn" onclick="declineCookies()">Decline</button>
+        </div>
+    </div>
+
+    <script src="session.js"></script> <!-- Include session management -->
+    <script src="cookies.js"></script>
+</body>
+</html>
