@@ -1,7 +1,7 @@
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-  cloud_name: "dpvb3iuu7", // cloud_name
+  cloud_name: "cbs.jpeg", // cloud_name
   api_key: "345322197213485", // api_key
   api_secret: "Fkh0gQaYt804fJymtA09SzwL_D8", // api_secret
   secure: true,
