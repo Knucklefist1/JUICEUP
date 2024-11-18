@@ -1,10 +1,11 @@
 function ensureAuthenticated(req, res, next) {
-    if (req.session && req.session.userId) {
-      return next();
-    } else {
-      res.redirect(`/login.html?error=not_logged_in`); // Redirect with query parameter indicating error
-    }
+  if (req.session && req.session.userId) {
+    // User is logged in, proceed to the next middleware
+    return next();
+  } else {
+    // User is not logged in
+    return res.redirect("/login.html"); // Only redirect if it's a page that needs to be protected
   }
-  
-  module.exports = ensureAuthenticated;
-  
+}
+
+module.exports = ensureAuthenticated;

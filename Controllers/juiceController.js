@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const config = require("../Config/Database");
 
+// Function to add a new juice
 exports.addJuice = async (req, res) => {
   const { name, description } = req.body;
   const user_id = req.session.userId; // Retrieve the user ID from session
@@ -32,3 +33,40 @@ exports.addJuice = async (req, res) => {
   }
 };
 
+exports.getAllJuices = async (req, res) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    const result = await request.query(`
+      SELECT 
+        j.juice_id AS id, 
+        j.name, 
+        j.votes, 
+        u.username AS creator
+      FROM Juice j
+      JOIN Users u ON j.user_id = u.user_id
+    `);
+    
+    // Fetch ingredients for each juice separately
+    const juices = await Promise.all(result.recordset.map(async (juice) => {
+      const ingredientRequest = new sql.Request();
+      ingredientRequest.input("juice_id", sql.Int, juice.id);
+      const ingredientsResult = await ingredientRequest.query(`
+        SELECT i.name, ji.amount
+        FROM JuiceIngredient ji
+        JOIN Ingredient i ON ji.ingredient_id = i.ingredient_id
+        WHERE ji.juice_id = @juice_id
+      `);
+      
+      return {
+        ...juice,
+        ingredients: ingredientsResult.recordset
+      };
+    }));
+    
+    res.status(200).json(juices);
+  } catch (err) {
+    console.error("Error fetching juices:", err);
+    res.status(500).json({ error: "An error occurred while fetching the juices." });
+  }
+};

@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
-  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout'];
+  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll'];
 
   if (openPaths.includes(req.path) || req.path.startsWith('/public')) {
     return next();
@@ -49,7 +49,6 @@ app.use((req, res, next) => {
 
   return ensureAuthenticated(req, res, next);
 });
-
 
 // Import routes
 const apiRoutes = require("./Routes/APIroutes");
@@ -66,6 +65,8 @@ app.use("/", juiceIngredientRoutes);
 app.use("/", juiceRoutes);
 app.use("/", voteRoutes);
 app.use("/", userRoutes);
+app.use("/api/juice", juiceRoutes);
+
 
 // Check session route
 app.get('/check-session', (req, res) => {
@@ -74,11 +75,6 @@ app.get('/check-session', (req, res) => {
   } else {
     res.status(401).send('No user is logged in');
   }
-});
-
-// Catch-all route for client-side routing
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Connect to the database and start the server
@@ -91,17 +87,16 @@ sql.connect(config)
     console.error("Database connection failed:", err);
   });
 
-  app.post('/logout', (req, res) => {
-    // Destroy the session
-    req.session.destroy(err => {
-      if (err) {
-        console.error('Error during logout:', err);
-        return res.status(500).json({ error: 'Logout failed.' });
-      }
-      
-      // Clear the session cookie to complete the logout process
-      res.clearCookie('connect.sid', { path: '/' });
-      res.status(200).send('Logged out successfully');
-    });
+app.post('/logout', (req, res) => {
+  // Destroy the session
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Error during logout:', err);
+      return res.status(500).json({ error: 'Logout failed.' });
+    }
+    
+    // Clear the session cookie to complete the logout process
+    res.clearCookie('connect.sid', { path: '/' });
+    res.status(200).send('Logged out successfully');
   });
-  
+});
