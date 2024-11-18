@@ -1,8 +1,10 @@
-const express = require("express");
-const ingredientsController = require("../Controllers/ingredientsController");
+const express = require('express');
 const router = express.Router();
+const ingredientsController = require('../Controllers/ingredientsController');
 
-// Route til at tilføje en ingrediens
-router.post("/ingredient/add", ingredientsController.addIngredient);
+// Ruter for ingredienser
+router.post('/ingredient/add', ingredientsController.addIngredient);
+router.post('/ingredient/check', ingredientsController.checkIngredient);
+router.put('/ingredient/update', ingredientsController.updateIngredient);
 
 module.exports = router;

@@ -1,0 +1,231 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, #f7a1d1, #f797b5); /* Pink gradient */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-image: url('/Images/joe\ and\ the\ juice\ background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 40vh;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 15px 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+    margin-left: 20px;
+}
+
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-center li a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.user-options {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    min-height: 60vh;
+}
+
+.competition-content {
+    max-width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.competition-content h1,
+.competition-content h2,
+.competition-content p {
+    text-align: center;
+}
+
+.competition-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #f7b7da;
+}
+
+.competition-content h2 {
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #e5e5e5;
+}
+
+.competition-content p {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    color: #e5e5e5;
+    line-height: 1.6;
+}
+
+/* Chat and Accept Privacy Terms buttons */
+.open-chat-btn, .accept-privacy-btn {
+    position: relative;
+    background-color: #f7a1d1;
+    color: #fff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.open-chat-btn:hover, .accept-privacy-btn:hover {
+    background-color: #f797b5;
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.open-chat-btn:active, .accept-privacy-btn:active {
+    transform: translateY(0); /* Reset position when clicking */
+}
+
+.open-chat-btn::before, .accept-privacy-btn::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    filter: blur(4px);
+    z-index: -1;
+}
+
+/* Chat Modal */
+.chat-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+}
+
+.chat-container {
+    background-color: #f7a1d1;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chat-header {
+    background-color: #e06699;
+    color: #fff;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chat-box {
+    padding: 15px;
+    height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    color: #333;
+}
+
+.message {
+    margin: 5px 0;
+}
+
+.user-message {
+    text-align: right;
+    color: #e06699;
+}
+
+.bot-message {
+    text-align: left;
+    color: #555;
+}
+
+.question-buttons button {
+    background-color: #e06699;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.question-buttons button:hover {
+    background-color: #c75585;
+}
