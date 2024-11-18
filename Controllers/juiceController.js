@@ -2,7 +2,12 @@ const sql = require("mssql");
 const config = require("../Config/Database");
 
 exports.addJuice = async (req, res) => {
-  const { user_id, name, description } = req.body;
+  const { name, description } = req.body;
+  const user_id = req.session.userId; // Retrieve the user ID from session
+
+  if (!user_id) {
+    return res.status(401).json({ error: "Unauthorized. Please log in to create a juice." });
+  }
 
   try {
     await sql.connect(config);
@@ -22,7 +27,8 @@ exports.addJuice = async (req, res) => {
       juice_id: result.recordset[0].juice_id
     });
   } catch (err) {
-    console.error("Fejl ved oprettelse af juice:", err);
-    res.status(500).json({ error: "Der opstod en fejl ved oprettelse af juicen." });
+    console.error("Error creating juice:", err);
+    res.status(500).json({ error: "An error occurred while creating the juice." });
   }
 };
+
