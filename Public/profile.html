@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
-    <link rel="stylesheet" href="/css/profile.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
     <header>
@@ -13,36 +12,38 @@
             <div class="logo">
                 <img src="/Public/Images/joeLogo.png" alt="Joe & The Juice Logo">
             </div>
-            <ul>
+            <ul class="nav-center">
                 <li><a href="juiceApp.html">HOME</a></li>
                 <li><a href="/createNow.html">CREATE NOW</a></li>
-                <li><a href="/leaderboard.html">LEADERBOARD</a></li>
-                <li><a href="profile.html">MY PROFILE</a></li> <!-- New profile link -->
+                <li><a href="leaderboard.html">LEADERBOARD</a></li>
+                <li><a href="profile.html">MY PROFILE</a></li>
             </ul>
             <div class="user-options">
-                <span id="userNameDisplay"></span> <!-- Placeholder for user's first name -->
-                <li><a href="/login.html">LOGOUT</a></li>
+                <span id="userNameDisplay"></span>
+                <button id="logoutButton" class="logout-btn">LOGOUT</button>
             </div>
         </nav>
     </header>
-    <h2>My Profile</h2>
-    <div id="profileInfo">
-        <p><strong>First Name:</strong> <span id="firstName"></span></p>
-        <p><strong>Last Name:</strong> <span id="lastName"></span></p>
-        <p><strong>Email:</strong> <span id="email"></span> <button id="editEmailButton">Edit</button></p>
-        <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
-    </div>
+    <main>
+        <h2>My Profile</h2>
+        <div id="profileInfo">
+            <p><strong>First Name:</strong> <span id="firstName"></span></p>
+            <p><strong>Last Name:</strong> <span id="lastName"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span> <button id="editEmailButton">Edit</button></p>
+            <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+        </div>
 
-    <div id="editEmailForm" style="display:none;">
-        <h3>Edit Email</h3>
-        <form id="updateEmailForm">
-            <label for="newEmail">New Email:</label>
-            <input type="email" id="newEmail" name="newEmail" required>
-            <button type="submit">Update Email</button>
-        </form>
-    </div>
+        <div id="editEmailForm" style="display:none;">
+            <h3>Edit Email</h3>
+            <form id="updateEmailForm">
+                <label for="newEmail">New Email:</label>
+                <input type="email" id="newEmail" name="newEmail" required>
+                <button type="submit">Update Email</button>
+            </form>
+        </div>
+    </main>
 
-    <script src="/js/profile.js"></script> <!-- Link to your JS file -->
-    <script src="js/logout.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/js/logout.js"></script>
 </body>
 </html>
