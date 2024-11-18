@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 // Konfigurer nodemailer med dine SMTP-indstillinger
 const transporter = nodemailer.createTransport({
-  host: "smtp.example.com", // Erstat med din SMTP-server (f.eks. "smtp.gmail.com" for Gmail)
+  host: "smtp.gmail.com", // Erstat med din SMTP-server (f.eks. "smtp.gmail.com" for Gmail)
   port: 587, // Typisk port for TLS
   secure: false, // Brug false, medmindre du bruger SSL
   auth: {
