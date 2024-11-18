@@ -42,4 +42,6 @@ function declineCookies() {
 }
 
 // Check cookie consent status on page load
-window
+window.addEventListener("DOMContentLoaded", () => {
+    checkCookieConsent();
+});
