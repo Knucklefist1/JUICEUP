@@ -9,7 +9,7 @@ const app = express();
 
 // Session middleware
 app.use(session({
-  secret: 'Your_Secure_Secret_Key', // Replace with your secure secret key
+  secret: 'Karloogkosmo123:', // Replace with your secure secret key
   resave: false,
   saveUninitialized: false,
   name: 'connect.sid', // Set cookie name explicitly
@@ -41,16 +41,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
-  // Define the paths that should not be protected
-  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html'];
+  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout'];
 
   if (openPaths.includes(req.path) || req.path.startsWith('/public')) {
     return next();
   }
 
-  // For all other paths, use the ensureAuthenticated middleware
   return ensureAuthenticated(req, res, next);
 });
+
 
 // Import routes
 const apiRoutes = require("./Routes/APIroutes");
@@ -91,3 +90,18 @@ sql.connect(config)
   .catch((err) => {
     console.error("Database connection failed:", err);
   });
+
+  app.post('/logout', (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Error during logout:', err);
+        return res.status(500).json({ error: 'Logout failed.' });
+      }
+      
+      // Clear the session cookie to complete the logout process
+      res.clearCookie('connect.sid', { path: '/' });
+      res.status(200).send('Logged out successfully');
+    });
+  });
+  
