@@ -71,9 +71,11 @@ app.use("/api/juice", juiceRoutes);
 // Check session route
 app.get('/check-session', (req, res) => {
   if (req.session.userId) {
-    res.status(200).send(`User is logged in with ID: ${req.session.userId}`);
+    console.log(`User is logged in with ID: ${req.session.userId}`);
+    res.status(200).json({ isLoggedIn: true, userId: req.session.userId });
   } else {
-    res.status(401).send('No user is logged in');
+    console.log('No user is logged in');
+    res.status(200).json({ isLoggedIn: false });
   }
 });
 
