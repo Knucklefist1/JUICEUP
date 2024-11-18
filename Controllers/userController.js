@@ -62,8 +62,8 @@ exports.logoutUser = (req, res) => {
       }
 
       // Clear the session cookie
-      res.clearCookie('connect.sid', {
-          path: '/',        // Must match the path from express-session
+      res.clearCookie("connect.sid", {
+          path: "/",        // Must match the path from express-session
           httpOnly: true,   // Match with the httpOnly setting in express-session
           secure: false     // Must match the secure setting (true if HTTPS, false if HTTP)
       });
