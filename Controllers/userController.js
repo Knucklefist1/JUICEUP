@@ -52,26 +52,29 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: "An error occurred during login." });
   }
 };
+
 exports.logoutUser = (req, res) => {
-  console.log("Attempting to log out user:", req.session.userId);
+  console.log("Logout endpoint called");
+  console.log("Session before destruction:", req.session);
 
   req.session.destroy(err => {
-      if (err) {
-          console.error("Error during logout:", err);
-          return res.status(500).json({ error: "An error occurred during logout." });
-      }
+    if (err) {
+      console.error("Error during session destruction:", err);
+      return res.status(500).json({ error: "An error occurred during logout." });
+    }
 
-      // Clear the session cookie
-      res.clearCookie("connect.sid", {
-          path: "/",        // Must match the path from express-session
-          httpOnly: true,   // Match with the httpOnly setting in express-session
-          secure: false     // Must match the secure setting (true if HTTPS, false if HTTP)
-      });
+    // Clear the session cookie
+    res.clearCookie('connect.sid', {
+      path: '/',
+      httpOnly: true,
+      secure: false // Ensure this matches the setting from express-session
+    });
 
-      console.log("Logout successful, session destroyed.");
-      res.status(200).json({ message: "Logout successful" });
+    console.log("Logout successful, session destroyed.");
+    res.status(200).json({ message: "Logout successful" });
   });
 };
+
 
 // Get user profile data
 exports.getProfile = async (req, res) => {
