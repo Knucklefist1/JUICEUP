@@ -1,13 +1,14 @@
 const express = require("express");
-const router = express.Router();
 const userController = require("../Controllers/userController");
+const ensureAuthenticated = require("../Middleware/middleware"); // Import the middleware
+const router = express.Router();
 
-router.post("/login", userController.loginUser);
+// Public routes
 router.post("/signup", userController.signupUser);
-router.post("/logout", userController.logoutUser); // Tilføj logout route
+router.post("/login", userController.loginUser);
 
-// Profile routes
-router.get("/profile", userController.getProfile);
-router.put("/profile/email", userController.updateEmail);
+// Protected routes
+router.get("/profile", ensureAuthenticated, userController.getProfile);
+router.put("/profile/email", ensureAuthenticated, userController.updateEmail);
 
 module.exports = router;

@@ -1,8 +1,9 @@
 const express = require("express");
-const voteController = require("../Controllers/voteController");
+const voteController = require("../Controllers/voteController"); // Import the controller
+const ensureAuthenticated = require("../Middleware/middleware"); // Import middleware
 const router = express.Router();
 
-// Route til at tilføje en stemme
-router.post("/vote/add", voteController.addVote);
+// Route to cast a vote - only accessible if logged in
+router.post("/vote", ensureAuthenticated, voteController.addVote);
 
 module.exports = router;

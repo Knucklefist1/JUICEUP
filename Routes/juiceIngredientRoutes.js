@@ -1,8 +1,9 @@
 const express = require("express");
-const juiceIngredientController = require("../Controllers/juiceIngredientController");
+const juiceIngredientController = require("../Controllers/juiceIngredientController"); // Import the controller
+const ensureAuthenticated = require("../Middleware/middleware"); // Import middleware
 const router = express.Router();
 
-// Route til at tilføje en juice-ingrediens
-router.post("/juice/ingredient/add", juiceIngredientController.addJuiceIngredient);
+// Route to add a new juice ingredient - only accessible if logged in
+router.post("/ingredient/add", ensureAuthenticated, juiceIngredientController.addJuiceIngredient);
 
 module.exports = router;

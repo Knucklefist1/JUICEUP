@@ -57,11 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Collect selected ingredients and their quantities
         const selectedIngredients = [];
-        document.querySelectorAll('.ingredient-slider input[type="range"]').forEach((slider, index) => {
+        document.querySelectorAll('.ingredient-slider input[type="range"]').forEach((slider, createNow) => {
             const quantity = parseInt(slider.value, 10);
             if (quantity > 0) {
                 selectedIngredients.push({
-                    name: ingredients[index],
+                    name: ingredients[createNow],
                     quantity: quantity
                 });
             }

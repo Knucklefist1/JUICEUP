@@ -1,25 +1,29 @@
 const sql = require("mssql");
-const config = require("../Config/Database"); // Importér din databaseforbindelse
+const config = require("../Config/Database"); // Import the database connection
 
-// Funktion til at tilføje en stemme
+// Function to add a vote
 async function addVote(req, res) {
   const { user_id, juice_id } = req.body;
 
   try {
-    // Opret forbindelse til databasen
+    // Connect to the database
     await sql.connect(config);
     const request = new sql.Request();
 
-    // Indsæt stemme i databasen
+    // Use parameterized queries to prevent SQL injection
+    request.input("user_id", sql.Int, user_id);
+    request.input("juice_id", sql.Int, juice_id);
+
+    // Insert vote into the database
     await request.query(`
       INSERT INTO Vote (user_id, juice_id, created_at)
-      VALUES (${user_id}, ${juice_id}, GETDATE())
+      VALUES (@user_id, @juice_id, GETDATE())
     `);
 
-    res.status(201).send("Stemme oprettet succesfuldt!");
+    res.status(201).send("Vote created successfully!");
   } catch (err) {
-    console.error("Fejl ved oprettelse af stemme:", err);
-    res.status(500).send("Der opstod en fejl ved oprettelse af stemmen.");
+    console.error("Error creating vote:", err);
+    res.status(500).send("An error occurred while creating the vote.");
   }
 }
 

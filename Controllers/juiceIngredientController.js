@@ -1,34 +1,34 @@
 const sql = require("mssql");
-const config = require("../Config/Database"); // Importér din databaseforbindelse
+const config = require("../Config/Database"); // Import the database connection
 
-// Funktion til at tilføje en juice-ingrediens
+// Function to add a juice ingredient
 async function addJuiceIngredient(req, res) {
   const { juice_id, ingredient_id, amount } = req.body;
-  console.log("Modtog data til JuiceIngredient:", req.body); // Debug-besked
+  console.log("Received data for JuiceIngredient:", req.body); // Debug message
 
   try {
-    // Opret forbindelse til databasen
+    // Connect to the database
     await sql.connect(config);
-    console.log("Forbundet til databasen"); // Debug-besked
+    console.log("Connected to the database"); // Debug message
 
     const request = new sql.Request();
 
-    // Parameteriserede forespørgsler for at undgå SQL-injection
+    // Parameterized queries to avoid SQL injection
     request.input("juice_id", sql.Int, juice_id);
     request.input("ingredient_id", sql.Int, ingredient_id);
     request.input("amount", sql.Float, amount);
 
-    // Indsæt juice-ingrediens i databasen
+    // Insert juice ingredient into the database
     await request.query(`
       INSERT INTO JuiceIngredient (juice_id, ingredient_id, amount)
       VALUES (@juice_id, @ingredient_id, @amount)
     `);
-    console.log("Data indsat i JuiceIngredient"); // Debug-besked
+    console.log("Data inserted into JuiceIngredient"); // Debug message
 
-    res.status(201).send("Juice-ingrediens oprettet succesfuldt!");
+    res.status(201).send("Juice ingredient created successfully!");
   } catch (err) {
-    console.error("Fejl ved oprettelse af juice-ingrediens:", err);
-    res.status(500).send("Der opstod en fejl ved oprettelse af juice-ingrediensen.");
+    console.error("Error creating juice ingredient:", err);
+    res.status(500).send("An error occurred while creating the juice ingredient.");
   }
 }
 
