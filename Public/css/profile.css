@@ -1,0 +1,155 @@
+/* profile.css */
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, #f7a1d1, #f797b5); /* Pink gradient */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-image: url('/Images/joe\ and\ the\ juice\ background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 40vh;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 15px 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+    margin-left: 20px;
+}
+
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-center li a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.user-options {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Profile section styling */
+#profileInfo {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    margin: 80px auto;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+    color: #333;
+}
+
+#profileInfo p {
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+#editEmailButton {
+    background-color: #f7a1d1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#editEmailButton:hover {
+    background-color: #f797b5;
+    transform: translateY(-2px);
+}
+
+/* Edit email form styling */
+#editEmailForm {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    margin: 20px auto;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+#editEmailForm h3 {
+    margin-bottom: 15px;
+    color: #f7a1d1;
+}
+
+#updateEmailForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#updateEmailForm label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#updateEmailForm input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    width: 80%;
+    text-align: center;
+}
+
+#updateEmailForm button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#updateEmailForm button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
