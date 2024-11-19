@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const percentageDisplay = document.getElementById("percentageDisplay");
     const createBtn = document.querySelector(".create-btn");
 
-    // Funktion til at opdatere den samlede procentdel
+    // Function to update the total percentage of selected ingredients
     const updateTotalPercentage = () => {
         const sliders = document.querySelectorAll('input[type="range"]');
         let total = 0;
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         createBtn.disabled = (total !== 100);
     };
 
-    // Hent ingredienser fra backend
+    // Fetch ingredients from the backend
     try {
         const response = await fetch("http://localhost:3000/ingredients/getAll", {
             method: "GET",
@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         const ingredients = await response.json();
 
-        // Render sliders for hver ingrediens
+        console.log("Fetched Ingredients:", ingredients); // Debug log to verify ingredients
+
+        // Render sliders for each ingredient
         ingredients.forEach(ingredient => {
             const wrapper = document.createElement("div");
             wrapper.classList.add("ingredient-slider");
@@ -40,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             slider.min = "0";
             slider.max = "100";
             slider.value = "0";
-            slider.dataset.ingredientId = ingredient.ingredient_id; // Gem ingrediens ID til senere brug
+            slider.dataset.ingredientId = ingredient.id; // Correct dataset assignment
             slider.addEventListener("input", updateTotalPercentage);
 
             wrapper.appendChild(label);
@@ -51,34 +53,53 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateTotalPercentage();
     } catch (error) {
         console.error("Error fetching ingredients:", error);
-        alert("Der opstod en fejl ved indlæsning af ingredienser. Prøv igen senere.");
+        alert("An error occurred while loading ingredients. Please try again later.");
     }
 
     const form = document.getElementById("juiceForm");
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const juiceName = document.getElementById("juiceName").value;
-        const juiceDescription = document.getElementById("juiceDescription").value;
+        const juiceName = document.getElementById("juiceName").value.trim();
+        const juiceDescription = document.getElementById("juiceDescription").value.trim();
 
-        // Saml valgte ingredienser og deres mængder
+        if (!juiceName || !juiceDescription) {
+            alert("Juice name and description are required.");
+            return;
+        }
+
+        // Collect selected ingredients
         const selectedIngredients = [];
         document.querySelectorAll('.ingredient-slider input[type="range"]').forEach((slider) => {
             const quantity = parseInt(slider.value, 10);
-            if (quantity > 0) {
+            const ingredientId = parseInt(slider.dataset.ingredientId, 10);
+
+            // Additional Debugging: Log each slider's values
+            console.log(`Slider Ingredient ID: ${ingredientId}, Quantity: ${quantity}`);
+
+            if (quantity > 0 && !isNaN(ingredientId)) {
                 selectedIngredients.push({
-                    ingredient_id: parseInt(slider.dataset.ingredientId, 10), // Brug ingrediens ID fra dataset
+                    ingredient_id: ingredientId,
                     quantity: quantity
                 });
             }
         });
 
-        // Opret juicen sammen med ingredienser og beskrivelse
+        // Additional Debugging: Log selected ingredients
+        console.log("Selected Ingredients:", selectedIngredients);
+
+        if (selectedIngredients.length === 0) {
+            alert("Please select at least one ingredient.");
+            return;
+        }
+
         const juiceData = {
             name: juiceName,
             description: juiceDescription,
             ingredients: selectedIngredients
         };
+
+        console.log("Juice Data to Send:", juiceData); // Logging to verify data before sending
 
         try {
             const response = await fetch("http://localhost:3000/juice/add", {
@@ -87,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(juiceData),
-                credentials: "include" // Dette sikrer, at cookies (session) er inkluderet i anmodninger
+                credentials: "include"
             });
 
             if (!response.ok) {
@@ -98,10 +119,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             const jsonResponse = await response.json();
             console.log("Juice created successfully:", jsonResponse);
             alert("Juice created successfully!");
-            window.location.href = "/leaderboard.html"; // Redirect til leaderboard eller en anden side
+            window.location.href = "/leaderboard.html";
         } catch (error) {
             console.error("Error creating juice:", error);
-            alert("Der opstod en fejl. Prøv igen.");
+            alert("An error occurred. Please try again.");
         }
     });
 

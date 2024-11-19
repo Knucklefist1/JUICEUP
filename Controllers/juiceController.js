@@ -2,7 +2,6 @@ const sql = require("mssql");
 const config = require("../Config/Database");
 const juiceIngredientController = require("./juiceIngredientController");
 
-
 // Function to add a new juice
 exports.addJuice = async (req, res) => {
   const { name, description, ingredients } = req.body; // Add ingredients to the request body
@@ -25,11 +24,21 @@ exports.addJuice = async (req, res) => {
       VALUES (@user_id, @name, @description, GETDATE(), 0)
     `);
 
+    if (result.recordset.length === 0) {
+      throw new Error("Failed to create juice");
+    }
+
     const juice_id = result.recordset[0].juice_id;
+    console.log("Juice successfully created with ID:", juice_id);
 
     // Add ingredients to JuiceIngredient table
     for (const ingredient of ingredients) {
-      await juiceIngredientController.addJuiceIngredient(juice_id, ingredient.id, ingredient.quantity);
+      const { ingredient_id, quantity } = ingredient;
+      if (!ingredient_id || !quantity) {
+        console.error("Invalid ingredient data:", ingredient);
+        throw new Error("Invalid ingredient data.");
+      }
+      await juiceIngredientController.addJuiceIngredient(juice_id, ingredient_id, quantity);
     }
 
     res.status(201).json({
@@ -57,9 +66,9 @@ exports.getAllJuices = async (req, res) => {
       FROM Juice j
       JOIN Users u ON j.user_id = u.user_id
     `);
-    
+
     console.log("Juices fetched:", result.recordset);
-    
+
     // Fetch ingredients for each juice separately
     const juices = await Promise.all(result.recordset.map(async (juice) => {
       const ingredientRequest = new sql.Request();
@@ -70,15 +79,15 @@ exports.getAllJuices = async (req, res) => {
         JOIN Ingredient i ON ji.ingredient_id = i.ingredient_id
         WHERE ji.juice_id = @juice_id
       `);
-      
+
       console.log(`Ingredients for juice ${juice.id}:`, ingredientsResult.recordset);
-      
+
       return {
         ...juice,
         ingredients: ingredientsResult.recordset,
       };
     }));
-    
+
     console.log("Final juices with ingredients:", juices);
     res.status(200).json(juices);
   } catch (err) {
@@ -86,4 +95,3 @@ exports.getAllJuices = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching the juices." });
   }
 };
-
