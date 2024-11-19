@@ -35,6 +35,7 @@ exports.addJuice = async (req, res) => {
 
 exports.getAllJuices = async (req, res) => {
   try {
+    console.log("Connecting to the database...");
     await sql.connect(config);
     const request = new sql.Request();
     const result = await request.query(`
@@ -47,6 +48,8 @@ exports.getAllJuices = async (req, res) => {
       JOIN Users u ON j.user_id = u.user_id
     `);
     
+    console.log("Juices fetched:", result.recordset);
+    
     // Fetch ingredients for each juice separately
     const juices = await Promise.all(result.recordset.map(async (juice) => {
       const ingredientRequest = new sql.Request();
@@ -58,15 +61,19 @@ exports.getAllJuices = async (req, res) => {
         WHERE ji.juice_id = @juice_id
       `);
       
+      console.log(`Ingredients for juice ${juice.id}:`, ingredientsResult.recordset);
+      
       return {
         ...juice,
         ingredients: ingredientsResult.recordset
       };
     }));
     
+    console.log("Final juices with ingredients:", juices);
     res.status(200).json(juices);
   } catch (err) {
     console.error("Error fetching juices:", err);
     res.status(500).json({ error: "An error occurred while fetching the juices." });
   }
 };
+

@@ -214,9 +214,9 @@ main {
     color: #555;
 }
 
-.logout-btn {
-    background-color: #ff4081;
-    color: #fff;
+#authButton {
+    background-color: #ff4081; /* Pink color to match your vibrant theme */
+    color: #fff; /* White text for contrast */
     border: none;
     padding: 8px 18px;
     font-size: 0.9em;
@@ -226,9 +226,9 @@ main {
     transition: background-color 0.3s, box-shadow 0.2s;
 }
 
-.logout-btn:hover {
-    background-color: #e03970;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+#authButton:hover {
+    background-color: #e03970; /* Darker pink when hovered */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
 }
 
 .question-buttons button {
