@@ -23,25 +23,26 @@ async function displayJuices() {
     const juicesList = document.getElementById("juices-list");
     juicesList.innerHTML = ""; // Clear previous entries
 
-    juices.forEach((juice, createNow) => {
+    juices.forEach((juice, index) => {
         const juiceItem = document.createElement("div");
         juiceItem.classList.add("juice-item");
 
         const ingredientsList = juice.ingredients
-            .map(ingredient => `<li>${ingredient.name}: ${ingredient.amount}%</li>`)
-            .join("");
+            .map(ingredient => `<li>${ingredient.name}: ${ingredient.quantity}%</li>`)
+            .join(""); // Use 'quantity' as fetched from the backend
 
         juiceItem.innerHTML = `
             <h3>${juice.name}</h3>
             <p>Created by: ${juice.creator}</p>
-            <p>Votes: <span id="votes-${createNow}">${juice.votes}</span></p>
-            <button class="vote-button" onclick="vote(${createNow}, ${juice.id})">Vote</button>
+            <p>Votes: <span id="votes-${index}">${juice.votes}</span></p>
+            <button class="vote-button" onclick="vote(${index}, ${juice.id})">Vote</button>
             <h4>Ingredients:</h4>
             <ul>${ingredientsList}</ul>
         `;
         juicesList.appendChild(juiceItem);
     });
 }
+
 
 async function updateLeaderboard() {
     const juices = await loadJuicesFromDatabase();
@@ -78,20 +79,27 @@ async function updateLeaderboard() {
 // Function to handle voting
 async function vote(createNow, juiceId) {
     try {
-        const response = await fetch(`http://localhost:3000/api/juice/vote/${juiceId}`, {
+        const response = await fetch(`http://localhost:3000/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            credentials: "include", // Include credentials for session
+            body: JSON.stringify({ juice_id: juiceId }) // Send juice ID in the request body
         });
 
-        if (!response.ok) throw new Error("Failed to vote");
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to vote: ${errorText}`);
+        }
 
+        // Assuming the backend returns the updated vote count in JSON response
         const result = await response.json();
-        document.getElementById(`votes-${createNow}`).textContent = result.votes; // Update the vote count on the page
-        console.log(`Vote registered. New vote count: ${result.votes}`);
+        document.getElementById(`votes-${createNow}`).textContent = result.updatedVotes; // Update the vote count
+        console.log(`Vote registered. New vote count: ${result.updatedVotes}`);
     } catch (error) {
         console.error("Error voting for juice:", error);
+        alert("An error occurred while voting. You may have already voted.");
     }
 }
 

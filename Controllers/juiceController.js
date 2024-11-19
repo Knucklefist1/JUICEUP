@@ -1,6 +1,5 @@
 const sql = require("mssql");
 const config = require("../Config/Database");
-const juiceIngredientController = require("./juiceingredientcontroller"); // Import juiceIngredient controller
 
 // Function to add a new juice
 exports.addJuice = async (req, res) => {
@@ -85,3 +84,4 @@ exports.getAllJuices = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching the juices." });
   }
 };
+
