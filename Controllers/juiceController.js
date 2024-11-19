@@ -1,9 +1,10 @@
 const sql = require("mssql");
 const config = require("../Config/Database");
+const juiceIngredientController = require("./juiceingredientcontroller"); // Import juiceIngredient controller
 
 // Function to add a new juice
 exports.addJuice = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, ingredients } = req.body; // Add ingredients to the request body
   const user_id = req.session.userId; // Retrieve the user ID from session
 
   if (!user_id) {
@@ -23,9 +24,16 @@ exports.addJuice = async (req, res) => {
       VALUES (@user_id, @name, @description, GETDATE(), 0)
     `);
 
+    const juice_id = result.recordset[0].juice_id;
+
+    // Add ingredients to JuiceIngredient table
+    for (const ingredient of ingredients) {
+      await juiceIngredientController.addJuiceIngredient(juice_id, ingredient.id, ingredient.quantity);
+    }
+
     res.status(201).json({
       message: "Juice created successfully!",
-      juice_id: result.recordset[0].juice_id
+      juice_id: juice_id,
     });
   } catch (err) {
     console.error("Error creating juice:", err);
@@ -33,6 +41,7 @@ exports.addJuice = async (req, res) => {
   }
 };
 
+// Function to get all juices
 exports.getAllJuices = async (req, res) => {
   try {
     console.log("Connecting to the database...");
@@ -55,7 +64,7 @@ exports.getAllJuices = async (req, res) => {
       const ingredientRequest = new sql.Request();
       ingredientRequest.input("juice_id", sql.Int, juice.id);
       const ingredientsResult = await ingredientRequest.query(`
-        SELECT i.name, ji.amount
+        SELECT i.name, ji.quantity
         FROM JuiceIngredient ji
         JOIN Ingredient i ON ji.ingredient_id = i.ingredient_id
         WHERE ji.juice_id = @juice_id
@@ -65,7 +74,7 @@ exports.getAllJuices = async (req, res) => {
       
       return {
         ...juice,
-        ingredients: ingredientsResult.recordset
+        ingredients: ingredientsResult.recordset,
       };
     }));
     
@@ -76,4 +85,3 @@ exports.getAllJuices = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching the juices." });
   }
 };
-

@@ -1,9 +1,9 @@
-const express = require("express");
-const juiceIngredientController = require("../Controllers/juiceIngredientController"); // Import the controller
-const ensureAuthenticated = require("../Middleware/middleware"); // Import middleware
+const express = require('express');
 const router = express.Router();
 
-// Route to add a new juice ingredient - only accessible if logged in
-router.post("/ingredient/add", ensureAuthenticated, juiceIngredientController.addJuiceIngredient);
+const path = require('path');
+const juiceIngredientController = require(path.join(__dirname, '..', 'Controllers', 'juiceIngredientController'));
+
+router.post('/juiceIngredient/add', juiceIngredientController.addJuiceIngredient);
 
 module.exports = router;

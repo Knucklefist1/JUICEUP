@@ -1,14 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const ingredients = [
-        "Æble", "Ingefær", "Gulerod", "Ananas", "Banan", "Citron", 
-        "Spinat", "Agurk", "Grønkål", "Seleri", "Kiwi", 
-        "Jordbær", "Avocado", "Passionsfrugt"
-    ];
-
+document.addEventListener("DOMContentLoaded", async () => {
     const ingredientContainer = document.getElementById("ingredientContainer");
     const percentageDisplay = document.getElementById("percentageDisplay");
     const createBtn = document.querySelector(".create-btn");
 
+    // Funktion til at opdatere den samlede procentdel
     const updateTotalPercentage = () => {
         const sliders = document.querySelectorAll('input[type="range"]');
         let total = 0;
@@ -21,26 +16,43 @@ document.addEventListener("DOMContentLoaded", () => {
         createBtn.disabled = (total !== 100);
     };
 
-    ingredients.forEach(ingredient => {
-        const wrapper = document.createElement("div");
-        wrapper.classList.add("ingredient-slider");
+    // Hent ingredienser fra backend
+    try {
+        const response = await fetch("http://localhost:3000/ingredients/getAll", {
+            method: "GET",
+            credentials: "include"
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch ingredients");
+        }
+        const ingredients = await response.json();
 
-        const label = document.createElement("label");
-        label.innerText = ingredient;
+        // Render sliders for hver ingrediens
+        ingredients.forEach(ingredient => {
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("ingredient-slider");
 
-        const slider = document.createElement("input");
-        slider.type = "range";
-        slider.min = "0";
-        slider.max = "100";
-        slider.value = "0";
-        slider.addEventListener("input", updateTotalPercentage);
+            const label = document.createElement("label");
+            label.innerText = ingredient.name;
 
-        wrapper.appendChild(label);
-        wrapper.appendChild(slider);
-        ingredientContainer.appendChild(wrapper);
-    });
+            const slider = document.createElement("input");
+            slider.type = "range";
+            slider.min = "0";
+            slider.max = "100";
+            slider.value = "0";
+            slider.dataset.ingredientId = ingredient.ingredient_id; // Gem ingrediens ID til senere brug
+            slider.addEventListener("input", updateTotalPercentage);
 
-    updateTotalPercentage();
+            wrapper.appendChild(label);
+            wrapper.appendChild(slider);
+            ingredientContainer.appendChild(wrapper);
+        });
+
+        updateTotalPercentage();
+    } catch (error) {
+        console.error("Error fetching ingredients:", error);
+        alert("Der opstod en fejl ved indlæsning af ingredienser. Prøv igen senere.");
+    }
 
     const form = document.getElementById("juiceForm");
     form.addEventListener("submit", async (event) => {
@@ -49,19 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const juiceName = document.getElementById("juiceName").value;
         const juiceDescription = document.getElementById("juiceDescription").value;
 
-        // Collect selected ingredients and their quantities
+        // Saml valgte ingredienser og deres mængder
         const selectedIngredients = [];
-        document.querySelectorAll('.ingredient-slider input[type="range"]').forEach((slider, index) => {
+        document.querySelectorAll('.ingredient-slider input[type="range"]').forEach((slider) => {
             const quantity = parseInt(slider.value, 10);
             if (quantity > 0) {
                 selectedIngredients.push({
-                    name: ingredients[index],
+                    ingredient_id: parseInt(slider.dataset.ingredientId, 10), // Brug ingrediens ID fra dataset
                     quantity: quantity
                 });
             }
         });
 
-        // Create the juice along with ingredients and description
+        // Opret juicen sammen med ingredienser og beskrivelse
         const juiceData = {
             name: juiceName,
             description: juiceDescription,
@@ -75,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(juiceData),
-                credentials: "include" // This ensures cookies (session) are included in requests
+                credentials: "include" // Dette sikrer, at cookies (session) er inkluderet i anmodninger
             });
 
             if (!response.ok) {
@@ -86,57 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const jsonResponse = await response.json();
             console.log("Juice created successfully:", jsonResponse);
             alert("Juice created successfully!");
-            window.location.href = "/leaderboard.html"; // Redirect to leaderboard or another page
+            window.location.href = "/leaderboard.html"; // Redirect til leaderboard eller en anden side
         } catch (error) {
             console.error("Error creating juice:", error);
-            alert("An error occurred. Please try again.");
+            alert("Der opstod en fejl. Prøv igen.");
         }
     });
-
-    const addIngredientToDatabase = async (ingredientData) => {
-        try {
-            const response = await fetch("http://localhost:3000/ingredient/check", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name: ingredientData.name })
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Error checking ingredient: ${errorText}`);
-            }
-
-            const jsonResponse = await response.json();
-            if (jsonResponse.exists) {
-                console.log(`Ingredient ${ingredientData.name} already exists.`);
-                return; // If ingredient exists, no need to add again
-            }
-
-            const addResponse = await fetch("http://localhost:3000/ingredient/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name: ingredientData.name,
-                    quantity: ingredientData.quantity
-                })
-            });
-
-            if (!addResponse.ok) {
-                const errorText = await addResponse.text();
-                throw new Error(`Error adding ingredient: ${errorText}`);
-            }
-
-            const addJsonResponse = await addResponse.json();
-            console.log("Ingredient added successfully:", addJsonResponse);
-            return addJsonResponse;
-        } catch (error) {
-            console.error("Error adding ingredient:", error);
-        }
-    };
 
     const showResultModal = (juiceName, ingredients) => {
         const modal = document.getElementById("resultModal");
