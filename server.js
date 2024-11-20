@@ -5,6 +5,8 @@ const cors = require("cors");
 const path = require("path");
 const config = require("./Config/Database");
 const ensureAuthenticated = require('./Middleware/middleware'); // Import middleware
+const cloudinaryRoutes = require('./Routes/cloudinaryRoutes'); // Import Cloudinary routes
+
 const app = express();
 
 // Session middleware
@@ -32,17 +34,16 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+// Serve static frontend files, except sensitive ones like createNow.html
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/createNow.html', ensureAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'createNow.html'));
 });
 
-// Serve static frontend files, except sensitive ones like createNow.html
-app.use(express.static(path.join(__dirname, 'public')));
-
-
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
-  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll'];
+  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll','/api/cloudinary/list-images'];
 
   if (openPaths.includes(req.path) || req.path.startsWith('/public')) {
     return next();
@@ -68,6 +69,8 @@ app.use("/", voteRoutes);
 app.use("/", userRoutes);
 app.use("/api/juice", juiceRoutes);
 
+// Add Cloudinary routes
+app.use("/api/cloudinary", cloudinaryRoutes); // Cloudinary integration
 
 // Check session route
 app.get('/check-session', (req, res) => {
@@ -90,6 +93,7 @@ sql.connect(config)
     console.error("Database connection failed:", err);
   });
 
+// Logout route
 app.post('/logout', (req, res) => {
   // Destroy the session
   req.session.destroy(err => {
