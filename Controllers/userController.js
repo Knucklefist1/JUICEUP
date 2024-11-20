@@ -99,7 +99,6 @@ exports.logoutUser = (req, res) => {
 };
 
 
-// Get user profile data
 exports.getProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -114,7 +113,7 @@ exports.getProfile = async (req, res) => {
     const request = new sql.Request();
     request.input("userId", sql.Int, userId);
     const result = await request.query(`
-      SELECT first_name, last_name, email, phone_number 
+      SELECT username, email, created_at
       FROM Users 
       WHERE user_id = @userId
     `);
@@ -129,6 +128,7 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching the profile." });
   }
 };
+
 
 // Update user email
 exports.updateEmail = async (req, res) => {
