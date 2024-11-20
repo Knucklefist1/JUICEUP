@@ -1,3 +1,5 @@
+// leaderboard.js
+
 async function loadJuicesFromDatabase() {
     try {
         const response = await fetch("http://localhost:3000/api/juice/getAll");
@@ -34,6 +36,7 @@ async function displayJuices() {
         juiceItem.innerHTML = `
             <h3>${juice.name}</h3>
             <p>Created by: ${juice.creator}</p>
+            <p>Description: ${juice.description}</p>
             <p>Votes: <span id="votes-${index}">${juice.votes}</span></p>
             <button class="vote-button" onclick="vote(${index}, ${juice.id})">Vote</button>
             <h4>Ingredients:</h4>
@@ -57,24 +60,26 @@ async function updateLeaderboard() {
     podium.innerHTML = ""; // Clear previous podium items
 
     const ranks = ["first", "second", "third"];
-    sortedJuices.forEach((juice, createNow) => {
+    sortedJuices.forEach((juice, index) => {
         const ingredientsList = juice.ingredients
-            .map(ingredient => `${ingredient.name}: ${ingredient.amount}%`)
+            .map(ingredient => `${ingredient.name}: ${ingredient.quantity}%`) // Use 'quantity' instead of 'amount'
             .join(", ");
 
         const podiumItem = document.createElement("div");
         podiumItem.classList.add("podium-item");
 
         podiumItem.innerHTML = `
-            <span class="rank">${createNow + 1}</span>
-            <div class="avatar ${ranks[createNow]}"></div>
+            <span class="rank">${index + 1}</span>
+            <div class="avatar ${ranks[index]}"></div>
             <p>${juice.creator}</p>
+            <p>Description: ${juice.description}</p>
             <p>Votes: ${juice.votes}</p>
             <p>Ingredients: ${ingredientsList}</p>
         `;
         podium.appendChild(podiumItem);
     });
 }
+
 
 // Function to handle voting
 async function vote(createNow, juiceId) {

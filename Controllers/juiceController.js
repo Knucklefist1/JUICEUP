@@ -51,7 +51,7 @@ exports.addJuice = async (req, res) => {
   }
 };
 
-// Function to get all juices
+
 exports.getAllJuices = async (req, res) => {
   try {
     console.log("Connecting to the database...");
@@ -61,6 +61,7 @@ exports.getAllJuices = async (req, res) => {
       SELECT 
         j.juice_id AS id, 
         j.name, 
+        j.description, 
         j.votes, 
         u.username AS creator
       FROM Juice j
