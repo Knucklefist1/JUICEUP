@@ -49,19 +49,23 @@ nav ul li a {
     transition: color 0.3s;
 }
 
-nav ul li a:hover {
-    color: #ff69b4;
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Sørger for korrekt afstand mellem elementer */
+    padding-right: 20px; /* Tilføj ekstra plads til højre side */
 }
 
 .user-options {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-right: 20px; /* Sørger for lidt afstand mellem knap og kant */
 }
 
 #authButton {
-    background-color: #ff4081; /* Pink color to match your vibrant theme */
-    color: #fff; /* White text for contrast */
+    background-color: #ff4081;
+    color: #fff;
     border: none;
     padding: 8px 18px;
     font-size: 0.9em;
@@ -70,6 +74,7 @@ nav ul li a:hover {
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.2s;
 }
+
 
 #authButton:hover {
     background-color: #e03970; /* Darker pink when hovered */
