@@ -71,7 +71,6 @@ app.use("/api/juice", juiceRoutes);
 
 // Add Cloudinary routes
 app.use("/api/cloudinary", cloudinaryRoutes); // Cloudinary integration
-
 // Check session route
 app.get('/check-session', (req, res) => {
   if (req.session.userId) {
@@ -93,17 +92,17 @@ sql.connect(config)
     console.error("Database connection failed:", err);
   });
 
-// Logout route
-app.post('/logout', (req, res) => {
-  // Destroy the session
-  req.session.destroy(err => {
-    if (err) {
-      console.error('Error during logout:', err);
-      return res.status(500).json({ error: 'Logout failed.' });
-    }
-    
-    // Clear the session cookie to complete the logout process
-    res.clearCookie('connect.sid', { path: '/' });
-    res.status(200).send('Logged out successfully');
+  app.post('/logout', (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Error during logout:', err);
+        return res.status(500).json({ error: 'Logout failed.' });
+      }
+      
+      // Clear the session cookie to complete the logout process
+      res.clearCookie('connect.sid', { path: '/' });
+      res.status(200).send('Logged out successfully');
+    });
   });
-});
+  

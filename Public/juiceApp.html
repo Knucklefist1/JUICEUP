@@ -7,34 +7,36 @@
   <link rel="stylesheet" href="css/juiceApp.css">
 </head>
 <body>
-  <header>
-    <!-- Navigation -->
-    <nav>
-      <div class="logo">
-        <img id="logo" alt="Joe & The Juice Logo">
-      </div>
-      <ul class="nav-center">
-        <li><a href="juiceApp.html">HOME</a></li>
-        <li><a href="competition.html">COMPETITION</a></li>
-        <li><a href="/createNow.html">CREATE NOW</a></li>
-        <li><a href="leaderboard.html">LEADERBOARD</a></li>
-        <li><a href="profile.html">MY PROFILE</a></li>
-      </ul>
-      <div class="user-options">
-        <button id="authButton">LOGOUT</button>
-      </div>
-    </nav>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="/Public/Images/joeLogo.png" alt="Joe & The Juice Logo">
+            </div>
+            <ul class="nav-center">
+                <li><a href="competition.html">COMPETITION</a></li>
+                <li><a href="/createNow.html">CREATE NOW</a></li>
+            </ul>
+            <div class="user-options">
+                <span id="userNameDisplay"></span> <!-- Placeholder for user's first name -->
+            </div>
+            <div><li><a href="login.html">LOGIN</li></div>
+        </nav>
+        <div class="hero">
+            <h1>CREATE YOUR OWN JUICE</h1>
+            <p>
+                <span>Got a taste for innovation?</span> Now’s your chance to create the next iconic juice for <span>Joe & The Juice</span>! Share your <span>unique juice idea</span>, and it could become a <span>permanent addition to our menu</span>. Bring your creativity to the table and let’s <span>make juice history together</span>!
+            </p>
+            <button class="order-btn" onclick="window.location.href='createNow.html'">CREATE NOW</button>
+        </div>
+    </header>
 
-    <!-- Hero Section -->
-    <div class="hero">
-      <img id="hero-image" alt="Hero Image">
-      <div class="hero-text">
-        <h1>CREATE YOUR OWN JUICE</h1>
-        <p>
-          <span>Got a taste for innovation?</span> Now’s your chance to create the next iconic juice for <span>Joe & The Juice</span>! Share your <span>unique juice idea</span>, and it could become a <span>permanent addition to our menu</span>. Bring your creativity to the table and let’s <span>make juice history together</span>!
-        </p>
-        <button class="order-btn" onclick="window.location.href='createNow.html'">CREATE NOW</button>
-      </div>
+    <!-- Cookie Consent Popup -->
+    <div class="cookie-consent" id="cookieConsent">
+        <p>We use cookies to improve your experience. Do you accept cookies?</p>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" onclick="acceptCookies()">Accept</button>
+            <button class="cookie-btn decline-btn" onclick="declineCookies()">Decline</button>
+        </div>
     </div>
   </header>
 
@@ -43,11 +45,8 @@
     const logo = document.getElementById('logo');
     const heroImage = document.getElementById('hero-image');
 
-    logo.src = 'https://res.cloudinary.com/dpvb3iuu7/image/upload/v1732099394/Joe%20billeder/ButikBillede.svg';
-    heroImage.src = 'https://res.cloudinary.com/dpvb3iuu7/image/upload/v1732099394/Joe%20billeder/pjumv7w5ow9r7j4ssiqv.jpg';
-  </script>
-  <script src="/js/session.js"></script>
-  <script src="/js/cookies.js"></script>
-  <script src="/js/logout.js"></script>
+    <script src="/js/session.js"></script> <!-- Include session management -->
+    <script src="/js/cookies.js"></script>
+    <script src="js/logout.js"></script>
 </body>
 </html>
