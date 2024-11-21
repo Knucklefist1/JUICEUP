@@ -143,20 +143,80 @@ exports.updateEmail = async (req, res) => {
       return res.status(401).json({ error: "Unauthorized. Please log in." });
     }
 
+    if (!email) {
+      return res.status(400).json({ error: "Email is required." });
+    }
+
     await sql.connect(config);
     const request = new sql.Request();
     request.input("email", sql.VarChar, email);
     request.input("userId", sql.Int, userId);
 
-    await request.query(`
+    const result = await request.query(`
       UPDATE Users
       SET email = @email
       WHERE user_id = @userId
     `);
 
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({ error: "User not found or email not updated." });
+    }
+
     res.status(200).json({ message: "Email updated successfully!" });
   } catch (err) {
     console.error("Error updating email:", err);
     res.status(500).json({ error: "An error occurred while updating the email." });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.session.userId;
+
+  try {
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized. Please log in." });
+    }
+
+    // Connect to the database and get the user's current password hash
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("userId", sql.Int, userId);
+
+    const result = await request.query(`
+      SELECT password_hash FROM Users WHERE user_id = @userId
+    `);
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = result.recordset[0];
+    const validPassword = await bcrypt.compare(currentPassword, user.password_hash);
+
+    // Check if the current password is correct
+    if (!validPassword) {
+      return res.status(401).json({ error: "Current password is incorrect." });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update the password in the database
+    const updateRequest = new sql.Request();
+    updateRequest.input("userId", sql.Int, userId);
+    updateRequest.input("newPasswordHash", sql.VarChar, hashedNewPassword);
+
+    await updateRequest.query(`
+      UPDATE Users
+      SET password_hash = @newPasswordHash
+      WHERE user_id = @userId
+    `);
+
+    res.status(200).json({ message: "Password updated successfully!" });
+  } catch (err) {
+    console.error("Error updating password:", err);
+    res.status(500).json({ error: "An error occurred while updating the password." });
   }
 };

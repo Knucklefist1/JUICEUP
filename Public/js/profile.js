@@ -20,8 +20,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-
-
 // Show email edit form when clicking "Edit"
 document.getElementById("editEmailButton").addEventListener("click", () => {
     document.getElementById("editEmailForm").style.display = "block";
@@ -52,5 +50,45 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
         window.location.reload();
     } catch (error) {
         console.error("Error updating email:", error);
+    }
+});
+
+document.getElementById("updatePasswordForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+    // Validate that the new password matches the confirmation
+    if (newPassword !== confirmNewPassword) {
+        document.getElementById("passwordErrorMessage").textContent = "New passwords do not match.";
+        document.getElementById("passwordErrorMessage").style.display = "block";
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:3000/profile/password", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({ currentPassword, newPassword })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+        document.getElementById("passwordUpdateMessage").textContent = "Password updated successfully!";
+        document.getElementById("passwordUpdateMessage").style.display = "block";
+        document.getElementById("passwordErrorMessage").style.display = "none";
+        document.getElementById("updatePasswordForm").reset(); // Clear the form fields
+    } catch (error) {
+        console.error("Error updating password:", error);
+        document.getElementById("passwordErrorMessage").textContent = "Error: " + error.message;
+        document.getElementById("passwordErrorMessage").style.display = "block";
     }
 });
