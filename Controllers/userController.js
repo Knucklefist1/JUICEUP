@@ -4,14 +4,15 @@ const config = require("../Config/Database");
 const sendConfirmationEmail = require("../Public/js/EmailService"); // Importér EmailService
 
 // Signup Function
+
 exports.signupUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phone_number } = req.body; // Added phone_number
   try {
     await sql.connect(config);
     const checkRequest = new sql.Request();
     checkRequest.input("email", sql.VarChar, email);
 
-    // Tjek om e-mail allerede eksisterer
+    // Check if email already exists
     const checkResult = await checkRequest.query(`
       SELECT * FROM Users WHERE email = @email
     `);
@@ -20,19 +21,20 @@ exports.signupUser = async (req, res) => {
       return res.status(409).json({ error: "Email already exists. Please use a different email." });
     }
 
-    // Hash password og indsæt ny bruger, hvis e-mail ikke findes
+    // Hash password and insert new user if email does not exist
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const request = new sql.Request();
     request.input("username", sql.VarChar, username);
     request.input("email", sql.VarChar, email);
+    request.input("phone_number", sql.VarChar, phone_number); // New phone number input
     request.input("password_hash", sql.VarChar, hashedPassword);
 
     const result = await request.query(`
-      INSERT INTO Users (username, email, password_hash, created_at)
+      INSERT INTO Users (username, email, phone_number, password_hash, created_at)
       OUTPUT INSERTED.user_id
-      VALUES (@username, @email, @password_hash, GETDATE())
+      VALUES (@username, @email, @phone_number, @password_hash, GETDATE())
     `);
 
     req.session.userId = result.recordset[0].user_id;
@@ -50,6 +52,7 @@ exports.signupUser = async (req, res) => {
     res.status(500).json({ error: "An error occurred during sign-up." });
   }
 };
+
 
 // Login Function
 exports.loginUser = async (req, res) => {
@@ -98,7 +101,6 @@ exports.logoutUser = (req, res) => {
   });
 };
 
-
 exports.getProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -113,7 +115,7 @@ exports.getProfile = async (req, res) => {
     const request = new sql.Request();
     request.input("userId", sql.Int, userId);
     const result = await request.query(`
-      SELECT username, email, created_at
+      SELECT username, email, phone_number, created_at
       FROM Users 
       WHERE user_id = @userId
     `);
@@ -128,6 +130,7 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching the profile." });
   }
 };
+
 
 
 // Update user email

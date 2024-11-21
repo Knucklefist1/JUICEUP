@@ -13,11 +13,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
         document.getElementById("username").textContent = data.username;
         document.getElementById("email").textContent = data.email;
+        document.getElementById("phoneNumber").textContent = data.phone_number; // Added line to update phone number
         document.getElementById("createdAt").textContent = new Date(data.created_at).toLocaleString();
     } catch (error) {
         console.error("Error loading profile:", error);
     }
 });
+
 
 
 // Show email edit form when clicking "Edit"

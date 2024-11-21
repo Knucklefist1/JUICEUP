@@ -1,28 +1,30 @@
 document.getElementById("signupForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Forhindr standard formular-indsendelse
+    event.preventDefault(); // Prevent default form submission
 
-    // Hent inputværdier
+    // Fetch input values
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const email = document.getElementById("email").value;
+    const phoneNumber = document.getElementById("phone").value;  // New field for phone number
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
-    // Valider passwords
+    // Validate passwords
     if (password !== confirmPassword) {
         document.getElementById("errorMessage").textContent = "Passwords do not match.";
         document.getElementById("errorMessage").style.display = "block";
         return;
     }
 
-    // Opret et brugerobjekt til at sende til serveren
+    // Create a user object to send to the server
     const user = {
-        username: `${firstName} ${lastName}`, // Kombiner fornavn og efternavn som brugernavn
+        username: `${firstName} ${lastName}`, // Combine first and last name as username
         email,
+        phone_number: phoneNumber,  // Add phone number to the user object
         password
     };
 
-    // Send en POST-anmodning til serveren
+    // Send a POST request to the server
     fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
@@ -34,9 +36,9 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         if (response.ok) {
             document.getElementById("successMessage").style.display = "block";
             document.getElementById("errorMessage").style.display = "none";
-            document.getElementById("signupForm").reset(); // Ryd formularfelterne
+            document.getElementById("signupForm").reset(); // Clear the form fields
 
-            // Omdiriger til startside efter en forsinkelse
+            // Redirect to homepage after a delay
             setTimeout(() => {
                 window.location.href = "../juiceApp.html";
             }, 2000);

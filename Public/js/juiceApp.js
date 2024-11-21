@@ -4,7 +4,7 @@ function displayUserName() {
     if (user && user.loggedIn) {
         // If user is logged in, display their first name
         const userNameDisplay = document.getElementById("userNameDisplay");
-        userNameDisplay.textContent = `Welcome, ${user.firstName}`;
+        userNameDisplay.textContent = `Welcome, ${user.username}`;
         userNameDisplay.style.fontWeight = "bold";
     }
 }
