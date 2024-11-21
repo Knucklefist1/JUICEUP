@@ -1,3 +1,17 @@
+// Check if a user is logged in and display their name if so
+function checkLoginStatus() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.loggedIn) {
+        const userNameDisplay = document.getElementById("userNameDisplay");
+        if (userNameDisplay) {
+            userNameDisplay.textContent = `Welcome, ${user.firstName}`;
+            userNameDisplay.style.fontWeight = "bold";
+            userNameDisplay.style.color = "#000";
+        }
+    }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const authButton = document.getElementById("authButton");
     const userNameDisplay = document.getElementById("userNameDisplay");
@@ -18,24 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Display user's first name if available
                 if (data.username) {
                     userNameDisplay.textContent = `Welcome, ${data.username}`;
-                    userNameDisplay.style.fontWeight = "bold";
-                    userNameDisplay.style.color = "#000";
                 }
-
-                // Save user data to localStorage
-                localStorage.setItem("user", JSON.stringify({
-                    loggedIn: true,
-                    firstName: data.username
-                }));
-
             } else {
                 // If user is not logged in, show "Login"
                 authButton.textContent = "LOGIN";
                 authButton.onclick = handleLogin;
                 userNameDisplay.textContent = ""; // Clear username display
-
-                // Remove user data from localStorage
-                localStorage.removeItem("user");
             }
         })
         .catch(err => {
@@ -51,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => {
             if (response.ok) {
-                localStorage.removeItem("user");
                 window.location.href = 'login.html';
             } else {
                 alert('Logout failed');
@@ -71,7 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
     checkSession();
 });
 
+
+// Logout function to clear session and redirect to signup/login page
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "/Src/Public/signup.html";
+}
+
 // Call checkLoginStatus on every page load
-document.addEventListener("DOMContentLoaded", () => {
-    checkLoginStatus();
-});
+document.addEventListener("DOMContentLoaded", checkLoginStatus);
+

@@ -29,27 +29,4 @@ const sendConfirmationEmail = (to, subject, text) => {
   });
 };
 
-// Funktion til at sende en konkurrencemail
-const sendCompetitionConfirmationEmail = (to, username, juiceName) => {
-  const subject = "Your Juice has entered the competition!";
-  const text = `Hello ${username},\n\nYour juice named \"${juiceName}\" has been successfully entered into our JuiceUp competition! We'll contact you if your juice is selected as a winner.\n\nThank you for participating in the JuiceUp App!`;
-  const html = `<h1>Thank you for participating, ${username}!</h1><p>Your juice named <strong>${juiceName}</strong> has been successfully entered into our JuiceUp competition! We'll contact you if your juice is selected as a winner.</p><p>Thank you for using the JuiceUp App!</p>`;
-
-  const mailOptions = {
-    from: "juiceupxjoe@gmail.com",
-    to,
-    subject,
-    text,
-    html
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending competition confirmation email:", error);
-    } else {
-      console.log("Competition confirmation email sent:", info.response);
-    }
-  });
-};
-
-module.exports = { sendConfirmationEmail, sendCompetitionConfirmationEmail };
+module.exports = sendConfirmationEmail;

@@ -36,8 +36,9 @@ async function displayJuices() {
         juiceItem.innerHTML = `
             <h3>${juice.name}</h3>
             <p>Created by: ${juice.creator}</p>
-            <p>Votes: <span id="votes-${createNow}">${juice.votes}</span></p>
-            <button class="vote-button" onclick="vote(${createNow}, ${juice.id})">Vote</button>
+            <p>Description: ${juice.description}</p>
+            <p>Votes: <span id="votes-${index}">${juice.votes}</span></p>
+            <button class="vote-button" onclick="vote(${index}, ${juice.id})">Vote</button>
             <h4>Ingredients:</h4>
             <ul>${ingredientsList}</ul>
         `;

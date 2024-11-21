@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const config = require("../Config/Database");
-const { sendConfirmationEmail, sendCompetitionConfirmationEmail } = require("../Public/js/EmailService"); // Importér EmailService
+const sendConfirmationEmail = require("../Public/js/EmailService"); // Importér EmailService
 
 // Signup Function
 exports.signupUser = async (req, res) => {
@@ -97,6 +97,7 @@ exports.logoutUser = (req, res) => {
     res.status(200).json({ message: "Logout successful" });
   });
 };
+
 
 exports.getProfile = async (req, res) => {
   try {
