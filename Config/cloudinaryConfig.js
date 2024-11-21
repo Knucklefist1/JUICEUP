@@ -1,10 +1,18 @@
 const cloudinary = require('cloudinary').v2;
+const { cloudinaryApiKey, cloudinarySecret, cloudinaryCloudName } = require('./envConfig'); // Importér miljøvariabler
 
+// Konfigurer Cloudinary
 cloudinary.config({
-  cloud_name: 'dpvb3iuu7',
-  api_key: '345322197213485',
-  api_secret: 'Fkh0gQaYt804fJymtA09SzwL_D8',
+  cloud_name: cloudinaryCloudName,
+  api_key: cloudinaryApiKey,
+  api_secret: cloudinarySecret,
 });
 
-console.log('Cloudinary configured:', cloudinary.config());
+// Log konfigurationen for fejlfinding
+console.log('Cloudinary configured:', {
+  cloud_name: cloudinaryCloudName,
+  api_key: cloudinaryApiKey,
+  api_secret: cloudinarySecret,
+});
+
 module.exports = cloudinary;

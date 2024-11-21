@@ -1,20 +1,29 @@
 const sql = require('mssql');
+const {
+  dbUser,
+  dbPassword,
+  dbServer,
+  dbName,
+  dbEncrypt,
+  dbTrustServerCertificate,
+} = require('./envConfig'); // Importér miljøvariabler fra envConfig.js
 
 // Konfigurationsindstillinger
 const config = {
-  user: 'Adminforjuiceapp',
-  password: 'JuiceappCBS69',
-  server: 'juiceapp123.database.windows.net', // Tilføj '.database.windows.net' til servernavnet
-  database: 'JUICEAPPDATABASE',
+  user: dbUser,
+  password: dbPassword,
+  server: dbServer,
+  database: dbName,
   options: {
-    encrypt: true, // Kryptering påkrævet af Azure
-    trustServerCertificate: false, // Brug falsk, medmindre du kører lokalt
+    encrypt: dbEncrypt, // Kryptering påkrævet af Azure
+    trustServerCertificate: dbTrustServerCertificate, // Brug falsk, medmindre du kører lokalt
   },
 };
 
-// Opret forbindelse
+// Opret forbindelse til databasen
 async function connectToDatabase() {
   try {
+    console.log('Database-konfiguration:', config); // Log konfiguration for fejlfinding
     await sql.connect(config);
     console.log('Forbundet til databasen!');
   } catch (err) {
@@ -23,3 +32,5 @@ async function connectToDatabase() {
 }
 
 connectToDatabase();
+
+module.exports = connectToDatabase;
