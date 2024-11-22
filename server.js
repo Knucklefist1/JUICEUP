@@ -37,7 +37,7 @@ app.use(express.json());
 // Serve static frontend files, except sensitive ones like createNow.html
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/createNow.html', ensureAuthenticated, (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'createNow.html'));
 });
 
