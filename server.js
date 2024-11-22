@@ -37,9 +37,10 @@ app.use(express.json());
 // Serve static frontend files, except sensitive ones like createNow.html
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'createNow.html'));
+app.get('/createNow.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Public', 'createNow.html'));
 });
+
 
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
