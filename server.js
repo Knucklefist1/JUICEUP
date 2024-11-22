@@ -45,21 +45,21 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static frontend files, except sensitive ones like createNow.html
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'Public')));
 
 app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  res.sendFile(path.join(__dirname, 'Public', 'login.html'));
 });
 
 app.get('/createNow.html', ensureAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'createNow.html'));
+  res.sendFile(path.join(__dirname, 'Public', 'createNow.html'));
 });
 
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
   const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll', '/api/cloudinary/list-images'];
 
-  if (openPaths.includes(req.path) || req.path.startsWith('/public')) {
+  if (openPaths.includes(req.path) || req.path.startsWith('/Public')) {
     return next();
   }
 
