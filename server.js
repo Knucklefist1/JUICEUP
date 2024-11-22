@@ -41,6 +41,10 @@ app.get('/createNow.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'Public', 'createNow.html'));
 });
 
+app.get('/', (req, res) => {
+  res.redirect('/createNow.html');
+});
+
 
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
