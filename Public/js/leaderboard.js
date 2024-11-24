@@ -75,7 +75,7 @@ async function updateLeaderboard() {
         podiumItem.classList.add("podium-item");
 
         podiumItem.innerHTML = `
-            <span class="rank">${index + 1}</span>
+            
             <div class="avatar ${ranks[index]}"></div>
             <p>${juice.creator}</p>
             <p>Description: ${juice.description}</p>
