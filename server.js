@@ -17,7 +17,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Set the server URL based on the environment
-const BASE_URL = isProduction ? 'http://your.production.server.ip' : 'http://localhost';
+const BASE_URL = isProduction ? 'http://164.92.247.82/' : 'http://localhost';
 
 // Session middleware
 app.use(session({
