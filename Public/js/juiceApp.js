@@ -11,4 +11,3 @@ function displayUserName() {
 
 // Call displayUserName on page load
 document.addEventListener("DOMContentLoaded", displayUserName);
-
