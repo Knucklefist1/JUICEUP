@@ -1,31 +1,41 @@
+// server.js
+
+// Load environment variables from the .env file
+require('dotenv').config();
+
 const express = require("express");
 const session = require('express-session');
 const sql = require("mssql");
 const cors = require("cors");
 const path = require("path");
-const config = require("./Config/Database");
 const ensureAuthenticated = require('./Middleware/middleware'); // Import middleware
 const cloudinaryRoutes = require('./Routes/cloudinaryRoutes'); // Import Cloudinary routes
 
 const app = express();
 
+// Determine if we're running in production or development
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Set the server URL based on the environment
+const BASE_URL = isProduction ? 'http://your.production.server.ip' : 'http://localhost';
+
 // Session middleware
 app.use(session({
-  secret: 'Karloogkosmo123:', // Replace with your secure secret key
+  secret: process.env.SESSION_SECRET, // Use secure secret key from .env file
   resave: false,
   saveUninitialized: false,
   name: 'connect.sid', // Set cookie name explicitly
   cookie: {
-      httpOnly: true,
-      secure: false,
-      path: '/',
-      maxAge: 1000 * 60 * 30
+    httpOnly: true,
+    secure: isProduction, // Only use secure cookies in production
+    path: '/',
+    maxAge: 1000 * 60 * 30
   }
 }));
 
 // CORS configuration
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: BASE_URL + ':3000',
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true // Allow cookies to be sent
@@ -35,17 +45,21 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static frontend files, except sensitive ones like createNow.html
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'Public')));
+
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Public', 'login.html'));
+});
 
 app.get('/createNow.html', ensureAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'createNow.html'));
+  res.sendFile(path.join(__dirname, 'Public', 'createNow.html'));
 });
 
 // Middleware to apply ensureAuthenticated globally except for specific open routes
 app.use((req, res, next) => {
-  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll','/api/cloudinary/list-images'];
+  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll', '/api/cloudinary/list-images'];
 
-  if (openPaths.includes(req.path) || req.path.startsWith('/public')) {
+  if (openPaths.includes(req.path) || req.path.startsWith('/Public')) {
     return next();
   }
 
@@ -83,11 +97,24 @@ app.get('/check-session', (req, res) => {
   }
 });
 
+// Database configuration
+const dbConfig = {
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  server: process.env.DB_SERVER,
+  database: process.env.DB_DATABASE,
+  options: {
+    encrypt: true, // for Azure
+    trustServerCertificate: false
+  }
+};
+
 // Connect to the database and start the server
-sql.connect(config)
+sql.connect(dbConfig)
   .then(() => {
     console.log("Connected to the database");
-    app.listen(3000, () => console.log("Server running on port 3000"));
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
     console.error("Database connection failed:", err);
@@ -101,7 +128,7 @@ app.post('/logout', (req, res) => {
       console.error('Error during logout:', err);
       return res.status(500).json({ error: 'Logout failed.' });
     }
-    
+
     // Clear the session cookie to complete the logout process
     res.clearCookie('connect.sid', { path: '/' });
     res.status(200).send('Logged out successfully');
