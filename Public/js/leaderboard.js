@@ -1,8 +1,10 @@
-// leaderboard.js
+// Determine if running locally or in production
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
 
+// Function to load juices from the database
 async function loadJuicesFromDatabase() {
     try {
-        const response = await fetch("http://164.92.247.82:3000/api/juice/getAll");
+        const response = await fetch(`${baseUrl}/api/juice/getAll`);
         if (!response.ok) throw new Error("Failed to fetch juices from database");
 
         const juices = await response.json();
@@ -14,6 +16,7 @@ async function loadJuicesFromDatabase() {
     }
 }
 
+// Function to display juices on the leaderboard
 async function displayJuices() {
     const juices = await loadJuicesFromDatabase();
 
@@ -53,6 +56,7 @@ async function displayJuices() {
     });
 }
 
+// Function to update the leaderboard
 async function updateLeaderboard() {
     const juices = await loadJuicesFromDatabase();
 
@@ -75,7 +79,6 @@ async function updateLeaderboard() {
         podiumItem.classList.add("podium-item");
 
         podiumItem.innerHTML = `
-            
             <div class="avatar ${ranks[index]}"></div>
             <p>${juice.creator}</p>
             <p>Description: ${juice.description}</p>
@@ -89,8 +92,6 @@ async function updateLeaderboard() {
         createIngredientsChart(chartId, juice.ingredients);
     });
 }
-
-
 
 // Function to create a pie chart using Chart.js
 function createIngredientsChart(chartId, ingredients) {
@@ -139,7 +140,7 @@ function getRandomColor() {
 // Function to handle voting
 async function vote(createNow, juiceId) {
     try {
-        const response = await fetch(`http://164.92.247.82:3000/vote`, {
+        const response = await fetch(`${baseUrl}/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

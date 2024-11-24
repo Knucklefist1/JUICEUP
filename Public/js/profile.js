@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    // Determine if running locally or in production
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+
     try {
         // Fetch the user profile data
-        const response = await fetch("http://localhost:3000/profile", {
+        const response = await fetch(`${baseUrl}/profile`, {
             method: "GET",
             credentials: "include"
         });
@@ -32,7 +35,8 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
     const newEmail = document.getElementById("newEmail").value;
 
     try {
-        const response = await fetch("http://164.92.247.82:3000/profile/email", {
+        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+        const response = await fetch(`${baseUrl}/profile/email`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -53,6 +57,7 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
     }
 });
 
+// Handle password update form submission
 document.getElementById("updatePasswordForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -68,7 +73,8 @@ document.getElementById("updatePasswordForm").addEventListener("submit", async (
     }
 
     try {
-        const response = await fetch("http://164.92.247.82:3000/profile/password", {
+        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+        const response = await fetch(`${baseUrl}/profile/password`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

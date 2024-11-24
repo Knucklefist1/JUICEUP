@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const percentageDisplay = document.getElementById("percentageDisplay");
     const createBtn = document.querySelector(".create-btn");
 
+    // Determine if running locally or in production
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+
     // Function to update the total percentage of selected ingredients
     const updateTotalPercentage = () => {
         const sliders = document.querySelectorAll('input[type="range"]');
@@ -18,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fetch ingredients from the backend
     try {
-        const response = await fetch("http://164.92.247.82:3000/ingredients/getAll", {
+        const response = await fetch(`${baseUrl}/ingredients/getAll`, {
             method: "GET",
             credentials: "include"
         });
@@ -102,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("Juice Data to Send:", juiceData); // Logging to verify data before sending
 
         try {
-            const response = await fetch("http://164.92.247.82:3000/juice/add", {
+            const response = await fetch(`${baseUrl}/juice/add`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

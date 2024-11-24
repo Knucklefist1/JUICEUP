@@ -1,3 +1,5 @@
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+
 document.getElementById("loginForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -5,13 +7,13 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("http://164.92.247.82:3000/login", {
+        const response = await fetch(`${baseUrl}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ email, password }),
-            credentials: "include" // Ensure cookies (session) are included in requests
+            credentials: "include"
         });
 
         if (!response.ok) {
@@ -19,7 +21,7 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
         }
 
         alert("Login successful!");
-        window.location.href = "../juiceApp.html"; // Redirect to the juice app page
+        window.location.href = "../juiceApp.html";
     } catch (error) {
         console.error("Error during login:", error);
         document.getElementById("errorMessage").style.display = "block";

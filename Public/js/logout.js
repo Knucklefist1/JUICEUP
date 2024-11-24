@@ -5,8 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Determine if running locally or in production
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+
 function logout() {
-  fetch('http://164.92.247.82:3000/logout', {
+  fetch(`${baseUrl}/logout`, {
     method: 'POST',
     credentials: 'include' // Ensures the session cookie is included
   })
