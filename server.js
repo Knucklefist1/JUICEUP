@@ -31,10 +31,12 @@ app.use(session({
   }
 }));
 
-const allowedOrigins = ['http://localhost:3000', 'http://164.92.247.82'];
+// CORS configuration - Adjusted to allow multiple origins
+const allowedOrigins = ['http://localhost:3000', 'http://164.92.247.82:3000'];
+
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -45,7 +47,6 @@ const corsOptions = {
   credentials: true
 };
 app.use(cors(corsOptions));
-
 
 
 app.use(express.json());
