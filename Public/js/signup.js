@@ -25,7 +25,7 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
     };
 
     // Send a POST request to the server
-    fetch("http://164.92.247.82:3000/signup", {
+    fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

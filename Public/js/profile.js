@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         // Fetch the user profile data
-        const response = await fetch("http://164.92.247.82:3000/profile", {
+        const response = await fetch("http://localhost:3000/profile", {
             method: "GET",
             credentials: "include"
         });
