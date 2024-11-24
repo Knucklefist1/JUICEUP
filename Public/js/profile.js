@@ -32,7 +32,7 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
     const newEmail = document.getElementById("newEmail").value;
 
     try {
-        const response = await fetch("http://localhost:3000/profile/email", {
+        const response = await fetch("http://164.92.247.82:3000/profile/email", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -68,7 +68,7 @@ document.getElementById("updatePasswordForm").addEventListener("submit", async (
     }
 
     try {
-        const response = await fetch("http://localhost:3000/profile/password", {
+        const response = await fetch("http://164.92.247.82:3000/profile/password", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fetch ingredients from the backend
     try {
-        const response = await fetch("http://localhost:3000/ingredients/getAll", {
+        const response = await fetch("http://164.92.247.82:3000/ingredients/getAll", {
             method: "GET",
             credentials: "include"
         });
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("Juice Data to Send:", juiceData); // Logging to verify data before sending
 
         try {
-            const response = await fetch("http://localhost:3000/juice/add", {
+            const response = await fetch("http://164.92.247.82:3000/juice/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function logout() {
-  fetch('http://localhost:3000/logout', {
+  fetch('http://164.92.247.82:3000/logout', {
     method: 'POST',
     credentials: 'include' // Ensures the session cookie is included
   })

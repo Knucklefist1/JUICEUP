@@ -2,7 +2,7 @@
 
 async function loadJuicesFromDatabase() {
     try {
-        const response = await fetch("http://localhost:3000/api/juice/getAll");
+        const response = await fetch("http://164.92.247.82:3000/api/juice/getAll");
         if (!response.ok) throw new Error("Failed to fetch juices from database");
 
         const juices = await response.json();
@@ -139,7 +139,7 @@ function getRandomColor() {
 // Function to handle voting
 async function vote(createNow, juiceId) {
     try {
-        const response = await fetch(`http://localhost:3000/vote`, {
+        const response = await fetch(`http://164.92.247.82:3000/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
