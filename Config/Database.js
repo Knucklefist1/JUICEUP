@@ -6,31 +6,33 @@ const {
   dbName,
   dbEncrypt,
   dbTrustServerCertificate,
-} = require('./envConfig'); // Importér miljøvariabler fra envConfig.js
+} = require('./envConfig'); // Import environment variables from envConfig.js
 
-// Konfigurationsindstillinger
+// Configuration settings
 const config = {
   user: dbUser,
   password: dbPassword,
   server: dbServer,
   database: dbName,
   options: {
-    encrypt: dbEncrypt, // Kryptering påkrævet af Azure
-    trustServerCertificate: dbTrustServerCertificate, // Brug falsk, medmindre du kører lokalt
+    encrypt: dbEncrypt, // Required by Azure
+    trustServerCertificate: dbTrustServerCertificate, // Use false unless running locally
   },
 };
 
-// Opret forbindelse til databasen
+// Connect to the database
 async function connectToDatabase() {
   try {
-    console.log('Database-konfiguration:', config); // Log konfiguration for fejlfinding
+    console.log('Database configuration:', config); // Log config for debugging
     await sql.connect(config);
-    console.log('Forbundet til databasen!');
+    console.log('Connected to the database!');
   } catch (err) {
-    console.error('Fejl ved forbindelse til databasen:', err);
+    console.error('Database connection failed:', err);
+    throw err; // Re-throw error so that calling code knows the connection failed
   }
 }
 
-connectToDatabase();
-
-module.exports = connectToDatabase;
+module.exports = {
+  connectToDatabase,
+  sql // Export the sql module for making queries
+};
