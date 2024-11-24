@@ -75,12 +75,10 @@ nav {
     transition: background-color 0.3s, box-shadow 0.2s;
 }
 
-
 #authButton:hover {
     background-color: #e03970; /* Darker pink when hovered */
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
 }
-
 
 /* Main layout */
 .create-juice-container {
@@ -216,23 +214,89 @@ form select {
 #ingredientContainer {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* Øget afstand mellem ingredienser og sliders */
     margin-top: 10px;
 }
 
 .ingredient-slider {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px; /* Øget afstand mellem label og slider */
+    padding: 5px 0;
+    position: relative;
 }
 
 .ingredient-slider label {
     flex: 1;
     font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Plads mellem emoji og ingrediensens navn */
+    font-size: 1.1em; /* Gør teksten lidt større for bedre synlighed */
 }
 
 .ingredient-slider input[type="range"] {
-    flex: 2;
+    flex: 3;
+    -webkit-appearance: none; /* Fjern standard styling */
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #ddd; /* Grå baggrund til at starte med */
+    border-radius: 5px;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s;
+}
+
+/* Webkit Thumb (for Chrome, Safari, etc.) */
+.ingredient-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 32px; /* Lavere størrelse for thumb */
+    height: 32px;
+    background: #ff69b4; /* Pink baggrund til thumb */
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 40px;
+    text-align: center;
+    background-image: var(--emoji-thumb); /* Dynamisk emoji baggrund */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.ingredient-slider input[type="range"]:active::-webkit-slider-runnable-track,
+.ingredient-slider input[type="range"]:focus::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #ff69b4 calc(var(--value) * 1%), #ddd calc(var(--value) * 1%));
+}
+
+/* Update track color for Firefox */
+.ingredient-slider input[type="range"]::-moz-range-track {
+    background: #ddd; /* Grå baggrund */
+    height: 8px;
+    border-radius: 5px;
+}
+
+.ingredient-slider input[type="range"]::-moz-range-progress {
+    background: #ff69b4; /* Lyserød når slideren bevæger sig */
+    height: 8px;
+    border-radius: 5px;
+}
+
+.ingredient-slider input[type="range"]::-moz-range-thumb {
+    width: 32px; /* Lavere størrelse for thumb */
+    height: 32px;
+    background: #ff69b4; /* Pink baggrund til thumb */
+    border-radius: 50%;
+    cursor: pointer;
+    background-image: var(--emoji-thumb);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 #totalPercentage {

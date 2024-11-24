@@ -6,6 +6,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Determine if running locally or in production
     const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
 
+    // Ingrediensdata med emojis
+    const ingredientEmojis = {
+        "Æble": "🍏",
+        "Ingefær": "🪵",
+        "Gulerod": "🥕",
+        "Ananas": "🍍",
+        "Banan": "🍌",
+        "Citron": "🍋",
+        "Spinat": "🌿",
+        "Agurk": "🥒",
+        "Grønkål": "🥬",
+        "Seleri": "🌱",
+        "Kiwi": "🥝",
+        "Jordbær": "🍓",
+        "Avocado": "🥑",
+        "Passionsfrugt": "🥭"
+    };
+
     // Function to update the total percentage of selected ingredients
     const updateTotalPercentage = () => {
         const sliders = document.querySelectorAll('input[type="range"]');
@@ -15,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             total += parseInt(slider.value, 10);
         });
 
-        percentageDisplay.textContent = `${total}%`;
+        percentageDisplay.textContent = `Total: ${total}%`;
         createBtn.disabled = (total !== 100);
     };
 
@@ -38,7 +56,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             wrapper.classList.add("ingredient-slider");
 
             const label = document.createElement("label");
-            label.innerText = ingredient.name;
+
+            // Add emoji to ingredient name
+            const emoji = ingredientEmojis[ingredient.name] || ""; // Get emoji if it exists
+            label.innerText = `${emoji} ${ingredient.name}`;
 
             const slider = document.createElement("input");
             slider.type = "range";
@@ -46,7 +67,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             slider.max = "100";
             slider.value = "0";
             slider.dataset.ingredientId = ingredient.id; // Correct dataset assignment
-            slider.addEventListener("input", updateTotalPercentage);
+            slider.dataset.previousValue = "0"; // Dataset to store previous value
+
+            slider.addEventListener("input", () => {
+                let currentTotal = 0;
+                const sliders = document.querySelectorAll('input[type="range"]');
+                sliders.forEach(s => {
+                    currentTotal += parseInt(s.value, 10);
+                });
+
+                // Ensure total percentage does not exceed 100
+                if (parseInt(slider.value, 10) > parseInt(slider.dataset.previousValue, 10) &&
+                    currentTotal > 100) {
+                    slider.value = slider.dataset.previousValue; // Roll back to previous value if over 100
+                } else {
+                    slider.dataset.previousValue = slider.value; // Update the previous value
+                    slider.style.background = `linear-gradient(to right, #ff69b4 ${slider.value}%, #ddd ${slider.value}%)`;
+                    updateTotalPercentage();
+                }
+            });
 
             wrapper.appendChild(label);
             wrapper.appendChild(slider);
