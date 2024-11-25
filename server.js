@@ -22,7 +22,7 @@ app.use(session({
   saveUninitialized: false,
   name: 'connect.sid',
   cookie: {
-    httpOnly: true,
+    httpOnly: false,
     secure: isProduction, // Ensure cookies are only sent over HTTPS in production
     path: '/',
     maxAge: 1000 * 60 * 30
