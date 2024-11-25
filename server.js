@@ -53,6 +53,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'Public')));
 
+// Add a route to serve the homepage or redirect to a relevant page
+app.get('/', (req, res) => {
+  res.redirect('/login.html'); // Redirect to login page, or you can serve a specific homepage if available
+});
+
 // Routes setup
 app.get('/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'Public', 'login.html'));
