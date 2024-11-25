@@ -1,5 +1,3 @@
-// server.js
-
 require('dotenv').config();
 const express = require("express");
 const session = require('express-session');
@@ -15,7 +13,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Set the server URL based on the environment
-const BASE_URL = isProduction ? 'http://164.92.247.82' : 'http://localhost';
+const BASE_URL = isProduction ? 'https://www.joejuicecompetition.live' : 'http://localhost';
 
 // Session middleware
 app.use(session({
@@ -25,14 +23,18 @@ app.use(session({
   name: 'connect.sid',
   cookie: {
     httpOnly: true,
-    secure: isProduction,
+    secure: isProduction, // Ensure cookies are only sent over HTTPS in production
     path: '/',
     maxAge: 1000 * 60 * 30
   }
 }));
 
 // CORS configuration - Adjusted to allow multiple origins
-const allowedOrigins = ['http://localhost:3000', 'http://164.92.247.82:3000'];
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://www.joejuicecompetition.live',
+  'https://joejuicecompetition.live'
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -47,7 +49,6 @@ const corsOptions = {
   credentials: true
 };
 app.use(cors(corsOptions));
-
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'Public')));
