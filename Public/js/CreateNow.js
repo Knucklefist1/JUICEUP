@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const ingredientContainer = document.getElementById("ingredientContainer");
     const percentageDisplay = document.getElementById("percentageDisplay");
     const createBtn = document.querySelector(".create-btn");
+    const juiceFill = document.getElementById("juice-fill");
 
     // Determine if running locally or in production
     const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
@@ -35,6 +36,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         percentageDisplay.textContent = `Total: ${total}%`;
         createBtn.disabled = (total !== 100);
+
+        // Opdater højden på juice-fyldet
+        const maxJuiceHeight = 50; // Maksimal procentdel af koppen der kan fyldes (85% af højden)
+        const calculatedHeight = (total / 100) * maxJuiceHeight; // Beregn højden baseret på slider værdi
+        juiceFill.style.height = `${calculatedHeight}%`; // Opdater højden af fyldet
+
+        // Juster bølgeanimationens højde
+        const waves = document.querySelectorAll('.wave');
+        waves.forEach(wave => {
+            wave.style.bottom = `-${calculatedHeight / 5}px`; // Juster bølgehøjden for at sikre, at de bevæger sig med væsken
+        });
     };
 
     // Fetch ingredients from the backend
@@ -97,6 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error fetching ingredients:", error);
         alert("An error occurred while loading ingredients. Please log in to and try again");
     }
+
 
     const form = document.getElementById("juiceForm");
     form.addEventListener("submit", async (event) => {

@@ -7,7 +7,7 @@
 body {
     font-family: Poppins, sans-serif;
     color: #333;
-    background: linear-gradient(135deg, #f7b7da, #ff478d);
+    background: #ff6cb4;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -350,4 +350,64 @@ form select {
 
 .close-button:hover {
     color: #ff69b4;
+}
+
+.juice-cup {
+    position: relative;
+    width: 400px; /* Standardstørrelse af koppen */
+    height: 550px; /* Højde af koppen */
+    overflow: hidden; /* Sørger for at fyldet ikke går udenfor koppen */
+    margin: 0 auto; /* Holder koppen centreret i forhold til dens container */
+    display: block; /* Sørger for at margin auto virker */
+}
+
+#juice-fill {
+    position: absolute;
+    bottom: 34%; /* Start fyldet lidt højere op */
+    left: 0;
+    width: 100%;
+    height: 0%; /* Starter tom */
+    background: #ff6cb4;
+    border-radius: 0 0 30px 30px; /* Runde kanter for at matche koppen */
+    transition: height 0.5s ease-in-out; /* Blød overgang når højden ændres */
+    opacity: 0.45; /* Gennemsigtighed for at gøre fyldet mere realistisk */
+    max-height: 50%; /* Sørger for, at fyldet ikke rammer sugerøret */
+    overflow: hidden; /* Skjul bølger der går ud over fyldet */
+}
+
+.juice-cup img {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+/* Bølger inde i juicefyldet */
+.wave {
+    position: absolute;
+    left: 0;
+    width: 200%;
+    height: 200px;
+    background: rgba(255, 108, 180, 0.4);
+    opacity: 0.5;
+    border-radius: 50%;
+    bottom: 0;
+    animation: wave-animation 4s infinite linear;
+}
+
+.wave:nth-child(2) {
+    opacity: 0.3;
+    animation: wave-animation 6s infinite linear reverse;
+}
+
+/* Bølge-animation */
+@keyframes wave-animation {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-20%);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
