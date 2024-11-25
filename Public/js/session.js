@@ -62,6 +62,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // Check the session on page load
     checkSession();
 });
-
-// Call checkLoginStatus on every page load to update the UI accordingly
-document.addEventListener("DOMContentLoaded", checkLoginStatus);
