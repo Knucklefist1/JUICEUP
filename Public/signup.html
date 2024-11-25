@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Profile</title>
-    <link rel="stylesheet" href="css/signup.css" </head>
+    <link rel="stylesheet" href="css/signup.css">
+</head>
 
 <body>
     <button class="home-btn" onclick="window.location.href='juiceApp.html'">HOME</button>
@@ -37,6 +38,12 @@
             <div class="input-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="input-group">
+                <label>
+                    <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+                    I accept the <a href="terms.html" target="_blank">terms and conditions</a>
+                </label>
             </div>
             <button type="submit" class="btn">Sign Up</button>
         </form>

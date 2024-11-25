@@ -5,22 +5,35 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const email = document.getElementById("email").value;
-    const phoneNumber = document.getElementById("phone").value;  // New field for phone number
+    const phoneNumber = document.getElementById("phone").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
+    const acceptTerms = document.getElementById("acceptTerms").checked;
 
-    // Validate passwords
+    // Validate fields
+    if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
+        document.getElementById("errorMessage").textContent = "All fields are required.";
+        document.getElementById("errorMessage").style.display = "block";
+        return;
+    }
+
     if (password !== confirmPassword) {
         document.getElementById("errorMessage").textContent = "Passwords do not match.";
         document.getElementById("errorMessage").style.display = "block";
         return; // Exit function if passwords do not match
     }
 
+    if (!acceptTerms) {
+        document.getElementById("errorMessage").textContent = "You must accept the terms and conditions to sign up.";
+        document.getElementById("errorMessage").style.display = "block";
+        return; // Exit function if terms are not accepted
+    }
+
     // Create a user object to send to the server
     const user = {
         username: `${firstName} ${lastName}`, // Combine first and last name as username
         email,
-        phone_number: phoneNumber,  // Add phone number to the user object
+        phone_number: phoneNumber,
         password
     };
 
