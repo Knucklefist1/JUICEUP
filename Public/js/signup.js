@@ -1,97 +1,55 @@
-const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
+document.getElementById("signupForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        // Fetch the user profile data
-        const response = await fetch(`${baseUrl}/profile`, {
-            method: "GET",
-            credentials: "include"
-        });
+    // Fetch input values
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const email = document.getElementById("email").value;
+    const phoneNumber = document.getElementById("phone").value;  // New field for phone number
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch profile data.");
+    // Validate passwords
+    if (password !== confirmPassword) {
+        document.getElementById("errorMessage").textContent = "Passwords do not match.";
+        document.getElementById("errorMessage").style.display = "block";
+        return; // Exit function if passwords do not match
+    }
+
+    // Create a user object to send to the server
+    const user = {
+        username: `${firstName} ${lastName}`, // Combine first and last name as username
+        email,
+        phone_number: phoneNumber,  // Add phone number to the user object
+        password
+    };
+
+    // Send a POST request to the server
+    fetch("http://localhost:3000/signup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById("successMessage").style.display = "block";
+            document.getElementById("errorMessage").style.display = "none";
+            document.getElementById("signupForm").reset(); // Clear the form fields
+            // Redirect to homepage after a delay
+            setTimeout(() => {
+                window.location.href = "../juiceApp.html";
+            }, 2000);
+        } else {
+            return response.text().then(error => {
+                throw new Error(error);
+            });
         }
-
-        const data = await response.json();
-        document.getElementById("username").textContent = data.username;
-        document.getElementById("email").textContent = data.email;
-        document.getElementById("phoneNumber").textContent = data.phone_number; // Added line to update phone number
-        document.getElementById("createdAt").textContent = new Date(data.created_at).toLocaleString();
-    } catch (error) {
-        console.error("Error loading profile:", error);
-    }
-});
-
-// Show email edit form when clicking "Edit"
-document.getElementById("editEmailButton").addEventListener("click", () => {
-    document.getElementById("editEmailForm").style.display = "block";
-});
-
-// Handle email update form submission
-document.getElementById("updateEmailForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const newEmail = document.getElementById("newEmail").value;
-
-    try {
-        const response = await fetch(`${baseUrl}/profile/email`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({ email: newEmail })
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to update email.");
-        }
-
-        alert("Email updated successfully!");
-        // Reload the profile information to reflect the changes
-        window.location.reload();
-    } catch (error) {
-        console.error("Error updating email:", error);
-    }
-});
-
-// Handle password update form submission
-document.getElementById("updatePasswordForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const currentPassword = document.getElementById("currentPassword").value;
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
-
-    // Validate that the new password matches the confirmation
-    if (newPassword !== confirmNewPassword) {
-        document.getElementById("passwordErrorMessage").textContent = "New passwords do not match.";
-        document.getElementById("passwordErrorMessage").style.display = "block";
-        return;
-    }
-
-    try {
-        const response = await fetch(`${baseUrl}/profile/password`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({ currentPassword, newPassword })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText);
-        }
-
-        document.getElementById("passwordUpdateMessage").textContent = "Password updated successfully!";
-        document.getElementById("passwordUpdateMessage").style.display = "block";
-        document.getElementById("passwordErrorMessage").style.display = "none";
-        document.getElementById("updatePasswordForm").reset(); // Clear the form fields
-    } catch (error) {
-        console.error("Error updating password:", error);
-        document.getElementById("passwordErrorMessage").textContent = "Error: " + error.message;
-        document.getElementById("passwordErrorMessage").style.display = "block";
-    }
+    })
+    .catch(error => {
+        console.error("Error during sign-up:", error);
+        document.getElementById("errorMessage").textContent = "Error: " + error.message;
+        document.getElementById("errorMessage").style.display = "block";
+    });
 });
