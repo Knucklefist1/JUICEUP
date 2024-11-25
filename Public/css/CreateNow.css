@@ -1,61 +1,58 @@
-/* General Styling */
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}/* General Styling */
+
+body {
     font-family: Poppins, sans-serif;
-    background: linear-gradient(135deg, #f7b7da, #ff478d);
     color: #333;
+    background: linear-gradient(135deg, #f7b7da, #ff478d);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
-/* Header styling */
+/* Header and Navigation Styles */
 header {
-    background-color: #fff;
-    position: fixed;
-    top: 0;
     width: 100%;
-    padding: 15px 20px;
-    z-index: 10;
+    background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .logo img {
-    height: 40px;
+    height: 50px;
 }
 
-nav ul {
+ul {
     list-style: none;
     display: flex;
     gap: 20px;
-    padding-left: 0;
 }
 
-nav ul li {
-    display: inline;
-}
-
-nav ul li a {
+ul li a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1.1em;
     transition: color 0.3s;
 }
 
-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Sørger for korrekt afstand mellem elementer */
-    padding-right: 20px; /* Tilføj ekstra plads til højre side */
+ul li a:hover {
+    color: #ff4081;
 }
-
 .user-options {
     display: flex;
     align-items: center;
