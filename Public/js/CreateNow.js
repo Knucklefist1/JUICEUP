@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const juiceFill = document.getElementById("juice-fill");
 
     // Determine if running locally or in production
-    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
 
     // Ingrediensdata med emojis
     const ingredientEmojis = {

@@ -33,7 +33,7 @@ app.use(session({
 const allowedOrigins = [
   'http://localhost:3000',
   'https://www.joejuicecompetition.live',
-  'https://joejuicecompetition.live'
+  'https://www.joejuicecompetition.live'
 ];
 
 const corsOptions = {

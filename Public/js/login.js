@@ -1,5 +1,5 @@
 // Determine if running locally or in production
-const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
 
 document.getElementById("loginForm").addEventListener("submit", async (event) => {
     event.preventDefault();
