@@ -1,4 +1,5 @@
-const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+// Determine if running locally or in production
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
 
 document.getElementById("loginForm").addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -21,7 +22,7 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
         }
 
         alert("Login successful!");
-        window.location.href = "../juiceApp.html";
+        window.location.href = "/juiceApp.html";
     } catch (error) {
         console.error("Error during login:", error);
         document.getElementById("errorMessage").style.display = "block";

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const juiceFill = document.getElementById("juice-fill");
 
     // Determine if running locally or in production
-    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
 
     // Ingrediensdata med emojis
     const ingredientEmojis = {
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateTotalPercentage();
     } catch (error) {
         console.error("Error fetching ingredients:", error);
-        alert("An error occurred while loading ingredients. Please log in to and try again");
+        alert("An error occurred while loading ingredients. Please log in and try again.");
     }
 
 

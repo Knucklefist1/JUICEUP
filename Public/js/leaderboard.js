@@ -1,5 +1,5 @@
 // Determine if running locally or in production
-const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
 
 // Function to load juices from the database
 async function loadJuicesFromDatabase() {
@@ -140,7 +140,7 @@ function getRandomColor() {
 // Function to handle voting
 async function vote(createNow, juiceId) {
     try {
-        const response = await fetch(`${baseUrl}/vote`, {
+        const response = await fetch(`${baseUrl}/api/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

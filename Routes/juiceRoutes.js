@@ -10,6 +10,7 @@ router.post("/juice/add", ensureAuthenticated, juiceController.addJuice);
 
 // Route to serve the createNow.html page - only accessible if logged in
 router.get("/create", ensureAuthenticated, (req, res) => {
+  // Make sure to serve this file over HTTPS when in production
   res.sendFile(path.join(__dirname, '../Public', 'createNow.html'));
 });
 

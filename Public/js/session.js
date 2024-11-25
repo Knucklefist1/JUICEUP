@@ -1,26 +1,15 @@
-// Check if a user is logged in and display their name if so
-function checkLoginStatus() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.loggedIn) {
-        const userNameDisplay = document.getElementById("userNameDisplay");
-        if (userNameDisplay) {
-            userNameDisplay.textContent = `Welcome, ${user.firstName}`;
-            userNameDisplay.style.fontWeight = "bold";
-            userNameDisplay.style.color = "#000";
-        }
-    }
-}
-
-
 document.addEventListener("DOMContentLoaded", () => {
+    // Determine if running locally or in production
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
+
     const authButton = document.getElementById("authButton");
     const userNameDisplay = document.getElementById("userNameDisplay");
 
     // Function to check session status
     function checkSession() {
-        fetch('/check-session', {
+        fetch(`${baseUrl}/check-session`, {
             method: 'GET',
-            credentials: 'include' // Ensure cookies are sent with request
+            credentials: 'include' // Ensure cookies are sent with the request
         })
         .then(response => response.json())
         .then(data => {
@@ -32,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Display user's first name if available
                 if (data.username) {
                     userNameDisplay.textContent = `Welcome, ${data.username}`;
+                    userNameDisplay.style.fontWeight = "bold";
+                    userNameDisplay.style.color = "#000";
                 }
             } else {
                 // If user is not logged in, show "Login"
@@ -47,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to handle logout
     function handleLogout() {
-        fetch('/logout', {
+        fetch(`${baseUrl}/logout`, {
             method: 'POST',
             credentials: 'include' // Ensure cookies are sent with request
         })
@@ -72,13 +63,5 @@ document.addEventListener("DOMContentLoaded", () => {
     checkSession();
 });
 
-
-// Logout function to clear session and redirect to signup/login page
-function logout() {
-    localStorage.removeItem("user");
-    window.location.href = "/Src/Public/signup.html";
-}
-
-// Call checkLoginStatus on every page load
+// Call checkLoginStatus on every page load to update the UI accordingly
 document.addEventListener("DOMContentLoaded", checkLoginStatus);
-

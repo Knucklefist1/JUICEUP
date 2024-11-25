@@ -6,6 +6,7 @@ const {
   dbName,
   dbEncrypt,
   dbTrustServerCertificate,
+  nodeEnv
 } = require('./envConfig'); // Import environment variables from envConfig.js
 
 // Configuration settings
@@ -23,7 +24,14 @@ const config = {
 // Connect to the database
 async function connectToDatabase() {
   try {
-    console.log('Database configuration:', config); // Log config for debugging
+    if (nodeEnv !== 'production') {
+      console.log('Database connection configuration:', {
+        user: config.user,
+        server: config.server,
+        database: config.database,
+        options: config.options
+      }); // Log partial config for debugging
+    }
     await sql.connect(config);
     console.log('Connected to the database!');
   } catch (err) {

@@ -1,10 +1,9 @@
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const config = require("../Config/Database");
-const sendConfirmationEmail = require("../Public/js/EmailService"); // Importér EmailService
+const sendConfirmationEmail = require("../Public/js/EmailService"); // Import EmailService
 
 // Signup Function
-
 exports.signupUser = async (req, res) => {
   const { username, email, password, phone_number } = req.body; // Added phone_number
   try {
@@ -44,7 +43,7 @@ exports.signupUser = async (req, res) => {
     const textMsg = `Hello ${username},\n\nThank you for signing up with JuiceApp. Enjoy our services!`;
     const htmlMsg = `<h1>Welcome, ${username}!</h1><p>Thank you for signing up with JuiceApp. Enjoy our services!</p>`;
 
-    sendConfirmationEmail(email, subjectMsg, textMsg, htmlMsg);
+    await sendConfirmationEmail(email, subjectMsg, textMsg, htmlMsg);
 
     res.status(201).json({ message: "User created and logged in successfully!" });
   } catch (err) {
@@ -52,7 +51,6 @@ exports.signupUser = async (req, res) => {
     res.status(500).json({ error: "An error occurred during sign-up." });
   }
 };
-
 
 // Login Function
 exports.loginUser = async (req, res) => {
@@ -79,28 +77,28 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: "An error occurred during login." });
   }
 };
+
+// Logout Function
 exports.logoutUser = (req, res) => {
-  console.log("Logout endpoint called");
-  console.log("Session before destruction:", req.session);
-
   req.session.destroy(err => {
-      if (err) {
-          console.error("Error during logout:", err);
-          return res.status(500).json({ error: "An error occurred during logout." });
-      }
+    if (err) {
+      console.error("Error during logout:", err);
+      return res.status(500).json({ error: "An error occurred during logout." });
+    }
 
-      // Clear the session cookie
-      res.clearCookie("connect.sid", {
-          path: "/",        // Must match the path from express-session
-          httpOnly: true,   // Match with the httpOnly setting in express-session
-          secure: false     // Must match the secure setting (true if HTTPS, false if HTTP)
-      });
+    // Clear the session cookie
+    res.clearCookie("connect.sid", {
+      path: "/",
+      httpOnly: true,
+      secure: true, // Set to true for HTTPS-only
+      sameSite: "Strict", // SameSite setting for increased security
+    });
 
-    console.log("Logout successful, session destroyed.");
     res.status(200).json({ message: "Logout successful" });
   });
 };
 
+// Get User Profile
 exports.getProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -131,9 +129,7 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-
-
-// Update user email
+// Update Email Function
 exports.updateEmail = async (req, res) => {
   const { email } = req.body;
   const userId = req.session.userId;
@@ -169,6 +165,7 @@ exports.updateEmail = async (req, res) => {
   }
 };
 
+// Update Password Function
 exports.updatePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   const userId = req.session.userId;

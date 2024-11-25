@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     // Determine if running locally or in production
-    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
 
     try {
         // Fetch the user profile data
@@ -35,7 +35,7 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
     const newEmail = document.getElementById("newEmail").value;
 
     try {
-        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
         const response = await fetch(`${baseUrl}/profile/email`, {
             method: "PUT",
             headers: {
@@ -73,7 +73,7 @@ document.getElementById("updatePasswordForm").addEventListener("submit", async (
     }
 
     try {
-        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://164.92.247.82:3000';
+        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
         const response = await fetch(`${baseUrl}/profile/password`, {
             method: "PUT",
             headers: {

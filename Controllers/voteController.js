@@ -1,4 +1,3 @@
-// voteController.js
 const sql = require("mssql");
 const config = require("../Config/Database"); // Import the database connection
 
@@ -24,7 +23,7 @@ async function addVote(req, res) {
     `);
 
     if (existingVote.recordset.length > 0) {
-      return res.status(400).send("You have already voted for this juice.");
+      return res.status(400).json({ error: "You have already voted for this juice." });
     }
 
     // Insert vote into the database
@@ -35,14 +34,20 @@ async function addVote(req, res) {
 
     // Update vote count in Juice table
     const updatedVoteCount = await request.query(`
-      UPDATE Juice SET votes = votes + 1 WHERE juice_id = @juice_id
-      SELECT votes FROM Juice WHERE juice_id = @juice_id
+      UPDATE Juice 
+      SET votes = votes + 1 
+      OUTPUT inserted.votes 
+      WHERE juice_id = @juice_id
     `);
+
+    if (updatedVoteCount.rowsAffected[0] === 0) {
+      return res.status(404).json({ error: "Juice not found" });
+    }
 
     res.status(201).json({ updatedVotes: updatedVoteCount.recordset[0].votes });
   } catch (err) {
     console.error("Error creating vote:", err);
-    res.status(500).send("An error occurred while creating the vote.");
+    res.status(500).json({ error: "An error occurred while creating the vote." });
   }
 }
 

@@ -3,8 +3,13 @@ function ensureAuthenticated(req, res, next) {
     // User is logged in, proceed to the next middleware
     return next();
   } else {
-    // User is not logged in
-    return res.redirect("/login.html"); // Only redirect if it's a page that needs to be protected
+    if (req.accepts('html')) {
+      // If the request expects HTML, redirect to login page
+      return res.redirect("/login.html");
+    } else {
+      // If the request expects JSON (e.g., an API call), respond with 401
+      return res.status(401).json({ error: "Unauthorized. Please log in." });
+    }
   }
 }
 
