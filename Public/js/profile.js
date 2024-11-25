@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
         document.getElementById("username").textContent = data.username;
         document.getElementById("email").textContent = data.email;
-        document.getElementById("phoneNumber").textContent = data.phone_number; // Added line to update phone number
+        document.getElementById("phoneNumber").textContent = data.phone_number;
         document.getElementById("createdAt").textContent = new Date(data.created_at).toLocaleString();
     } catch (error) {
         console.error("Error loading profile:", error);
@@ -35,7 +35,7 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
     const newEmail = document.getElementById("newEmail").value;
 
     try {
-        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
+        // Use the already defined `baseUrl` variable
         const response = await fetch(`${baseUrl}/profile/email`, {
             method: "PUT",
             headers: {
@@ -73,7 +73,7 @@ document.getElementById("updatePasswordForm").addEventListener("submit", async (
     }
 
     try {
-        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://joejuicecompetition.live';
+        // Use the already defined `baseUrl` variable
         const response = await fetch(`${baseUrl}/profile/password`, {
             method: "PUT",
             headers: {

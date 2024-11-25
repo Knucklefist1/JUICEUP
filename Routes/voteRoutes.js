@@ -1,3 +1,4 @@
+// voteRoutes.js
 const express = require("express");
 const voteController = require("../Controllers/voteController"); // Import the controller
 const ensureAuthenticated = require("../Middleware/middleware"); // Import middleware
