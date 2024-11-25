@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateTotalPercentage();
     } catch (error) {
         console.error("Error fetching ingredients:", error);
-        alert("An error occurred while loading ingredients. Please try again later.");
+        alert("An error occurred while loading ingredients. Please log in to and try again");
     }
 
     const form = document.getElementById("juiceForm");
