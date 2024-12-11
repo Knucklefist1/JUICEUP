@@ -145,8 +145,8 @@ async function vote(createNow, juiceId) {
             headers: {
                 "Content-Type": "application/json"
             },
-            credentials: "include", // Include credentials for session
-            body: JSON.stringify({ juice_id: juiceId }) // Send juice ID in the request body
+            credentials: "include",
+            body: JSON.stringify({ juice_id: juiceId })
         });
 
         if (!response.ok) {
@@ -154,19 +154,16 @@ async function vote(createNow, juiceId) {
             throw new Error(`Failed to vote: ${errorText}`);
         }
 
-        // Assuming the backend returns the updated vote count in JSON response
         const result = await response.json();
-        document.getElementById(`votes-${createNow}`).textContent = result.updatedVotes; // Update the vote count
+        document.getElementById(`votes-${createNow}`).textContent = result.updatedVotes;
         console.log(`Vote registered. New vote count: ${result.updatedVotes}`);
-
-        // Update leaderboard and podium after voting
         updateLeaderboard();
         displayJuices();
     } catch (error) {
         console.error("Error voting for juice:", error);
-        alert("An error occurred while voting. You may have already voted.");
     }
 }
+
 
 // Initialize leaderboard
 document.addEventListener("DOMContentLoaded", () => {
