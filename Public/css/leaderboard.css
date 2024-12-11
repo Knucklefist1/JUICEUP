@@ -1,10 +1,11 @@
 /* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+    background: linear-gradient(135deg, #ff6cb4, #a6c1ee);
     color: #444;
     margin: 0;
     padding: 0;
+
 }
 
 /* Header and Navigation Styles */
@@ -83,15 +84,23 @@ main {
     max-width: 1000px;
     width: 100%;
     text-align: center;
-    margin-top: 40px;
+    padding-top: 0; /* Adjust this value to move the title up */
 }
 
-h1 {
-    font-size: 3em;
-    color: #ff4081;
-    margin-bottom: 40px;
+/* New Juice Leaderboard Title Styling */
+#leaderboard-title {
+    position: relative;
+    top: -20px; /* Adjust this value to move the title up */
+    font-size: 48px; /* Large font size for emphasis */
+    font-weight: 700; /* Bold for importance */
+    color: #000000; /* Eye-catching pink color */
+    letter-spacing: 2px; /* Spaced out letters for elegance */
+    margin-bottom: 30px; /* Space below the title */
+    margin-top: 5px;
+    font-family: 'Arial', sans-serif; /* Clean and modern font */
+    background-clip: text;
+    -webkit-background-clip: text;
 }
-
 /* Podium Container */
 .podium-container {
     display: flex;
