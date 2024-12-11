@@ -42,7 +42,7 @@
             <div class="input-group">
                 <label>
                     <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
-                    I accept the <a href="terms.html" target="_blank">terms and conditions</a>
+                    I accept the <a href="#" id="termsLink">terms and conditions</a>
                 </label>
             </div>
             <button type="submit" class="btn">Sign Up</button>
@@ -56,10 +56,38 @@
         <p id="errorMessage" style="display:none; color: red; margin-top: 20px;"></p>
     </div>
 
+    <!-- Terms and Conditions Modal -->
+    <div id="termsModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeTermsModal">&times;</span>
+            <h2>Terms and Conditions</h2>
+            <p>Your privacy is important to us. By participating, you agree to share your submission details with Joe & The Juice for the purpose of this competition. We will not share your personal information with third parties without your consent. Entries may be used in marketing and promotional material. By entering, you agree to allow Joe & The Juice to showcase your submission and, if selected, use your recipe as part of our offerings. For more information, please review our Privacy Policy.</p>
+        </div>
+    </div>
+
     <script src="js/session.js"></script>
     <script src="js/signup.js"></script>
     <script src="js/logout.js"></script>
     <script src="/js/measureRTT.js"></script>
+    <script>
+        // Show terms modal
+        document.getElementById("termsLink").addEventListener("click", function (event) {
+            event.preventDefault();
+            document.getElementById("termsModal").style.display = "block";
+        });
+
+        // Close terms modal
+        document.getElementById("closeTermsModal").addEventListener("click", function () {
+            document.getElementById("termsModal").style.display = "none";
+        });
+
+        // Close modal if clicking outside of the content
+        window.addEventListener("click", function (event) {
+            if (event.target === document.getElementById("termsModal")) {
+                document.getElementById("termsModal").style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>
