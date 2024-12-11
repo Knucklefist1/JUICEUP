@@ -137,7 +137,7 @@ function getRandomColor() {
     return color;
 }
 
-// Function to handle voting
+//vote funktion
 async function vote(createNow, juiceId) {
     try {
         const response = await fetch(`${baseUrl}/api/vote`, {
@@ -150,19 +150,28 @@ async function vote(createNow, juiceId) {
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Failed to vote: ${errorText}`);
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const errorData = await response.json();
+                alert(errorData.error || "An error occurred.");
+            } else {
+                alert(`Unexpected error: ${response.statusText}`);
+            }
+            return;
         }
 
         const result = await response.json();
         document.getElementById(`votes-${createNow}`).textContent = result.updatedVotes;
         console.log(`Vote registered. New vote count: ${result.updatedVotes}`);
+
         updateLeaderboard();
         displayJuices();
     } catch (error) {
         console.error("Error voting for juice:", error);
+        alert("An error occurred while voting.");
     }
 }
+
 
 
 // Initialize leaderboard

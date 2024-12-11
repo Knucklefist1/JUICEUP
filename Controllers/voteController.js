@@ -7,13 +7,15 @@ async function addVote(req, res) {
   const user_id = req.session.userId; // Get user ID from session
 
   if (!user_id) {
+    console.log("Unauthorized request. User ID is missing."); // Debugging
     return res.status(401).json({ error: "Unauthorized. Please log in to vote." });
   }
 
   try {
-    // Connect to the database
     await sql.connect(config);
     const request = new sql.Request();
+
+    console.log("Checking if user has already voted:", { user_id, juice_id }); // Debugging
 
     // Check if the user has already voted for this juice
     request.input("user_id", sql.Int, user_id);
@@ -23,6 +25,7 @@ async function addVote(req, res) {
     `);
 
     if (existingVote.recordset.length > 0) {
+      console.log("User has already voted:", existingVote.recordset); // Debugging
       return res.status(400).json({ error: "You have already voted for this juice." });
     }
 
@@ -41,14 +44,16 @@ async function addVote(req, res) {
     `);
 
     if (updatedVoteCount.rowsAffected[0] === 0) {
+      console.log("Juice not found for voting."); // Debugging
       return res.status(404).json({ error: "Juice not found" });
     }
 
     res.status(201).json({ updatedVotes: updatedVoteCount.recordset[0].votes });
   } catch (err) {
-    console.error("Error creating vote:", err);
+    console.error("Error creating vote:", err); // Debugging
     res.status(500).json({ error: "An error occurred while creating the vote." });
   }
 }
 
 module.exports = { addVote };
+

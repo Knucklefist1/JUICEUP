@@ -1,14 +1,13 @@
 function ensureAuthenticated(req, res, next) {
+  console.log("Session User ID:", req.session.userId); // Add this for debugging
+
   if (req.session && req.session.userId) {
-    // User is logged in, proceed to the next middleware
     return next();
   } else {
-    if (req.accepts('html')) {
-      // If the request expects HTML, redirect to login page
-      return res.redirect("/login.html");
+    if (req.originalUrl.startsWith('/api/')) {
+      return res.status(401).json({ error: "Log in or sign up in order to vote or create a juice." });
     } else {
-      // If the request expects JSON (e.g., an API call), respond with 401
-      return res.status(401).json({ error: "Unauthorized. Please log in." });
+      return res.redirect("/login.html");
     }
   }
 }

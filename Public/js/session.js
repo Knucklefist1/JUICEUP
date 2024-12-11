@@ -1,62 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Determine if running locally or in production
     const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
-
+    const profileTab = document.getElementById("profileTab"); // Select the "MY PROFILE" tab
     const authButton = document.getElementById("authButton");
-    const userNameDisplay = document.getElementById("userNameDisplay");
 
     // Function to check session status
     function checkSession() {
         fetch(`${baseUrl}/check-session`, {
-            method: 'GET',
-            credentials: 'include' // Ensure cookies are sent with the request
+            method: "GET",
+            credentials: "include", // Include cookies for session
         })
         .then(response => response.json())
         .then(data => {
             if (data.isLoggedIn) {
-                // If user is logged in, show "Logout" and user's name
+                // User is logged in
+                profileTab.style.display = "inline"; // Show the "MY PROFILE" tab
                 authButton.textContent = "LOGOUT";
                 authButton.onclick = handleLogout;
-
-                // Display user's first name if available
-                if (data.username) {
-                    userNameDisplay.textContent = `Welcome, ${data.username}`;
-                    userNameDisplay.style.fontWeight = "bold";
-                    userNameDisplay.style.color = "#000";
-                }
             } else {
-                // If user is not logged in, show "Login"
+                // User is not logged in
+                profileTab.style.display = "none"; // Hide the "MY PROFILE" tab
                 authButton.textContent = "LOGIN";
                 authButton.onclick = handleLogin;
-                userNameDisplay.textContent = ""; // Clear username display
             }
         })
         .catch(err => {
-            console.error('Error checking session:', err);
+            console.error("Error checking session:", err);
         });
     }
 
     // Function to handle logout
     function handleLogout() {
         fetch(`${baseUrl}/logout`, {
-            method: 'POST',
-            credentials: 'include' // Ensure cookies are sent with request
+            method: "POST",
+            credentials: "include",
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = 'login.html';
+                window.location.href = "login.html";
             } else {
-                alert('Logout failed');
+                alert("Logout failed.");
             }
         })
         .catch(err => {
-            console.error('Error during logout:', err);
+            console.error("Error during logout:", err);
         });
     }
 
-    // Function to handle login (redirect to login page)
+    // Function to handle login
     function handleLogin() {
-        window.location.href = 'login.html';
+        window.location.href = "login.html";
     }
 
     // Check the session on page load

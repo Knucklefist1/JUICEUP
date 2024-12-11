@@ -89,7 +89,7 @@ app.use("/", apiRoutes);
 app.use("/", ingredientsRoutes);
 app.use("/", juiceIngredientRoutes);
 app.use("/", juiceRoutes);
-app.use("/", voteRoutes);
+app.use("/api", voteRoutes);
 app.use("/", userRoutes);
 app.use("/api/juice", juiceRoutes);
 app.use("/api/cloudinary", cloudinaryRoutes);

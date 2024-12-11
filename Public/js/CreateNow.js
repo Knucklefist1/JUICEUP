@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateTotalPercentage();
     } catch (error) {
         console.error("Error fetching ingredients:", error);
-        alert("An error occurred while loading ingredients. Please log in and try again.");
+        alert("Log in or sign up in order to create a juice.");
     }
 
 
