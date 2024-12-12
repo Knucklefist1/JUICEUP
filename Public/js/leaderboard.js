@@ -80,7 +80,8 @@ async function updateLeaderboard() {
 
         podiumItem.innerHTML = `
             <div class="avatar ${ranks[index]}"></div>
-            <p>${juice.creator}</p>
+            <p class="juice-name">${juice.name}</p> <!-- Add juice name here -->
+            <p>Creator: ${juice.creator}</p>
             <p>Description: ${juice.description}</p>
             <p>Votes: <span id="votes-podium-${index}">${juice.votes}</span></p>
             <button class="vote-button" onclick="vote(${index}, ${juice.id})">Vote</button>

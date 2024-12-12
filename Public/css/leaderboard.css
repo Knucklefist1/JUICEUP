@@ -229,3 +229,10 @@ main {
 .fade-in {
     animation: fadeIn 0.5s ease-in-out;
 }
+
+.podium-item .juice-name {
+    font-size: 1.2em; /* Adjust the font size if needed */
+    font-weight: bold; /* Make it bold */
+    color: #ff4081; /* Pink color */
+    margin: 10px 0; /* Add some spacing around the juice name */
+}
