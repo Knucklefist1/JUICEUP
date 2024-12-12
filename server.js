@@ -25,7 +25,8 @@ app.use(session({
     httpOnly: true,
     secure: isProduction, // Ensure cookies are only sent over HTTPS in production
     path: '/',
-    maxAge: 1000 * 60 * 30
+    maxAge: 1000 * 60 * 30,
+    sameSite: 'Lax'
   }
 }));
 
