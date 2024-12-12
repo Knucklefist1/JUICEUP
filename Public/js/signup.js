@@ -43,7 +43,8 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
+        credentials: 'include' // Ensures cookies are sent and received
     })
     .then(response => {
         if (response.ok) {

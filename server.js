@@ -22,13 +22,13 @@ app.use(session({
   saveUninitialized: false,
   name: 'connect.sid',
   cookie: {
-    httpOnly: true,
-    secure: isProduction, // Ensure cookies are only sent over HTTPS in production
-    path: '/',
-    maxAge: 1000 * 60 * 30,
-    sameSite: 'Lax'
+    httpOnly: true, // Prevents JavaScript access
+    secure: isProduction, // Only set to true if using HTTPS in production
+    sameSite: 'Lax', // Adjust to 'None' if cookies need to be sent across domains
+    maxAge: 1000 * 60 * 30 // 30 minutes
   }
 }));
+
 
 // CORS configuration - Adjusted to allow multiple origins
 const allowedOrigins = [
@@ -39,18 +39,13 @@ const allowedOrigins = [
 
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigins,
+  credentials: true, // Allow cookies to be sent
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
 };
 app.use(cors(corsOptions));
+
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'Public')));
