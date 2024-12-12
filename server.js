@@ -56,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'Public')));
 
 // Add a route to serve the homepage or redirect to a relevant page
 app.get('/', (req, res) => {
-  res.redirect('/login.html'); // Redirect to login page, or you can serve a specific homepage if available
+  res.redirect('/juiceApp.html'); // Redirect to login page, or you can serve a specific homepage if available
 });
 
 // Routes setup
