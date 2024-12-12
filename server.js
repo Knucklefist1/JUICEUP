@@ -122,3 +122,14 @@ app.post('/logout', (req, res) => {
     res.status(200).send('Logged out successfully');
   });
 });
+
+if (isProduction) {
+  app.use((req, res, next) => {
+    if (!req.secure && req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect('https://' + req.headers.host + req.url);
+    }
+    next();
+  });
+}
+
+app.set('trust proxy', 1); // Trust the reverse proxy
