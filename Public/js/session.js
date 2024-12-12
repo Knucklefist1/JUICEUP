@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const authButton = document.getElementById("authButton");
     const userNameDisplay = document.getElementById("userNameDisplay");
     const profileTab = document.getElementById("profileTab");
+    const buttonContainer = document.getElementById("button-container"); // Add this for dynamic button rendering
 
     // Function to check session status
     function checkSession() {
@@ -33,6 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (profileTab) {
                     profileTab.style.display = "inline"; // Make sure it's visible
                 }
+
+                // Show "Create Now" button
+                if (buttonContainer) {
+                    buttonContainer.innerHTML = `
+                        <button class="order-btn" onclick="window.location.href='createNow.html'">CREATE NOW</button>
+                    `;
+                }
             } else {
                 // If user is not logged in
                 if (authButton) {
@@ -47,10 +55,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (profileTab) {
                     profileTab.style.display = "none"; // Hide profile tab
                 }
+
+                // Show "Sign Up" button
+                if (buttonContainer) {
+                    buttonContainer.innerHTML = `
+                        <button class="order-btn" onclick="window.location.href='signup.html'">SIGN UP TO CREATE</button>
+                    `;
+                }
             }
         })
         .catch(err => {
             console.error('Error checking session:', err);
+
+            // Default to showing the "Sign Up" button on error
+            if (buttonContainer) {
+                buttonContainer.innerHTML = `
+                    <button class="order-btn" onclick="window.location.href='signup.html'">SIGN UP TO CREATE</button>
+                `;
+            }
         });
     }
 
