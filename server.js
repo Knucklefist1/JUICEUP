@@ -6,9 +6,7 @@ const path = require("path");
 const { connectToDatabase } = require('./Config/Database'); // Use the centralized database connection
 const ensureAuthenticated = require('./Middleware/middleware'); 
 const cloudinaryRoutes = require('./Routes/cloudinaryRoutes');
-const RedisStore = require('connect-redis')(session);
-const Redis = require('ioredis');
-const redisClient = new Redis();
+
 
 const app = express();
 
@@ -20,15 +18,15 @@ const BASE_URL = isProduction ? 'https://www.joejuicecompetition.live' : 'http:/
 
 // Session middleware
 app.use(session({
-  store: new RedisStore({ client: redisClient }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  name: 'connect.sid',
   cookie: {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: 'None', // Required for cross-origin cookies
-      maxAge: 1000 * 60 * 30, // 30 minutes
+    httpOnly: true, // Prevents JavaScript access
+    secure: isProduction, // Only set to true if using HTTPS in production
+    sameSite: 'Lax', // Adjust to 'None' if cookies need to be sent across domains
+    maxAge: 1000 * 60 * 30 // 30 minutes
   }
 }));
 
@@ -135,4 +133,4 @@ if (isProduction) {
   });
 }
 
-app.set('trust proxy', 1); // Trust the reverse proxy
+
