@@ -1,6 +1,6 @@
 async function measureRTT() {
     const start = Date.now();
-    await fetch('https://www.joejuicecompetition.live'); // Change to your actual endpoint using HTTPS
+    await fetch('https://www.joejuicecompetition.live'); 
     const end = Date.now();
     return end - start;
 }
