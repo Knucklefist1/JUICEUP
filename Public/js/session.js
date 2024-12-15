@@ -102,3 +102,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Kontrollerer sessionen, når siden indlæses
     checkSession();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const cookieBanner = document.getElementById("cookie-banner");
+    const acceptCookiesButton = document.getElementById("accept-cookies");
+  
+    // Tjek om brugeren allerede har accepteret cookies
+    if (localStorage.getItem("cookiesAccepted")) {
+      cookieBanner.style.display = "none";
+    }
+  
+    // Hvis brugeren klikker på "Accepter"
+    acceptCookiesButton.addEventListener("click", () => {
+      localStorage.setItem("cookiesAccepted", "true");
+      cookieBanner.style.display = "none";
+    });
+  });
+  

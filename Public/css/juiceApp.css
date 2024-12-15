@@ -159,3 +159,41 @@ ul li a:hover {
         height: 40px; /* Mindre logo på små skærme */
     }
 }
+
+/* Cookie Banner Styling */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .cookie-banner a {
+    color: #ff69b4;
+    text-decoration: underline;
+  }
+  
+  .cookie-banner button {
+    background-color: #ff69b4;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .cookie-banner button:hover {
+    background-color: #e03970;
+  }
+  
