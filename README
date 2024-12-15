@@ -10,13 +10,19 @@ NODE_ENV=development  # Set to "production" when running on the server
 # Server Port
 BASE_URL = http://localhost:3000
 PORT=3000
+
+Dette hører til Database.js
 DB_USER=Adminforjuiceapp
 DB_PASSWORD=JuiceappCBS69
 DB_SERVER=juiceapp123.database.windows.net
 DB_NAME=JUICEAPPDATABASE
 DB_ENCRYPT=true
 DB_TRUST_SERVER_CERT=false
+
+
+Dette skal indsættes i cloudinaryConfig.js
 CLOUDINARY_CLOUD_NAME=din_cloud_name
 CLOUDINARY_API_KEY=345322197213485
 CLOUDINARY_SECRET=FkH0gQaYt804fJymtA09ZwL_D8
 
+Begge er forbundet med envConfig.js
