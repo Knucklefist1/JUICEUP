@@ -1,9 +1,12 @@
+
+/* Nulstil basisstilarter */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}/* General Styling */
+}
 
+/* General Styling */
 body {
     font-family: Poppins, sans-serif;
     color: #333;
@@ -13,7 +16,7 @@ body {
     flex-direction: column;
 }
 
-/* Header and Navigation Styles */
+/* Header og navigation */
 header {
     width: 100%;
     background-color: #fff;
@@ -29,7 +32,7 @@ nav {
     padding: 15px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* Afstand mellem links */
 }
 
 .logo img {
@@ -51,7 +54,7 @@ ul li a {
 }
 
 ul li a:hover {
-    color: #ff4081;
+    color: #ff4081; /* Lyserød hover-effekt */
 }
 .user-options {
     display: flex;
@@ -73,16 +76,16 @@ ul li a:hover {
 }
 
 #authButton:hover {
-    background-color: #e03970; /* Darker pink when hovered */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
+    background-color: #e03970; 
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /*  shadow effekt */
 }
 
-/* Main layout */
+/* Hovedlayout */
 .create-juice-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 120px 40px 40px; /* Adjusted for fixed header */
+    padding: 120px 40px 40px; /* Plads til fast header */
     flex: 1;
 }
 
@@ -100,6 +103,7 @@ ul li a:hover {
     border-radius: 10px;
 }
 
+/* Formularsektion */
 .form-section {
     flex: 1;
     background-color: #fff;
@@ -127,7 +131,7 @@ ul li a:hover {
     margin-bottom: 10px;
 }
 
-/* Styling for Juice Name label */
+/* Styling for juice-navn */
 #juiceForm label[for="juiceName"] {
     font-size: 16px;
     color: #333;
@@ -135,7 +139,6 @@ ul li a:hover {
     margin-top: 10px;
 }
 
-/* Styling for Juice Name input field */
 #juiceName {
     padding: 10px;
     width: 100%;

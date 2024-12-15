@@ -1,32 +1,32 @@
-// Determine if running locally or in production
+// Bestemmer om applikationen kører lokalt eller i produktion
 const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
 
-// Function to load juices from the database
+// Funktion til at hente juices fra databasen
 async function loadJuicesFromDatabase() {
     try {
         const response = await fetch(`${baseUrl}/api/juice/getAll`);
-        if (!response.ok) throw new Error("Failed to fetch juices from database");
+        if (!response.ok) throw new Error("Kunne ikke hente juices fra databasen");
 
         const juices = await response.json();
-        console.log("Juices fetched:", juices); // Log the fetched data for debugging
+        console.log("Juices hentet:", juices); // Logger de hentede data til debugging
         return juices;
     } catch (error) {
-        console.error("Error fetching juices:", error);
+        console.error("Fejl ved hentning af juices:", error);
         return [];
     }
 }
 
-// Function to display juices on the leaderboard
+// Funktion til at vise juices på leaderboardet
 async function displayJuices() {
     const juices = await loadJuicesFromDatabase();
 
     if (!Array.isArray(juices) || juices.length === 0) {
-        console.error("No juices found or data is not in the correct format");
+        console.error("Ingen juices fundet, eller data er ikke i det korrekte format");
         return;
     }
 
     const juicesList = document.getElementById("juices-list");
-    juicesList.innerHTML = ""; // Clear previous entries
+    juicesList.innerHTML = ""; // Ryd tidligere entries
 
     juices.forEach((juice, index) => {
         const juiceItem = document.createElement("div");
@@ -34,45 +34,45 @@ async function displayJuices() {
 
         const ingredientsList = juice.ingredients
             .map(ingredient => `<li>${ingredient.name}: ${ingredient.quantity}%</li>`)
-            .join(""); // Use 'quantity' as fetched from the backend
+            .join(""); // Bruger 'quantity', som hentes fra backenden
 
-        // Create a unique ID for each chart
+        // Opretter et unikt ID til hvert diagram
         const chartId = `ingredientsChart-${index}`;
 
         juiceItem.innerHTML = `
             <h3>${juice.name}</h3>
-            <p>Created by: ${juice.creator}</p>
-            <p>Description: ${juice.description}</p>
-            <p>Votes: <span id="votes-${index}">${juice.votes}</span></p>
-            <button class="vote-button" onclick="vote(${index}, ${juice.id})">Vote</button>
-            <h4>Ingredients:</h4>
+            <p>Skabt af: ${juice.creator}</p>
+            <p>Beskrivelse: ${juice.description}</p>
+            <p>Stemmer: <span id="votes-${index}">${juice.votes}</span></p>
+            <button class="vote-button" onclick="vote(${index}, ${juice.id})">Stem</button>
+            <h4>Ingredienser:</h4>
             <ul>${ingredientsList}</ul>
             <canvas id="${chartId}" width="200" height="200"></canvas>
         `;
         juicesList.appendChild(juiceItem);
 
-        // Create the pie chart for this juice
+        // Opretter cirkeldiagram for denne juice
         createIngredientsChart(chartId, juice.ingredients);
     });
 }
 
-// Function to update the leaderboard
+// Funktion til at opdatere leaderboardet
 async function updateLeaderboard() {
     const juices = await loadJuicesFromDatabase();
 
     if (!Array.isArray(juices) || juices.length === 0) {
-        console.error("No juices found or data is not in the correct format");
+        console.error("Ingen juices fundet, eller data er ikke i det korrekte format");
         return;
     }
 
-    // Sort juices by votes to get the top three juices
+    // Sorterer juices efter stemmer for at finde de tre bedste
     const sortedJuices = [...juices].sort((a, b) => b.votes - a.votes).slice(0, 3);
     const podium = document.getElementById("podium");
-    podium.innerHTML = ""; // Clear previous podium items
+    podium.innerHTML = ""; // Ryd tidligere podium-indhold
 
     const ranks = ["first", "second", "third"];
     sortedJuices.forEach((juice, index) => {
-        // Create a unique ID for each chart
+        // Opretter et unikt ID til hvert diagram
         const chartId = `podiumChart-${index}`;
 
         const podiumItem = document.createElement("div");
@@ -80,21 +80,21 @@ async function updateLeaderboard() {
 
         podiumItem.innerHTML = `
             <div class="avatar ${ranks[index]}"></div>
-            <p class="juice-name">${juice.name}</p> <!-- Add juice name here -->
-            <p>Creator: ${juice.creator}</p>
-            <p>Description: ${juice.description}</p>
-            <p>Votes: <span id="votes-podium-${index}">${juice.votes}</span></p>
-            <button class="vote-button" onclick="vote(${index}, ${juice.id})">Vote</button>
+            <p class="juice-name">${juice.name}</p> <!-- Tilføjer juicens navn -->
+            <p>Skaber: ${juice.creator}</p>
+            <p>Beskrivelse: ${juice.description}</p>
+            <p>Stemmer: <span id="votes-podium-${index}">${juice.votes}</span></p>
+            <button class="vote-button" onclick="vote(${index}, ${juice.id})">Stem</button>
             <canvas id="${chartId}" width="200" height="200"></canvas>
         `;
         podium.appendChild(podiumItem);
 
-        // Create the pie chart for this juice in the podium
+        // Opretter cirkeldiagram for denne juice på podiumet
         createIngredientsChart(chartId, juice.ingredients);
     });
 }
 
-// Function to create a pie chart using Chart.js
+// Funktion til at oprette cirkeldiagram ved hjælp af Chart.js
 function createIngredientsChart(chartId, ingredients) {
     const ctx = document.getElementById(chartId).getContext('2d');
     const labels = ingredients.map(ingredient => ingredient.name);
@@ -106,7 +106,7 @@ function createIngredientsChart(chartId, ingredients) {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: labels.map(() => getRandomColor()), // Assign a random color for each ingredient
+                backgroundColor: labels.map(() => getRandomColor()), // Tildeler tilfældige farver til hver ingrediens
                 borderWidth: 1
             }]
         },
@@ -128,7 +128,7 @@ function createIngredientsChart(chartId, ingredients) {
     });
 }
 
-// Helper function to generate random colors
+// Hjælpefunktion til at generere tilfældige farver
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -138,7 +138,7 @@ function getRandomColor() {
     return color;
 }
 
-//vote funktion
+// Funktion til at stemme på en juice
 async function vote(createNow, juiceId) {
     try {
         const response = await fetch(`${baseUrl}/api/vote`, {
@@ -154,28 +154,26 @@ async function vote(createNow, juiceId) {
             const contentType = response.headers.get("content-type");
             if (contentType && contentType.includes("application/json")) {
                 const errorData = await response.json();
-                alert(errorData.error || "An error occurred.");
+                alert(errorData.error || "Der opstod en fejl.");
             } else {
-                alert(`Unexpected error: ${response.statusText}`);
+                alert(`Uventet fejl: ${response.statusText}`);
             }
             return;
         }
 
         const result = await response.json();
         document.getElementById(`votes-${createNow}`).textContent = result.updatedVotes;
-        console.log(`Vote registered. New vote count: ${result.updatedVotes}`);
+        console.log(`Stem registreret. Nyt stemmetal: ${result.updatedVotes}`);
 
         updateLeaderboard();
         displayJuices();
     } catch (error) {
-        console.error("Error voting for juice:", error);
-        alert("An error occurred while voting.");
+        console.error("Fejl ved stemmeafgivelse:", error);
+        alert("Der opstod en fejl under stemmeafgivelsen.");
     }
 }
 
-
-
-// Initialize leaderboard
+// Initialiser leaderboardet
 document.addEventListener("DOMContentLoaded", () => {
     displayJuices();
     updateLeaderboard();

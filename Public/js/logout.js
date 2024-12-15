@@ -1,26 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
   const logoutButton = document.getElementById("logoutButton");
   if (logoutButton) {
+    // Tilføjer en event listener til logout-knappen, hvis den findes
     logoutButton.addEventListener("click", logout);
   }
 });
 
-// Determine if running locally or in production
+// Bestemmer om applikationen kører lokalt eller i produktion
 
 function logout() {
   fetch(`${baseUrl}/logout`, {
     method: 'POST',
-    credentials: 'include' // Ensures the session cookie is included
+    credentials: 'include' // Sikrer, at sessionens cookie inkluderes
   })
   .then(response => {
     if (response.ok) {
-      console.log("Logout request successful");
-      window.location.href = '/login.html'; // Redirect to login page after successful logout
+      console.log("Logout-forespørgsel gennemført"); // Logger succesfuld logout
+      window.location.href = '/login.html'; // Omdirigerer til login-siden efter logout
     } else {
-      console.error("Failed to log out");
+      console.error("Logout mislykkedes");
     }
   })
   .catch(error => {
-    console.error("Error during logout:", error);
+    console.error("Fejl under logout:", error); // Logger fejl, hvis noget går galt
   });
 }

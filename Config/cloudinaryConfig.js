@@ -1,16 +1,16 @@
 const cloudinary = require('cloudinary').v2;
-const { cloudinaryApiKey, cloudinarySecret, cloudinaryCloudName, nodeEnv } = require('./envConfig'); // Import environment variables
+const { cloudinaryApiKey, cloudinarySecret, cloudinaryCloudName, nodeEnv } = require('./envConfig'); // Importer miljøvariabler
 
-// Configure Cloudinary
+// Konfigurer Cloudinary
 cloudinary.config({
-  cloud_name: cloudinaryCloudName,
-  api_key: cloudinaryApiKey,
-  api_secret: cloudinarySecret,
+  cloud_name: cloudinaryCloudName, // Cloudinary cloud-navn
+  api_key: cloudinaryApiKey, // API-nøgle
+  api_secret: cloudinarySecret, // API-hemmelighed
 });
 
-// Log configuration for troubleshooting (Only in development environment)
+// Log konfiguration til fejlsøgning (kun i udviklingsmiljø)
 if (nodeEnv !== 'production') {
-  console.log('Cloudinary configured successfully');
+  console.log('Cloudinary konfigureret korrekt'); // Debug-log
 }
 
 module.exports = cloudinary;

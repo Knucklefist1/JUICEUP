@@ -1,153 +1,153 @@
-/* style.css */
-
+/* Nulstil basisstilarter */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', sans-serif; /* Standard skrifttype */
 }
 
+/* Generel body-styling */
 body {
-    display: flex;
+    display: flex; /* Centrerer indholdet */
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #f7b7da, #ff478d);
-    position: relative;
+    height: 100vh; /* Fylder hele skærmens højde */
+    background: linear-gradient(135deg, #f7b7da, #ff478d); /* Gradient baggrund */
+    position: relative; /* For absolut positionering af knapper */
 }
 
 /* HOME-knap styling */
 .home-btn {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #ff69b4;
-    color: #fff;
+    top: 20px; /* Placering fra toppen */
+    left: 20px; /* Placering fra venstre */
+    background-color: #ff69b4; /* Pink baggrund */
+    color: #fff; /* Hvid tekst */
     font-size: 16px;
     font-weight: bold;
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s; /* Glidende effekter */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Skyggeeffekt */
 }
 
 .home-btn:hover {
-    background-color: #ff478d;
-    transform: scale(1.05);
+    background-color: #ff478d; /* Mørkere pink ved hover */
+    transform: scale(1.05); /* Løft ved hover */
 }
 
 /* Modal styling */
 .modal {
-    text-align: center;
-    background-color: #ffffff;
-    border-radius: 12px;
+    text-align: center; /* Centrering af tekst */
+    background-color: #ffffff; /* Hvid baggrund */
+    border-radius: 12px; /* Runde hjørner */
     padding: 30px 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Skyggeeffekt */
+    max-width: 400px; /* Maksimal bredde */
+    width: 100%; /* Tilpas til containerens bredde */
     position: relative;
-    transition: transform 0.3s;
-    transform: translateY(10px);
+    transition: transform 0.3s; /* Glidende åbningseffekt */
+    transform: translateY(10px); /* Let løft ved visning */
 }
 
 .close-btn {
     position: absolute;
     top: 15px;
     right: 15px;
-    font-size: 24px;
+    font-size: 24px; /* Større lukknap */
     background: none;
     border: none;
     cursor: pointer;
-    color: #333;
+    color: #333; /* Mørk farve */
     font-weight: bold;
 }
 
 h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 24px; /* Størrelse på overskrift */
+    color: #333; /* Mørk tekstfarve */
+    margin-bottom: 20px; /* Afstand under overskriften */
     font-weight: bold;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Let skygge for dybde */
 }
 
 /* Formular styling */
 form {
-    display: flex;
+    display: flex; /* Vertikal opsætning */
     flex-direction: column;
-    gap: 15px;
+    gap: 15px; /* Afstand mellem felter */
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    text-align: left;
+    text-align: left; /* Venstrestillet tekst */
 }
 
 .input-group label {
-    margin-bottom: 5px;
-    font-size: 14px;
+    margin-bottom: 5px; /* Afstand under label */
+    font-size: 14px; /* Mindre skrifttype */
     color: #333;
     font-weight: bold;
 }
 
 .input-group input {
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid #ddd; /* Grå kant */
+    border-radius: 8px; /* Runde hjørner */
     font-size: 16px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s, box-shadow 0.3s; /* Glidende fokus-effekter */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05); /* Let skygge */
 }
 
 .input-group input:focus {
-    border-color: #ff69b4;
-    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.2);
+    border-color: #ff69b4; /* Pink kant ved fokus */
+    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.2); /* Pink skyggeeffekt */
     outline: none;
 }
 
 /* Fælles knap styling */
 .btn {
-    background-color: #ff69b4;
+    background-color: #ff69b4; /* Pink baggrund */
     border: none;
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
-    color: #ffffff;
+    color: #ffffff; /* Hvid tekst */
     cursor: pointer;
     border-radius: 8px;
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.4);
+    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.4); /* Lyserød skygge */
 }
 
 .btn:hover {
-    background-color: #ff478d;
-    transform: translateY(-3px);
-    box-shadow: 0px 8px 16px rgba(255, 71, 141, 0.5);
+    background-color: #ff478d; /* Mørkere pink ved hover */
+    transform: translateY(-3px); /* Løft ved hover */
+    box-shadow: 0px 8px 16px rgba(255, 71, 141, 0.5); /* Ekstra skygge ved hover */
 }
 
 /* Link styling */
 .link-text {
-    margin-top: 15px;
+    margin-top: 15px; /* Afstand fra knapper */
     font-size: 14px;
     color: #333;
 }
 
 .link-text a {
-    color: #ff69b4;
-    text-decoration: none;
+    color: #ff69b4; /* Pink links */
+    text-decoration: none; /* Fjern understregning */
     font-weight: bold;
     transition: color 0.3s;
 }
 
 .link-text a:hover {
-    color: #ff478d;
+    color: #ff478d; /* Mørkere pink ved hover */
 }
 
-/* Fejlmeddelelse */
+/* Fejl- og succesmeddelelser */
 #errorMessage, #successMessage {
     font-size: 14px;
-    color: red;
-    margin-top: 20px;
+    color: red; /* Fejlmeddelelser i rød */
+    margin-top: 20px; /* Afstand over beskeden */
 }

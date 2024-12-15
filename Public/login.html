@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+    <!-- Hjem-knap -->
     <button class="home-btn" onclick="window.location.href='juiceApp.html'">HOME</button>
 
+    <!-- Login-modal -->
     <div class="modal">
+        <!-- Luk-knap -->
         <button class="close-btn" onclick="window.location.href='JuiceApp.html'">&times;</button>
         <h1>Login to Your Account</h1>
+        <!-- Login-formular -->
         <form id="loginForm">
             <div class="input-group">
                 <label for="email">Email</label>
@@ -21,38 +25,39 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" autocomplete="current-password" required>
             </div>
-            <!-- Error message element -->
+            <!-- Fejlbesked -->
             <p id="errorMessage" style="display: none; color: red;">Invalid email or password.</p>
             <button type="submit" class="btn">Login</button>
         </form>
         
+        <!-- Registreringslink -->
         <p class="link-text">
             Don't have an account? <a href="signup.html">Sign up here</a>
         </p>
 
+        <!-- Autorisationsmodal -->
         <div id="authModal" class="modal" style="display: none;">
             <div class="modal-content">
-              <span class="close">&times;</span>
-              <p>You need to be logged in to create a juice.</p>
+                <span class="close">&times;</span>
+                <p>You need to be logged in to create a juice.</p>
             </div>
-          </div>
-          
+        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-          // Check if the URL has the 'error' query parameter
-          const urlParams = new URLSearchParams(window.location.search);
-          if (urlParams.has('error') && urlParams.get('error') === 'not_logged_in') {
-            alert('You need to be logged in to create a juice.');
-          }
+            // Tjek om URL'en indeholder 'error' parameteren
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error') && urlParams.get('error') === 'not_logged_in') {
+                alert('You need to be logged in to create a juice.');
+            }
         });
-      </script>
-        <script src="/js/login.js"></script>
-        <script src="js/logout.js"></script>
-        <script src="/js/session.js"></script>
-        <script src="/js/measureRTT.js"></script>
-
-      
+    </script>
+    
+    <!-- Eksterne scripts -->
+    <script src="/js/login.js"></script>
+    <script src="js/logout.js"></script>
+    <script src="/js/session.js"></script>
+    <script src="/js/measureRTT.js"></script>
 </body>
 </html>

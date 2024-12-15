@@ -1,62 +1,62 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Determine if running locally or in production
+    // Bestem om applikationen kører lokalt eller i produktion
     const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
 
     const authButton = document.getElementById("authButton");
     const userNameDisplay = document.getElementById("userNameDisplay");
     const profileTab = document.getElementById("profileTab");
-    const buttonContainer = document.getElementById("button-container"); // Add this for dynamic button rendering
+    const buttonContainer = document.getElementById("button-container"); // Tilføjet for dynamisk knapvisning
 
-    // Function to check session status
+    // Funktion til at kontrollere sessionens status
     function checkSession() {
         fetch(`${baseUrl}/check-session`, {
             method: 'GET',
-            credentials: 'include' // Ensure cookies are sent with the request
+            credentials: 'include' // Sikrer, at cookies sendes med forespørgslen
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Session Data:", data); // Debugging: log session data
+            console.log("Session Data:", data); // Debugging: logger session data
             if (data.isLoggedIn) {
-                // If user is logged in
+                // Hvis brugeren er logget ind
                 if (authButton) {
                     authButton.textContent = "LOGOUT";
                     authButton.onclick = handleLogout;
                 }
 
-                // Display user's first name if available
+                // Viser brugerens fornavn, hvis det findes
                 if (userNameDisplay && data.username) {
                     userNameDisplay.textContent = `Welcome, ${data.username}`;
                     userNameDisplay.style.fontWeight = "bold";
                     userNameDisplay.style.color = "#000";
                 }
 
-                // Ensure "MY PROFILE" tab is visible
+                // Sikrer, at "MY PROFILE"-fanen er synlig
                 if (profileTab) {
-                    profileTab.style.display = "inline"; // Make sure it's visible
+                    profileTab.style.display = "inline"; // Gør fanen synlig
                 }
 
-                // Show "Create Now" button
+                // Viser "Create Now"-knappen
                 if (buttonContainer) {
                     buttonContainer.innerHTML = `
                         <button class="order-btn" onclick="window.location.href='createNow.html'">CREATE NOW</button>
                     `;
                 }
             } else {
-                // If user is not logged in
+                // Hvis brugeren ikke er logget ind
                 if (authButton) {
                     authButton.textContent = "LOGIN";
                     authButton.onclick = handleLogin;
                 }
                 if (userNameDisplay) {
-                    userNameDisplay.textContent = ""; // Clear username display
+                    userNameDisplay.textContent = ""; // Rydder visningen af brugernavn
                 }
 
-                // Hide "MY PROFILE" tab
+                // Skjuler "MY PROFILE"-fanen
                 if (profileTab) {
-                    profileTab.style.display = "none"; // Hide profile tab
+                    profileTab.style.display = "none"; // Skjuler fanen
                 }
 
-                // Show "Sign Up" button
+                // Viser "Sign Up"-knappen
                 if (buttonContainer) {
                     buttonContainer.innerHTML = `
                         <button class="order-btn" onclick="window.location.href='signup.html'">SIGN UP TO CREATE</button>
@@ -65,9 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
         .catch(err => {
-            console.error('Error checking session:', err);
+            console.error('Fejl under kontrol af session:', err);
 
-            // Default to showing the "Sign Up" button on error
+            // Viser som standard "Sign Up"-knappen ved fejl
             if (buttonContainer) {
                 buttonContainer.innerHTML = `
                     <button class="order-btn" onclick="window.location.href='signup.html'">SIGN UP TO CREATE</button>
@@ -76,11 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Function to handle logout
+    // Funktion til at håndtere logout
     function handleLogout() {
         fetch(`${baseUrl}/logout`, {
             method: 'POST',
-            credentials: 'include' // Ensure cookies are sent with request
+            credentials: 'include' // Sikrer, at cookies sendes med forespørgslen
         })
         .then(response => {
             if (response.ok) {
@@ -90,15 +90,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
         .catch(err => {
-            console.error('Error during logout:', err);
+            console.error('Fejl under logout:', err);
         });
     }
 
-    // Function to handle login (redirect to login page)
+    // Funktion til at håndtere login (omdirigering til login-siden)
     function handleLogin() {
         window.location.href = 'login.html';
     }
 
-    // Check the session on page load
+    // Kontrollerer sessionen, når siden indlæses
     checkSession();
 });

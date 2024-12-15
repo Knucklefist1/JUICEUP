@@ -3,31 +3,31 @@ const bcrypt = require("bcrypt");
 const config = require("../Config/Database");
 const sendConfirmationEmail = require("../Public/js/EmailService"); // Import EmailService
 
-// Signup Function
+// Funktion til oprettelse af bruger
 exports.signupUser = async (req, res) => {
-  const { username, email, password, phone_number } = req.body; // Added phone_number
+  const { username, email, password, phone_number } = req.body; // Inkluder telefonnummer
   try {
     await sql.connect(config);
     const checkRequest = new sql.Request();
     checkRequest.input("email", sql.VarChar, email);
 
-    // Check if email already exists
+    // Tjek om email allerede eksisterer
     const checkResult = await checkRequest.query(`
       SELECT * FROM Users WHERE email = @email
     `);
 
     if (checkResult.recordset.length > 0) {
-      return res.status(409).json({ error: "Email already exists. Please use a different email." });
+      return res.status(409).json({ error: "Email eksisterer allerede. Brug en anden email." });
     }
 
-    // Hash password and insert new user if email does not exist
+    // Hash password og indsæt ny bruger hvis email er unik
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const request = new sql.Request();
     request.input("username", sql.VarChar, username);
     request.input("email", sql.VarChar, email);
-    request.input("phone_number", sql.VarChar, phone_number); // New phone number input
+    request.input("phone_number", sql.VarChar, phone_number); // Nyt telefonnummer felt
     request.input("password_hash", sql.VarChar, hashedPassword);
 
     const result = await request.query(`
@@ -38,21 +38,21 @@ exports.signupUser = async (req, res) => {
 
     req.session.userId = result.recordset[0].user_id;
 
-    // Send confirmation email
-    const subjectMsg = "Welcome to JuiceApp!";
-    const textMsg = `Hello ${username},\n\nThank you for signing up with JuiceApp. Enjoy our services!`;
-    const htmlMsg = `<h1>Welcome, ${username}!</h1><p>Thank you for signing up with JuiceApp. Enjoy our services!</p>`;
+    // Send bekræftelsesmail
+    const subjectMsg = "Velkommen til JuiceApp!";
+    const textMsg = `Hej ${username},\n\nTak fordi du oprettede en konto hos JuiceApp. Nyd vores services!`;
+    const htmlMsg = `<h1>Velkommen, ${username}!</h1><p>Tak fordi du oprettede en konto hos JuiceApp. Nyd vores services!</p>`;
 
     await sendConfirmationEmail(email, subjectMsg, textMsg, htmlMsg);
 
-    res.status(201).json({ message: "User created and logged in successfully!" });
+    res.status(201).json({ message: "Bruger oprettet og logget ind med succes!" });
   } catch (err) {
-    console.error("Error during sign-up:", err);
-    res.status(500).json({ error: "An error occurred during sign-up." });
+    console.error("Fejl under oprettelse:", err);
+    res.status(500).json({ error: "Der opstod en fejl under oprettelsen." });
   }
 };
 
-// Login Function
+// Funktion til login
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -62,53 +62,55 @@ exports.loginUser = async (req, res) => {
     const result = await request.query(`
       SELECT * FROM Users WHERE email = @email
     `);
+
     if (result.recordset.length === 0) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Bruger ikke fundet" });
     }
+
     const user = result.recordset[0];
     const validPassword = await bcrypt.compare(password, user.password_hash);
+
     if (!validPassword) {
-      return res.status(401).json({ error: "Invalid password" });
+      return res.status(401).json({ error: "Ugyldigt password" });
     }
+
     req.session.userId = user.user_id;
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ message: "Login succesfuldt" });
   } catch (err) {
-    console.error("Error during login:", err);
-    res.status(500).json({ error: "An error occurred during login." });
+    console.error("Fejl under login:", err);
+    res.status(500).json({ error: "Der opstod en fejl under login." });
   }
 };
 
-// Logout Function
+// Funktion til logout
 exports.logoutUser = (req, res) => {
   req.session.destroy(err => {
     if (err) {
-      console.error("Error during logout:", err);
-      return res.status(500).json({ error: "An error occurred during logout." });
+      console.error("Fejl under logout:", err);
+      return res.status(500).json({ error: "Der opstod en fejl under logout." });
     }
 
-    // Clear the session cookie
+    // Ryd session cookie
     res.clearCookie("connect.sid", {
       path: "/",
       httpOnly: true,
-      secure: true, // Set to true for HTTPS-only
-      sameSite: "Strict", // SameSite setting for increased security
+      secure: true, // Kun for HTTPS
+      sameSite: "Strict",
     });
 
-    res.status(200).json({ message: "Logout successful" });
+    res.status(200).json({ message: "Logout succesfuldt" });
   });
 };
 
-// Get User Profile
+// Funktion til at hente brugerprofil
 exports.getProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
 
-    // Ensure the user is logged in
     if (!userId) {
-      return res.status(401).json({ error: "Unauthorized. Please log in." });
+      return res.status(401).json({ error: "Uautoriseret. Log venligst ind." });
     }
 
-    // Connect to the database and get user data
     await sql.connect(config);
     const request = new sql.Request();
     request.input("userId", sql.Int, userId);
@@ -119,28 +121,28 @@ exports.getProfile = async (req, res) => {
     `);
 
     if (result.recordset.length === 0) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Bruger ikke fundet" });
     }
 
     res.status(200).json(result.recordset[0]);
   } catch (err) {
-    console.error("Error fetching profile:", err);
-    res.status(500).json({ error: "An error occurred while fetching the profile." });
+    console.error("Fejl ved hentning af profil:", err);
+    res.status(500).json({ error: "Der opstod en fejl under hentning af profilen." });
   }
 };
 
-// Update Email Function
+// Funktion til at opdatere email
 exports.updateEmail = async (req, res) => {
   const { email } = req.body;
   const userId = req.session.userId;
 
   try {
     if (!userId) {
-      return res.status(401).json({ error: "Unauthorized. Please log in." });
+      return res.status(401).json({ error: "Uautoriseret. Log venligst ind." });
     }
 
     if (!email) {
-      return res.status(400).json({ error: "Email is required." });
+      return res.status(400).json({ error: "Email er påkrævet." });
     }
 
     await sql.connect(config);
@@ -155,27 +157,26 @@ exports.updateEmail = async (req, res) => {
     `);
 
     if (result.rowsAffected[0] === 0) {
-      return res.status(404).json({ error: "User not found or email not updated." });
+      return res.status(404).json({ error: "Bruger ikke fundet eller email ikke opdateret." });
     }
 
-    res.status(200).json({ message: "Email updated successfully!" });
+    res.status(200).json({ message: "Email opdateret med succes!" });
   } catch (err) {
-    console.error("Error updating email:", err);
-    res.status(500).json({ error: "An error occurred while updating the email." });
+    console.error("Fejl under opdatering af email:", err);
+    res.status(500).json({ error: "Der opstod en fejl under opdatering af email." });
   }
 };
 
-// Update Password Function
+// Funktion til at opdatere password
 exports.updatePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   const userId = req.session.userId;
 
   try {
     if (!userId) {
-      return res.status(401).json({ error: "Unauthorized. Please log in." });
+      return res.status(401).json({ error: "Uautoriseret. Log venligst ind." });
     }
 
-    // Connect to the database and get the user's current password hash
     await sql.connect(config);
     const request = new sql.Request();
     request.input("userId", sql.Int, userId);
@@ -185,22 +186,19 @@ exports.updatePassword = async (req, res) => {
     `);
 
     if (result.recordset.length === 0) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Bruger ikke fundet" });
     }
 
     const user = result.recordset[0];
     const validPassword = await bcrypt.compare(currentPassword, user.password_hash);
 
-    // Check if the current password is correct
     if (!validPassword) {
-      return res.status(401).json({ error: "Current password is incorrect." });
+      return res.status(401).json({ error: "Nuværende password er forkert." });
     }
 
-    // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedNewPassword = await bcrypt.hash(newPassword, salt);
 
-    // Update the password in the database
     const updateRequest = new sql.Request();
     updateRequest.input("userId", sql.Int, userId);
     updateRequest.input("newPasswordHash", sql.VarChar, hashedNewPassword);
@@ -211,9 +209,9 @@ exports.updatePassword = async (req, res) => {
       WHERE user_id = @userId
     `);
 
-    res.status(200).json({ message: "Password updated successfully!" });
+    res.status(200).json({ message: "Password opdateret med succes!" });
   } catch (err) {
-    console.error("Error updating password:", err);
-    res.status(500).json({ error: "An error occurred while updating the password." });
+    console.error("Fejl under opdatering af password:", err);
+    res.status(500).json({ error: "Der opstod en fejl under opdatering af password." });
   }
 };

@@ -1,17 +1,17 @@
 const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // Determine if running locally or in production
+    // Bestem om applikationen kører lokalt eller i produktion
 
     try {
-        // Fetch the user profile data
+        // Hent brugerprofilens data
         const response = await fetch(`${baseUrl}/profile`, {
             method: "GET",
             credentials: "include"
         });
 
         if (!response.ok) {
-            throw new Error("Failed to fetch profile data.");
+            throw new Error("Kunne ikke hente profildata.");
         }
 
         const data = await response.json();
@@ -20,23 +20,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("phoneNumber").textContent = data.phone_number;
         document.getElementById("createdAt").textContent = new Date(data.created_at).toLocaleString();
     } catch (error) {
-        console.error("Error loading profile:", error);
+        console.error("Fejl ved indlæsning af profil:", error);
     }
 });
 
-// Show email edit form when clicking "Edit"
+// Vis formular til redigering af email, når "Edit" knappen klikkes
 document.getElementById("editEmailButton").addEventListener("click", () => {
     document.getElementById("editEmailForm").style.display = "block";
 });
 
-// Handle email update form submission
+// Håndter indsendelse af formular til opdatering af email
 document.getElementById("updateEmailForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const newEmail = document.getElementById("newEmail").value;
 
     try {
-        // Use the already defined `baseUrl` variable
+        // Brug den allerede definerede `baseUrl`-variabel
         const response = await fetch(`${baseUrl}/profile/email`, {
             method: "PUT",
             headers: {
@@ -47,18 +47,18 @@ document.getElementById("updateEmailForm").addEventListener("submit", async (eve
         });
 
         if (!response.ok) {
-            throw new Error("Failed to update email.");
+            throw new Error("Kunne ikke opdatere email.");
         }
 
-        alert("Email updated successfully!");
-        // Reload the profile information to reflect the changes
+        alert("Email opdateret med succes!");
+        // Genindlæs profiloplysningerne for at vise ændringerne
         window.location.reload();
     } catch (error) {
-        console.error("Error updating email:", error);
+        console.error("Fejl ved opdatering af email:", error);
     }
 });
 
-// Handle password update form submission
+// Håndter indsendelse af formular til opdatering af kodeord
 document.getElementById("updatePasswordForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -66,15 +66,15 @@ document.getElementById("updatePasswordForm").addEventListener("submit", async (
     const newPassword = document.getElementById("newPassword").value;
     const confirmNewPassword = document.getElementById("confirmNewPassword").value;
 
-    // Validate that the new password matches the confirmation
+    // Valider, at det nye kodeord matcher bekræftelsen
     if (newPassword !== confirmNewPassword) {
-        document.getElementById("passwordErrorMessage").textContent = "New passwords do not match.";
+        document.getElementById("passwordErrorMessage").textContent = "De nye kodeord stemmer ikke overens.";
         document.getElementById("passwordErrorMessage").style.display = "block";
         return;
     }
 
     try {
-        // Use the already defined `baseUrl` variable
+        // Brug den allerede definerede `baseUrl`-variabel
         const response = await fetch(`${baseUrl}/profile/password`, {
             method: "PUT",
             headers: {
@@ -89,13 +89,13 @@ document.getElementById("updatePasswordForm").addEventListener("submit", async (
             throw new Error(errorText);
         }
 
-        document.getElementById("passwordUpdateMessage").textContent = "Password updated successfully!";
+        document.getElementById("passwordUpdateMessage").textContent = "Kodeord opdateret med succes!";
         document.getElementById("passwordUpdateMessage").style.display = "block";
         document.getElementById("passwordErrorMessage").style.display = "none";
-        document.getElementById("updatePasswordForm").reset(); // Clear the form fields
+        document.getElementById("updatePasswordForm").reset(); // Ryd felterne i formularen
     } catch (error) {
-        console.error("Error updating password:", error);
-        document.getElementById("passwordErrorMessage").textContent = "Error: " + error.message;
+        console.error("Fejl ved opdatering af kodeord:", error);
+        document.getElementById("passwordErrorMessage").textContent = "Fejl: " + error.message;
         document.getElementById("passwordErrorMessage").style.display = "block";
     }
 });

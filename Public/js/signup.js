@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Determine if running locally or in production
+    // Bestem om vi kører lokalt eller i produktion
     const baseUrl = window.location.hostname === 'localhost' 
         ? 'http://localhost:3000' 
         : 'https://www.joejuicecompetition.live';
 
     document.getElementById("signupForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault(); // Forhindre standard formularindsendelse
 
-        // Fetch input values
+        // Hent inputværdier
         const firstName = document.getElementById("firstName").value;
         const lastName = document.getElementById("lastName").value;
         const email = document.getElementById("email").value;
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const confirmPassword = document.getElementById("confirmPassword").value;
         const acceptTerms = document.getElementById("acceptTerms").checked;
 
-        // Validate fields
+        // Valider felter
         if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
             document.getElementById("errorMessage").textContent = "All fields are required.";
             document.getElementById("errorMessage").style.display = "block";
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Create a user object to send to the server
+        // Opret et brugerobjekt til at sende til serveren
         const user = {
             username: `${firstName} ${lastName}`,
             email,
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             password
         };
 
-        // Send a POST request to the server
+        // Send en POST-anmodning til serveren
         fetch(`${baseUrl}/signup`, {
             method: "POST",
             headers: {
@@ -56,9 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 document.getElementById("successMessage").style.display = "block";
                 document.getElementById("errorMessage").style.display = "none";
-                document.getElementById("signupForm").reset(); // Clear the form fields
+                document.getElementById("signupForm").reset(); 
                 setTimeout(() => {
-                    window.location.href = "../juiceApp.html";
+                    window.location.href = "../juiceApp.html"; // Omdiriger til login-siden ved succes
                 }, 2000);
             } else {
                 return response.text().then(error => {
@@ -73,4 +73,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-    

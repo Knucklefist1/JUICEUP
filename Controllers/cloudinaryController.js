@@ -1,28 +1,28 @@
 const cloudinary = require('../Config/cloudinaryConfig');
-console.log('Cloudinary configuration:', cloudinary.config());
+console.log('Cloudinary configuration:', cloudinary.config()); // Debug: Logger Cloudinary-konfiguration
 
-// Public IDs for images
+// Public IDs for billeder
 const publicIds = [
-  'Joe billeder/pjumv7w5ow9r7j4ssiqv', // Store
+  'Joe billeder/pjumv7w5ow9r7j4ssiqv', // Butik
   'Joe billeder/chcdnyn6fsg4ehinjmj9', // Logo
-  'Joe billeder/axlz7045mfazvbl4qapv', // Juice cup
+  'Joe billeder/axlz7045mfazvbl4qapv', // Juicekop
 ];
 
-// Function to fetch URLs for images
+// Funktion til at hente URLs for billeder
 const listImages = async () => {
   try {
-    // Generate secure URLs for each image in Cloudinary
+    // Genererer sikre URLs for hvert billede i Cloudinary
     const imageUrls = publicIds.map((id) =>
-      cloudinary.url(id, { secure: true }) // Always use secure HTTPS URLs
+      cloudinary.url(id, { secure: true }) // Bruger altid sikre HTTPS-URLs
     );
 
-    console.log('Generated image URLs:', imageUrls); // Debug log
+    console.log('Generated image URLs:', imageUrls); // Debug: Logger genererede billed-URLs
     return imageUrls;
   } catch (error) {
-    console.error('Error fetching images:', error);
-    throw error;
+    console.error('Fejl ved hentning af billeder:', error); // Logger fejl
+    throw error; // Smider fejlen videre
   }
 };
 
-// Export the listImages function for use in your application
+// Eksporterer listImages-funktionen til brug i applikationen
 module.exports = { listImages };

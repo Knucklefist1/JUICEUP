@@ -5,16 +5,17 @@ const juiceController = require("../Controllers/juiceController");
 const ensureAuthenticated = require("../Middleware/middleware");
 const router = express.Router();
 
-// Route to add a new juice - only accessible if logged in
+// Route til at tilføje en ny juice - kun tilgængelig, hvis brugeren er logget ind
 router.post("/juice/add", ensureAuthenticated, juiceController.addJuice);
 
-// Route to serve the createNow.html page - only accessible if logged in
+// Route til at servere createNow.html-siden - kun tilgængelig, hvis brugeren er logget ind
 router.get("/create", ensureAuthenticated, (req, res) => {
-  // Make sure to serve this file over HTTPS when in production
+  // Sørg for at servere denne fil via HTTPS i produktion
   res.sendFile(path.join(__dirname, '../Public', 'createNow.html'));
 });
 
-// Route to get all juices for leaderboard - No authentication required
+// Route til at hente alle juices til leaderboardet - ingen autentifikation kræves
 router.get("/getAll", juiceController.getAllJuices);
 
+// Eksporterer routeren til brug i andre dele af applikationen
 module.exports = router;

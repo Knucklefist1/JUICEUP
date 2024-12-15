@@ -1,21 +1,20 @@
-/* General Styles */
+/* Generelle stilarter */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #ff6cb4, #a6c1ee);
-    color: #444;
+    background: linear-gradient(135deg, #ff6cb4, #a6c1ee); /* Gradient baggrund */
+    color: #444; /* Primær tekstfarve */
     margin: 0;
     padding: 0;
-
 }
 
-/* Header and Navigation Styles */
+/* Header og navigation */
 header {
     width: 100%;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    background-color: #fff; /* Hvid baggrund */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Skygge under header */
+    position: sticky; /* Fastgjort under scroll */
     top: 0;
-    z-index: 10;
+    z-index: 10; /* Sørger for, at header altid er øverst */
 }
 
 nav {
@@ -28,211 +27,222 @@ nav {
 }
 
 .logo img {
-    height: 50px;
+    height: 50px; /* Juster logo størrelse */
 }
 
 .nav-links {
-    list-style: none;
+    list-style: none; /* Fjern punkttegn */
     display: flex;
-    gap: 20px;
+    gap: 20px; /* Afstand mellem links */
 }
 
 .nav-links a {
-    text-decoration: none;
-    color: #333;
+    text-decoration: none; /* Fjern understregning */
+    color: #333; /* Mørk tekstfarve */
     font-weight: bold;
     font-size: 1.1em;
-    transition: color 0.3s;
+    transition: color 0.3s; /* Blød overgang ved hover */
 }
 
 .nav-links a:hover {
-    color: #ff4081;
+    color: #ff4081; /* Pink hover-effekt */
 }
 
-/* User Options */
+/* Brugerindstillinger */
 .user-options {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 15px; /* Afstand mellem elementer */
 }
 
+/* Login-knap */
 #authButton {
-    background-color: #ff4081; /* Pink color to match your vibrant theme */
-    color: #fff; /* White text for contrast */
+    background-color: #ff4081; /* Pink farve */
+    color: #fff; /* Hvid tekst */
     border: none;
     padding: 8px 18px;
     font-size: 0.9em;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.2s;
+    transition: background-color 0.3s, box-shadow 0.2s; /* Glidende effekter */
 }
 
 #authButton:hover {
-    background-color: #e03970; /* Darker pink when hovered */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
+    background-color: #e03970; /* Mørkere pink ved hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Skyggeeffekt */
 }
 
-/* Main Content Styles */
+/* Hovedindhold */
 main {
     display: flex;
     justify-content: center;
-    padding: 30px 0;
+    padding: 30px 0; /* Afstand fra top/bund */
 }
 
 .leaderboard-container {
     max-width: 1000px;
     width: 100%;
     text-align: center;
-    padding-top: 0; /* Adjust this value to move the title up */
+    padding-top: 0; /* Juster titelens placering */
 }
 
-/* New Juice Leaderboard Title Styling */
+/* Titel til leaderboard */
 #leaderboard-title {
     position: relative;
-    top: -20px; /* Adjust this value to move the title up */
-    font-size: 48px; /* Large font size for emphasis */
-    font-weight: 700; /* Bold for importance */
-    color: #000000; /* Eye-catching pink color */
-    letter-spacing: 2px; /* Spaced out letters for elegance */
-    margin-bottom: 30px; /* Space below the title */
+    top: -20px; /* Flyt titel opad */
+    font-size: 48px; /* Stor skrifttype for opmærksomhed */
+    font-weight: 700; /* Fed skrift */
+    color: #000000; /* Sort farve */
+    letter-spacing: 2px; /* Ekstra mellemrum mellem bogstaver */
+    margin-bottom: 30px;
     margin-top: 5px;
-    font-family: 'Arial', sans-serif; /* Clean and modern font */
+    font-family: 'Arial', sans-serif; /* Moderne skrifttype */
     background-clip: text;
     -webkit-background-clip: text;
 }
-/* Podium Container */
+
+/* Podium-container */
 .podium-container {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 30px;
+    gap: 30px; /* Afstand mellem podium elementer */
+    margin-bottom: 30px; /* Afstand fra indhold nedenunder */
 }
 
 .podium {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 20px;
-    align-items: flex-end;
+    gap: 20px; /* Afstand mellem podium-elementer */
+    align-items: flex-end; /* Juster elementer langs bunden */
 }
 
 .podium-item {
-    background-color: #fff;
-    border-radius: 15px;
+    background-color: #fff; /* Hvid baggrund */
+    border-radius: 15px; /* Runde hjørner */
     width: 200px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Skygge for dybde */
+    transition: transform 0.3s; /* Flydende bevægelse ved hover */
 }
 
 .podium-item:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px); /* Løft-effekt ved hover */
 }
 
+/* Rangering */
 .rank {
-    background-color: #ff4081;
-    color: #fff;
-    border-radius: 50%;
+    background-color: #ff4081; /* Pink farve */
+    color: #fff; /* Hvid tekst */
+    border-radius: 50%; /* Cirkel form */
     padding: 12px;
     font-size: 1.5em;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Afstand til øvrigt indhold */
 }
 
-/* Medal Styles */
+
+/* Medalje-styling */
 .avatar {
-    background-color: #e0e0e0;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    background-color: #e0e0e0; /* Grå baggrund for avatar */
+    border-radius: 50%; /* Gør avataren cirkulær */
+    width: 80px; /* Bredde */
+    height: 80px; /* Højde */
     font-weight: bold;
     font-size: 1.5em;
-    color: #333;
+    color: #333; /* Mørk tekstfarve */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px auto;
+    justify-content: center; /* Centrerer indhold vandret */
+    align-items: center; /* Centrerer indhold lodret */
+    margin: 15px auto; /* Placerer avataren centralt */
 }
 
 .avatar.first::before {
-    content: "🥇";
+    content: "🥇"; /* Guldmedalje */
 }
 
 .avatar.second::before {
-    content: "🥈";
+    content: "🥈"; /* Sølvmedalje */
 }
 
 .avatar.third::before {
-    content: "🥉";
+    content: "🥉"; /* Bronzemedalje */
 }
 
 .podium-item p {
     font-weight: bold;
     font-size: 1.1em;
-    color: #333;
+    color: #333; /* Mørk tekst */
 }
 
-/* Leaderboard List */
+/* Leaderboard liste */
 #juices-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsiv opsætning */
+    gap: 20px; /* Afstand mellem elementer */
+    margin-top: 30px; /* Ekstra afstand fra toppen */
 }
 
 .juice-item {
-    background-color: #fff;
+    background-color: #fff; /* Hvid baggrund */
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Runde hjørner */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Let skygge */
     text-align: left;
-    transition: transform 0.3s;
+    transition: transform 0.3s; /* Glidende effekt ved hover */
 }
 
 .juice-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Løft ved hover */
 }
 
 .juice-item h3 {
-    color: #ff4081;
-    margin-bottom: 10px;
+    color: #ff4081; /* Pink farve */
+    margin-bottom: 10px; /* Afstand under overskrift */
 }
 
 .vote-button {
-    background-color: #ff4081;
+    background-color: #ff4081; /* Pink farve */
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 5px; /* Runde hjørner */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s; /* Glidende hover-effekt */
     margin-top: 10px;
 }
 
 .vote-button:hover {
-    background-color: #e03970;
+    background-color: #e03970; /* Mørkere pink ved hover */
 }
 
 .juice-item ul {
-    padding-left: 20px;
-    margin-bottom: 10px;
-    color: #666;
+    padding-left: 20px; /* Indryk for liste */
+    margin-bottom: 10px; /* Afstand under liste */
+    color: #666; /* Mørk grå farve */
 }
 
-/* Animation Styles */
+/* Animations-styling */
 @keyframes fadeIn {
-    0% { opacity: 0; transform: scale(0.95); }
-    100% { opacity: 1; transform: scale(1); }
+    0% { 
+        opacity: 0; /* Start gennemsigtig */
+        transform: scale(0.95); /* Start lidt mindre */
+    }
+    100% { 
+        opacity: 1; /* Fuld opacitet */
+        transform: scale(1); /* Normal størrelse */
+    }
 }
 
 .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out; /* Fade ind animation */
 }
 
 .podium-item .juice-name {
-    font-size: 1.2em; /* Adjust the font size if needed */
-    font-weight: bold; /* Make it bold */
-    color: #ff4081; /* Pink color */
-    margin: 10px 0; /* Add some spacing around the juice name */
+    font-size: 1.2em; /* Større tekststørrelse */
+    font-weight: bold; /* Gør teksten fed */
+    color: #ff4081; /* Pink farve */
+    margin: 10px 0; /* Afstand omkring juice-navn */
 }
+

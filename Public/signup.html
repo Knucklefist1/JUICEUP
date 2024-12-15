@@ -9,18 +9,23 @@
 </head>
 
 <body>
+    <!-- Hjem-knap -->
     <button class="home-btn" onclick="window.location.href='juiceApp.html'">HOME</button>
 
+    <!-- Registreringsmodal -->
     <div class="modal">
+        <!-- Luk-knap -->
         <button class="close-btn" onclick="window.location.href='juiceApp.html'">&times;</button>
         <h1>Create Your Profile</h1>
+        
+        <!-- Registreringsformular -->
         <form id="signupForm">
             <div class="input-group">
-                <label for="firstName">First Name</label>
+                <label for="firstName">Fornavn</label>
                 <input type="text" id="firstName" name="firstName" required>
             </div>
             <div class="input-group">
-                <label for="lastName">Last Name</label>
+                <label for="lastName">Efternavn</label>
                 <input type="text" id="lastName" name="lastName" required>
             </div>
             <div class="input-group">
@@ -28,60 +33,63 @@
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="input-group">
-                <label for="phone">Phone Number</label>
+                <label for="phone">Telefonnummer</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="input-group">
-                <label for="password">Password</label>
+                <label for="password">Kodeord</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="input-group">
-                <label for="confirmPassword">Confirm Password</label>
+                <label for="confirmPassword">Bekræft kodeord</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
             <div class="input-group">
                 <label>
                     <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
-                    I accept the <a href="#" id="termsLink">terms and conditions</a>
+                    Jeg accepterer <a href="#" id="termsLink">vilkår og betingelser</a>
                 </label>
             </div>
-            <button type="submit" class="btn">Sign Up</button>
+            <button type="submit" class="btn">Registrér</button>
         </form>
 
+        <!-- Link til login -->
         <p class="link-text">
-            Already have a user? <a href="login.html">Click here</a>
+            Har du allerede en bruger? <a href="login.html">Klik her</a>
         </p>
 
-        <p id="successMessage" style="display:none; color: green; margin-top: 20px;">Profile created successfully!</p>
+        <!-- Besked om succes og fejl -->
+        <p id="successMessage" style="display:none; color: green; margin-top: 20px;">Profil oprettet med succes!</p>
         <p id="errorMessage" style="display:none; color: red; margin-top: 20px;"></p>
     </div>
 
-    <!-- Terms and Conditions Modal -->
+    <!-- Modal for vilkår og betingelser -->
     <div id="termsModal" class="modal" style="display:none;">
         <div class="modal-content">
             <span class="close-modal" id="closeTermsModal">&times;</span>
-            <h2>Terms and Conditions</h2>
-            <p>Your privacy is important to us. By participating, you agree to share your submission details with Joe & The Juice for the purpose of this competition. We will not share your personal information with third parties without your consent. Entries may be used in marketing and promotional material. By entering, you agree to allow Joe & The Juice to showcase your submission and, if selected, use your recipe as part of our offerings. For more information, please review our Privacy Policy.</p>
+            <h2>Vilkår og betingelser</h2>
+            <p>Din privatliv er vigtig for os. Ved at deltage accepterer du at dele dine submissionsdetaljer med Joe & The Juice til formålet med denne konkurrence. Vi deler ikke dine personlige oplysninger med tredjeparter uden dit samtykke. Bidrag kan bruges i markedsførings- og promoveringsmateriale. Ved at deltage accepterer du, at Joe & The Juice kan vise dit bidrag og, hvis det vælges, bruge din opskrift som en del af vores tilbud. For mere information, gennemgå venligst vores Privatlivspolitik.</p>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="js/session.js"></script>
     <script src="js/signup.js"></script>
     <script src="js/logout.js"></script>
     <script src="/js/measureRTT.js"></script>
     <script>
-        // Show terms modal
+        // Vis modal for vilkår
         document.getElementById("termsLink").addEventListener("click", function (event) {
             event.preventDefault();
             document.getElementById("termsModal").style.display = "block";
         });
 
-        // Close terms modal
+        // Luk modal for vilkår
         document.getElementById("closeTermsModal").addEventListener("click", function () {
             document.getElementById("termsModal").style.display = "none";
         });
 
-        // Close modal if clicking outside of the content
+        // Luk modal, hvis der klikkes uden for indholdet
         window.addEventListener("click", function (event) {
             if (event.target === document.getElementById("termsModal")) {
                 document.getElementById("termsModal").style.display = "none";

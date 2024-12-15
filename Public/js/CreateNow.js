@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const createBtn = document.querySelector(".create-btn");
     const juiceFill = document.getElementById("juice-fill");
 
-    // Determine if running locally or in production
+    // Bestem om applikationen kører lokalt eller i produktion
     const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.joejuicecompetition.live';
 
     // Ingrediensdata med emojis
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         "Passionsfrugt": "🥭"
     };
 
-    // Function to update the total percentage of selected ingredients
+    // Funktion til at opdatere den samlede procentdel af valgte ingredienser
     const updateTotalPercentage = () => {
         const sliders = document.querySelectorAll('input[type="range"]');
         let total = 0;
@@ -38,39 +38,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         createBtn.disabled = (total !== 100);
 
         // Opdater højden på juice-fyldet
-        const maxJuiceHeight = 50; // Maksimal procentdel af koppen der kan fyldes (85% af højden)
-        const calculatedHeight = (total / 100) * maxJuiceHeight; // Beregn højden baseret på slider værdi
-        juiceFill.style.height = `${calculatedHeight}%`; // Opdater højden af fyldet
+        const maxJuiceHeight = 50; // Maksimal højde på koppen
+        const calculatedHeight = (total / 100) * maxJuiceHeight; 
+        juiceFill.style.height = `${calculatedHeight}%`; 
 
         // Juster bølgeanimationens højde
         const waves = document.querySelectorAll('.wave');
         waves.forEach(wave => {
-            wave.style.bottom = `-${calculatedHeight / 5}px`; // Juster bølgehøjden for at sikre, at de bevæger sig med væsken
+            wave.style.bottom = `-${calculatedHeight / 5}px`;
         });
     };
 
-    // Fetch ingredients from the backend
+    // Hent ingredienser fra backend
     try {
         const response = await fetch(`${baseUrl}/ingredients/getAll`, {
             method: "GET",
             credentials: "include"
         });
         if (!response.ok) {
-            throw new Error("Failed to fetch ingredients");
+            throw new Error("Kunne ikke hente ingredienser");
         }
         const ingredients = await response.json();
 
-        console.log("Fetched Ingredients:", ingredients); // Debug log to verify ingredients
+        console.log("Hentede ingredienser:", ingredients); 
 
-        // Render sliders for each ingredient
+        // Render sliders for hver ingrediens
         ingredients.forEach(ingredient => {
             const wrapper = document.createElement("div");
             wrapper.classList.add("ingredient-slider");
 
             const label = document.createElement("label");
 
-            // Add emoji to ingredient name
-            const emoji = ingredientEmojis[ingredient.name] || ""; // Get emoji if it exists
+            // Tilføj emoji til ingrediensnavn
+            const emoji = ingredientEmojis[ingredient.name] || ""; 
             label.innerText = `${emoji} ${ingredient.name}`;
 
             const slider = document.createElement("input");
@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             slider.min = "0";
             slider.max = "100";
             slider.value = "0";
-            slider.dataset.ingredientId = ingredient.id; // Correct dataset assignment
-            slider.dataset.previousValue = "0"; // Dataset to store previous value
+            slider.dataset.ingredientId = ingredient.id;
+            slider.dataset.previousValue = "0";
 
             slider.addEventListener("input", () => {
                 let currentTotal = 0;
@@ -88,12 +88,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     currentTotal += parseInt(s.value, 10);
                 });
 
-                // Ensure total percentage does not exceed 100
+                // Sikrer, at den samlede procentdel ikke overstiger 100
                 if (parseInt(slider.value, 10) > parseInt(slider.dataset.previousValue, 10) &&
                     currentTotal > 100) {
-                    slider.value = slider.dataset.previousValue; // Roll back to previous value if over 100
+                    slider.value = slider.dataset.previousValue; 
                 } else {
-                    slider.dataset.previousValue = slider.value; // Update the previous value
+                    slider.dataset.previousValue = slider.value; 
                     slider.style.background = `linear-gradient(to right, #ff69b4 ${slider.value}%, #ddd ${slider.value}%)`;
                     updateTotalPercentage();
                 }
@@ -106,10 +106,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         updateTotalPercentage();
     } catch (error) {
-        console.error("Error fetching ingredients:", error);
-        alert("Log in or sign up in order to create a juice.");
+        console.error("Fejl ved hentning af ingredienser:", error);
+        alert("Log ind eller tilmeld dig for at lave en juice.");
     }
-
 
     const form = document.getElementById("juiceForm");
     form.addEventListener("submit", async (event) => {
@@ -119,18 +118,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         const juiceDescription = document.getElementById("juiceDescription").value.trim();
 
         if (!juiceName || !juiceDescription) {
-            alert("Juice name and description are required.");
+            alert("Juicens navn og beskrivelse er påkrævet.");
             return;
         }
 
-        // Collect selected ingredients
+        // Indsaml valgte ingredienser
         const selectedIngredients = [];
         document.querySelectorAll('.ingredient-slider input[type="range"]').forEach((slider) => {
             const quantity = parseInt(slider.value, 10);
             const ingredientId = parseInt(slider.dataset.ingredientId, 10);
 
-            // Additional Debugging: Log each slider's values
-            console.log(`Slider Ingredient ID: ${ingredientId}, Quantity: ${quantity}`);
+            console.log(`Slider Ingrediens-ID: ${ingredientId}, Mængde: ${quantity}`); 
 
             if (quantity > 0 && !isNaN(ingredientId)) {
                 selectedIngredients.push({
@@ -140,11 +138,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
-        // Additional Debugging: Log selected ingredients
-        console.log("Selected Ingredients:", selectedIngredients);
+        console.log("Valgte ingredienser:", selectedIngredients);
 
         if (selectedIngredients.length === 0) {
-            alert("Please select at least one ingredient.");
+            alert("Vælg mindst én ingrediens.");
             return;
         }
 
@@ -154,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             ingredients: selectedIngredients
         };
 
-        console.log("Juice Data to Send:", juiceData); // Logging to verify data before sending
+        console.log("Juicedata der sendes:", juiceData); 
 
         try {
             const response = await fetch(`${baseUrl}/juice/add`, {
@@ -168,16 +165,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                throw new Error(`Error creating juice: ${errorText}`);
+                throw new Error(`Fejl ved oprettelse af juice: ${errorText}`);
             }
 
             const jsonResponse = await response.json();
-            console.log("Juice created successfully:", jsonResponse);
-            alert("Juice created successfully!");
+            console.log("Juice oprettet med succes:", jsonResponse);
+            alert("Juice oprettet med succes!");
             window.location.href = "/leaderboard.html";
         } catch (error) {
-            console.error("Error creating juice:", error);
-            alert("An error occurred. Please try again.");
+            console.error("Fejl ved oprettelse af juice:", error);
+            alert("Der opstod en fejl. Prøv igen.");
         }
     });
 

@@ -7,6 +7,7 @@
 </head>
 <body>
     <header aria-label="Main Navigation">
+        <!-- Navigation Header -->
         <nav>
             <div class="logo">
                 <img src="https://res.cloudinary.com/dpvb3iuu7/image/upload/v1732099394/Joe%20billeder/ButikBillede.svg" alt="Joe & The Juice Logo">
@@ -16,11 +17,11 @@
                 <li><a href="competition.html">COMPETITION</a></li>
                 <li><a href="createNow.html">CREATE NOW</a></li>
                 <li><a href="leaderboard.html">LEADERBOARD</a></li>
-                <li id="profileTab" style="display: none;"><a href="profile.html">MY PROFILE</a></li>
+                <li id="profileTab" style="display: none;"><a href="profile.html">MY PROFILE</a></li> <!-- Profil-knappen vises kun, når brugeren er logget ind -->
             </ul>
             <div class="user-options">
-                <span id="userNameDisplay"></span>
-                <button id="authButton">LOGIN</button> <!-- Button for login/logout -->
+                <span id="userNameDisplay"></span> <!-- Viser brugerens navn, når de er logget ind -->
+                <button id="authButton">LOGIN</button> <!-- Knap til login eller logout -->
             </div>
         </nav>
     </header>
@@ -29,20 +30,20 @@
             <h1 id="leaderboard-title">JUICE LEADERBOARD</h1>
             <div class="podium-container">
                 <div class="podium" id="podium">
-                    <!-- Podium items for top 3 leaderboard positions will be generated here dynamically -->
+                    <!-- Podiet for top tre juices bliver genereret dynamisk -->
                 </div>
             </div>
             <div id="juices-list">
-                <!-- Additional juice entries can be dynamically loaded here -->
+                <!-- Listen over alle juices bliver vist dynamisk her -->
             </div>
         </section>
     </main>
 
-    <script src="/js/session.js"></script>
-    <script src="/js/leaderboard.js"></script>
-    <script src="js/logout.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/js/measureRTT.js"></script>
-
+    <!-- Scripts -->
+    <script src="/js/session.js"></script> <!-- Håndtering af session -->
+    <script src="/js/leaderboard.js"></script> <!-- Script til leaderboard funktionalitet -->
+    <script src="js/logout.js"></script> <!-- Script til logout funktion -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js til visualisering -->
+    <script src="/js/measureRTT.js"></script> <!-- Måling af Round Trip Time -->
 </body>
 </html>

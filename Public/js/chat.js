@@ -1,43 +1,49 @@
 function openChat() {
+    // Åbner chatvinduet ved at ændre display til flex
     document.getElementById("chatModal").style.display = "flex";
 }
 
 function closeChat() {
+    // Lukker chatvinduet ved at ændre display til none
     document.getElementById("chatModal").style.display = "none";
 }
 
 function acceptPrivacyTerms() {
-    alert("Thank you for accepting the privacy terms. You are now eligible to enter the competition!");
+    // Viser en besked, når brugeren accepterer privatlivsbetingelserne
+    alert("Tak for at acceptere privatlivsbetingelserne. Du er nu kvalificeret til at deltage i konkurrencen!");
 }
 
 function sendQuestion(question) {
     const chatBox = document.getElementById("chatBox");
+
+    // Opretter og tilføjer brugerens besked til chatboksen
     const userMessage = document.createElement("div");
     userMessage.classList.add("message", "user-message");
     userMessage.textContent = question;
     chatBox.appendChild(userMessage);
 
+    // Opretter og tilføjer botens svar til chatboksen
     const botResponse = document.createElement("div");
     botResponse.classList.add("message", "bot-message");
 
-    // Simulate a simple bot response for demonstration
+    // Simulerer en simpel bot-respons baseret på brugerens spørgsmål
     switch(question) {
         case 'What is the contest about?':
-            botResponse.textContent = "The contest is about finding the next iconic juice flavor, crafted by you!";
+            botResponse.textContent = "Konkurrencen handler om at finde den næste ikoniske juice-smag, skabt af dig!";
             break;
         case 'How can I participate?':
-            botResponse.textContent = "You can participate by submitting your unique juice recipe.";
+            botResponse.textContent = "Du kan deltage ved at indsende din unikke juiceopskrift.";
             break;
         case 'What are the prizes?':
-            botResponse.textContent = "Prizes include gift cards, exclusive merchandise, and more!";
+            botResponse.textContent = "Præmier inkluderer gavekort, eksklusivt merchandise og meget mere!";
             break;
         case 'When does the contest end?':
-            botResponse.textContent = "The contest end date will be announced on our website soon.";
+            botResponse.textContent = "Slutdatoen for konkurrencen vil snart blive annonceret på vores hjemmeside.";
             break;
         default:
-            botResponse.textContent = "I'm here to help with any questions about the contest.";
+            botResponse.textContent = "Jeg er her for at hjælpe med spørgsmål om konkurrencen.";
     }
 
     chatBox.appendChild(botResponse);
-    chatBox.scrollTop = chatBox.scrollHeight; // Auto scroll to the latest message
+    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll til den nyeste besked
 }

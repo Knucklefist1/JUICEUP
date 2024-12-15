@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
     <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
@@ -18,22 +19,23 @@
                 <li><a href="createNow.html">CREATE NOW</a></li>
                 <li><a href="leaderboard.html">LEADERBOARD</a></li>
                 <li id="profileTab" style="display: none;"><a href="profile.html">MY PROFILE</a></li>
-
             </ul>
             <div class="user-options">
-                <span id="userNameDisplay"></span>
-                <button id="authButton">LOGIN</button> <!-- Button for login/logout -->
+                <span id="userNameDisplay"></span> <!-- Viser brugerens navn, når de er logget ind -->
+                <button id="authButton">LOGIN</button> <!-- Knap til login eller logout -->
             </div>
         </nav>
     </header>
     <main>
         <div id="profileInfo">
+            <!-- Viser brugeroplysninger -->
             <p><strong>Username:</strong> <span id="username"></span></p>
             <p><strong>Email:</strong> <span id="email"></span> <button id="editEmailButton">Edit</button></p>
-            <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p> <!-- Added phone number display -->
+            <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p> <!-- Viser telefonnummer -->
             <p><strong>Account Created:</strong> <span id="createdAt"></span></p>
         </div>        
 
+        <!-- Formular til redigering af email -->
         <div id="editEmailForm" style="display:none;">
             <h3>Edit Email</h3>
             <form id="updateEmailForm">
@@ -43,6 +45,7 @@
             </form>
         </div>
 
+        <!-- Formular til redigering af kodeord -->
         <div id="editPasswordForm">
             <h3>Edit Password</h3>
             <form id="updatePasswordForm">
@@ -60,13 +63,12 @@
             <p id="passwordUpdateMessage" style="display:none; color: green; margin-top: 10px;"></p>
             <p id="passwordErrorMessage" style="display:none; color: red; margin-top: 10px;"></p>
         </div>
-        
     </main>
 
-    <script src="/js/profile.js"></script>
-    <script src="/js/logout.js"></script>
-    <script src="/js/session.js"></script>
-    <script src="/js/measureRTT.js"></script>
-
+    <!-- Scripts -->
+    <script src="/js/profile.js"></script> <!-- Script til håndtering af profil -->
+    <script src="/js/logout.js"></script> <!-- Script til logout funktion -->
+    <script src="/js/session.js"></script> <!-- Håndtering af session -->
+    <script src="/js/measureRTT.js"></script> <!-- Måling af Round Trip Time -->
 </body>
 </html>

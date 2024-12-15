@@ -1,42 +1,42 @@
 const sql = require("mssql");
 const config = require("../Config/Database");
 
-// Function to get all ingredients
+// Funktion til at hente alle ingredienser
 exports.getAllIngredients = async (req, res) => {
   try {
-    // Connect to the database using secure config
+    // Opret forbindelse til databasen med sikker konfiguration
     await sql.connect(config);
     const request = new sql.Request();
 
-    // Query to fetch all ingredients from the Ingredient table
+    // SQL-query for at hente alle ingredienser fra Ingredient-tabellen
     const result = await request.query(`
       SELECT ingredient_id AS id, name
       FROM Ingredient
     `);
 
-    res.status(200).json(result.recordset);
+    res.status(200).json(result.recordset); // Returnerer ingredienserne som JSON
   } catch (err) {
-    console.error("Error fetching ingredients:", err);
-    res.status(500).json({ error: "An error occurred while fetching ingredients." });
+    console.error("Fejl ved hentning af ingredienser:", err);
+    res.status(500).json({ error: "Der opstod en fejl under hentning af ingredienser." });
   }
 };
 
-// Function to get ingredient by name
+// Funktion til at hente en ingrediens ud fra navn
 exports.getIngredientByName = async (req, res) => {
   const { name } = req.body;
 
-  // Ensure the 'name' parameter is provided
+  // Sikrer at parameteren 'name' er angivet
   if (!name) {
-    return res.status(400).json({ error: "Ingredient name is required." });
+    return res.status(400).json({ error: "Ingrediensens navn er påkrævet." });
   }
 
   try {
-    // Connect to the database using secure config
+    // Opret forbindelse til databasen med sikker konfiguration
     await sql.connect(config);
     const request = new sql.Request();
     request.input("name", sql.VarChar, name);
 
-    // Query to get ingredient by its name
+    // SQL-query for at hente en ingrediens ud fra dens navn
     const result = await request.query(`
       SELECT ingredient_id 
       FROM Ingredient 
@@ -44,12 +44,12 @@ exports.getIngredientByName = async (req, res) => {
     `);
 
     if (result.recordset.length > 0) {
-      res.status(200).json({ ingredient_id: result.recordset[0].ingredient_id });
+      res.status(200).json({ ingredient_id: result.recordset[0].ingredient_id }); // Returnerer ingrediensens ID
     } else {
-      res.status(404).json({ error: "Ingredient not found." });
+      res.status(404).json({ error: "Ingrediensen blev ikke fundet." });
     }
   } catch (err) {
-    console.error("Error fetching ingredient:", err);
-    res.status(500).json({ error: "An error occurred while fetching the ingredient." });
+    console.error("Fejl ved hentning af ingrediens:", err);
+    res.status(500).json({ error: "Der opstod en fejl under hentning af ingrediensen." });
   }
 };

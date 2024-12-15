@@ -3,60 +3,56 @@ const express = require("express");
 const session = require('express-session');
 const cors = require("cors");
 const path = require("path");
-const { connectToDatabase } = require('./Config/Database'); // Use the centralized database connection
+const { connectToDatabase } = require('./Config/Database'); // Central databaseforbindelse
 const ensureAuthenticated = require('./Middleware/middleware'); 
 const cloudinaryRoutes = require('./Routes/cloudinaryRoutes');
 
-
 const app = express();
 
-// Determine if we're running in production or development
+// Bestem om miljøet er produktion eller udvikling
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Set the server URL based on the environment
+// Server URL afhængigt af miljø
 const BASE_URL = isProduction ? 'https://www.joejuicecompetition.live' : 'http://localhost';
 
-// Session middleware
+// Middleware til sessionhåndtering
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   name: 'connect.sid',
   cookie: {
-    httpOnly: true, // Prevents JavaScript access
-    secure: isProduction, // Only set to true if using HTTPS in production
-    sameSite: 'Lax', // Adjust to 'None' if cookies need to be sent across domains
-    maxAge: 1000 * 60 * 30 // 30 minutes
+    httpOnly: true, // Blokerer adgang via JavaScript
+    secure: isProduction, // Kun HTTPS i produktion
+    sameSite: 'Lax', // Juster til 'None', hvis cookies skal sendes på tværs af domæner
+    maxAge: 1000 * 60 * 30 // 30 minutter
   }
 }));
 
-
-// CORS configuration - Adjusted to allow multiple origins
+// CORS-konfiguration for flere oprindelser
 const allowedOrigins = [
   'http://localhost:3000',
   'https://www.joejuicecompetition.live',
   'https://joejuicecompetition.live'
 ];
 
-
 const corsOptions = {
   origin: allowedOrigins,
-  credentials: true, // Allow cookies to be sent
+  credentials: true, // Tillader cookies
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 app.use(cors(corsOptions));
 
-
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'Public')));
 
-// Add a route to serve the homepage or redirect to a relevant page
+// Route til at omdirigere til login eller en specifik forside
 app.get('/', (req, res) => {
-  res.redirect('/juiceApp.html'); // Redirect to login page, or you can serve a specific homepage if available
+  res.redirect('/juiceApp.html');
 });
 
-// Routes setup
+// Ruter til statiske sider
 app.get('/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'Public', 'login.html'));
 });
@@ -65,16 +61,19 @@ app.get('/createNow.html', ensureAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'Public', 'createNow.html'));
 });
 
-// Middleware for authentication checks
+// Middleware til autentifikation
 app.use((req, res, next) => {
-  const openPaths = ['/', '/login', '/signup', '/check-session', '/login.html', '/signup.html', '/logout', '/api/juice/getAll', '/api/cloudinary/list-images'];
+  const openPaths = [
+    '/', '/login', '/signup', '/check-session', '/login.html', 
+    '/signup.html', '/logout', '/api/juice/getAll', '/api/cloudinary/list-images'
+  ];
   if (openPaths.includes(req.path) || req.path.startsWith('/Public')) {
     return next();
   }
   return ensureAuthenticated(req, res, next);
 });
 
-// Import and use routes
+// Importér og brug ruter
 const apiRoutes = require("./Routes/APIroutes");
 const userRoutes = require("./Routes/userRoutes");
 const ingredientsRoutes = require("./Routes/ingredientsRoutes");
@@ -91,7 +90,7 @@ app.use("/", userRoutes);
 app.use("/api/juice", juiceRoutes);
 app.use("/api/cloudinary", cloudinaryRoutes);
 
-// Check session route
+// Route til at tjekke sessionstatus
 app.get('/check-session', (req, res) => {
   if (req.session.userId) {
     console.log(`User is logged in with ID: ${req.session.userId}`);
@@ -102,7 +101,7 @@ app.get('/check-session', (req, res) => {
   }
 });
 
-// Connect to the database and start the server
+// Tilslutning til databasen og opstart af serveren
 connectToDatabase()
   .then(() => {
     const PORT = process.env.PORT || 3000;
@@ -112,7 +111,7 @@ connectToDatabase()
     console.error("Failed to start server due to database connection error:", err);
   });
 
-// Logout route
+// Route til logout
 app.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -124,6 +123,7 @@ app.post('/logout', (req, res) => {
   });
 });
 
+// Tving HTTPS i produktion
 if (isProduction) {
   app.use((req, res, next) => {
     if (!req.secure && req.headers['x-forwarded-proto'] !== 'https') {
@@ -132,5 +132,3 @@ if (isProduction) {
     next();
   });
 }
-
-
