@@ -27,16 +27,18 @@ CLOUDINARY_SECRET=<din-cloudinary-secret>
 Installation:
 
 1. Klon projektet til din lokale maskine:
-git clone https://github.com/Knucklefist1/JUICEUP.git
-cd JUICEUP
 
-2. Installer afhængigheder:
+- git clone https://github.com/Knucklefist1/JUICEUP.git
+
+- cd JUICEUP
+
+3. Installer afhængigheder:
 npm install (I nogen tilfælde skal man også intallere *npm install express*)
 
-3. Start applikationen:
+4. Start applikationen:
 node server.js
 
-4. Applikationen kører nu på http://localhost:3000.
+5. Applikationen kører nu på http://localhost:3000.
 
 
 Cloud Infrastruktur og Eksterne API-nøgler
