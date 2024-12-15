@@ -10,19 +10,19 @@ Krav
 Installer Node.js (mindst version 14.0.0).
 Indsæt følgende i .env.development-filen i projektets rodmappe med følgende variabler og egne nøgler:
 
+# Eksempel på .env fil:
+SESSION_SECRET=123
+NODE_ENV=development
+PORT=3000
 DB_USER=<din-database-bruger>
-DB_PASSWORD=<dit-database-password>
+DB_PASSWORD=<din-database-password>
 DB_SERVER=<din-database-server>
 DB_NAME=<din-database-navn>
 DB_ENCRYPT=true
-JWT_SECRET=<din-jwt-secret>
-BASE_URL=http://localhost:3000
-
-CLOUDINARY_CLOUD_NAME=<dit-cloudinary-cloudnavn>
+CLOUDINARY_CLOUD_NAME=<din-cloudinary-cloudname>
 CLOUDINARY_API_KEY=<din-cloudinary-api-key>
-CLOUDINARY_API_SECRET=<din-cloudinary-api-secret>
-PRIVATE_KEY=<din-rsa-private-key>
-PUBLIC_KEY=<din-rsa-public-key>
+CLOUDINARY_SECRET=<din-cloudinary-secret>
+
 
 Installation:
 
