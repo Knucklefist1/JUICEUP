@@ -31,7 +31,7 @@ git clone https://github.com/Knucklefist1/JUICEUP.git
 cd JUICEUP
 
 2. Installer afhængigheder:
-npm install
+npm install (I nogen tilfælde skal man også intallere *npm install express*)
 
 3. Start applikationen:
 node app.js
